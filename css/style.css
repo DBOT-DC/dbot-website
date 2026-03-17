@@ -21,6 +21,7 @@ body {
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
+    perspective: 1000px;
 }
 
 /* Scanlines effect */
@@ -61,6 +62,13 @@ header {
     color: var(--purple);
     text-shadow: 0 0 20px var(--purple), 0 0 40px var(--purple);
     letter-spacing: 0.3em;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.logo-text:hover {
+    text-shadow: 0 0 30px var(--purple), 0 0 60px var(--purple), 0 0 90px var(--purple);
+    transform: scale(1.05);
 }
 
 .tagline {
@@ -70,17 +78,27 @@ header {
     letter-spacing: 0.1em;
 }
 
-/* Terminal */
+/* Terminal - 3D Panel Effect */
 .terminal {
     background: var(--bg-secondary);
     border: 1px solid var(--purple-dark);
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 60px;
+    transform-style: preserve-3d;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.terminal:hover {
+    transform: translateY(-5px) rotateX(2deg);
+    box-shadow: 
+        0 20px 40px rgba(139, 92, 246, 0.2),
+        0 0 1px rgba(139, 92, 246, 0.5);
 }
 
 .terminal-header {
-    background: var(--purple-dark);
+    background: linear-gradient(135deg, var(--purple-dark) 0%, #2a2560 100%);
     padding: 10px 15px;
     display: flex;
     gap: 8px;
@@ -90,6 +108,11 @@ header {
     width: 12px;
     height: 12px;
     border-radius: 50%;
+    transition: transform 0.2s ease;
+}
+
+.terminal:hover .terminal-dot {
+    transform: scale(1.2);
 }
 
 .terminal-dot.red { background: #ff5f56; }
@@ -100,6 +123,7 @@ header {
     padding: 20px;
     font-size: 0.9rem;
     line-height: 1.8;
+    background: linear-gradient(180deg, rgba(139, 92, 246, 0.02) 0%, transparent 100%);
 }
 
 .terminal-body p {
@@ -153,31 +177,62 @@ h2 {
     margin-bottom: 40px;
 }
 
-/* Vote Cards */
+/* Vote Cards - 3D Effect */
 .vote-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     margin-bottom: 40px;
+    perspective: 1000px;
 }
 
 .card {
-    background: var(--bg-secondary);
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(30, 27, 75, 0.5) 100%);
     border: 1px solid var(--purple-dark);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 30px 20px;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+    position: relative;
+    cursor: pointer;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
 .card:hover {
     border-color: var(--purple);
-    transform: translateY(-5px);
+    transform: translateY(-10px) rotateX(5deg) rotateY(-2deg) scale(1.02);
+    box-shadow: 
+        0 25px 50px rgba(139, 92, 246, 0.25),
+        0 0 0 1px rgba(139, 92, 246, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.card:hover::before {
+    opacity: 1;
 }
 
 .card-icon {
     color: var(--purple);
     margin-bottom: 15px;
+    transition: transform 0.4s ease;
+    transform: translateZ(20px);
+}
+
+.card:hover .card-icon {
+    transform: translateZ(40px) scale(1.1);
 }
 
 .card h3 {
@@ -185,42 +240,71 @@ h2 {
     letter-spacing: 0.1em;
     margin-bottom: 10px;
     color: var(--purple);
+    transform: translateZ(15px);
 }
 
 .card p {
     font-size: 0.8rem;
     color: var(--text-dim);
     line-height: 1.6;
+    transform: translateZ(10px);
 }
 
-/* CTA Button */
+/* CTA Button - 3D Effect */
 .cta-button {
     display: inline-block;
-    background: var(--purple);
+    background: linear-gradient(135deg, var(--purple) 0%, #7c3aed 100%);
     color: white;
     padding: 15px 40px;
-    border-radius: 4px;
+    border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
     letter-spacing: 0.1em;
     transition: all 0.3s ease;
+    transform-style: preserve-3d;
+    box-shadow: 
+        0 4px 15px rgba(139, 92, 246, 0.4),
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    top: 0;
 }
 
 .cta-button:hover {
-    background: var(--purple-light);
-    box-shadow: 0 0 20px var(--purple);
+    background: linear-gradient(135deg, var(--purple-light) 0%, var(--purple) 100%);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 25px rgba(139, 92, 246, 0.5),
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-/* Features */
+.cta-button:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 2px 10px rgba(139, 92, 246, 0.3),
+        0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Features - 3D Effect */
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
     margin-top: 30px;
+    perspective: 1000px;
 }
 
 .feature {
     padding: 20px;
+    background: linear-gradient(135deg, rgba(18, 18, 26, 0.5) 0%, transparent 100%);
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.feature:hover {
+    transform: translateY(-5px) rotateX(3deg);
 }
 
 .feature-icon {
@@ -239,13 +323,20 @@ h2 {
     font-size: 0.85rem;
 }
 
-/* Token Warning */
+/* Token Warning - 3D Effect */
 .token-warning {
     text-align: center;
     padding: 30px;
-    background: var(--bg-secondary);
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(186, 159, 51, 0.1) 100%);
     border: 1px solid var(--gold);
-    border-radius: 8px;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+}
+
+.token-warning:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(186, 159, 51, 0.2);
 }
 
 .token-warning .small {
@@ -271,11 +362,15 @@ footer {
 .socials a {
     color: var(--text-dim);
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 4px;
 }
 
 .socials a:hover {
     color: var(--purple);
+    background: rgba(139, 92, 246, 0.1);
+    transform: translateY(-2px);
 }
 
 .copyright {
@@ -291,5 +386,9 @@ footer {
     
     .vote-cards {
         grid-template-columns: 1fr;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px) scale(1.01);
     }
 }
