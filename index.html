@@ -3,118 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DBOT - Community Owned AI on Dogechain</title>
+    <title>DBOT // INITIALIZING</title>
+    <meta name="description" content="The first community-owned AI agent on Dogechain">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%238B5CF6' width='100' height='100' rx='10'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white' font-family='monospace'>D</text></svg>">
 </head>
 <body>
     <div class="scanlines"></div>
+    <div class="matrix-rain" id="matrix-rain"></div>
     
-    <div class="container">
-        <header>
-            <div class="logo">
-                <span class="logo-text">DBOT</span>
+    <div class="terminal">
+        <header class="terminal-header">
+            <div class="terminal-controls">
+                <span class="control close"></span>
+                <span class="control minimize"></span>
+                <span class="control maximize"></span>
             </div>
-            <div class="tagline">Decentralized Intelligence. Community Owned.</div>
+            <div class="terminal-title">DBOT_NEURAL_OS v0.0.1</div>
+            <div class="terminal-status">
+                <span class="status-dot"></span>
+                <span id="status-text">INITIALIZING</span>
+            </div>
         </header>
-
-        <main>
-            <section class="intro">
-                <div class="terminal">
-                    <div class="terminal-header">
-                        <span class="terminal-dot red"></span>
-                        <span class="terminal-dot yellow"></span>
-                        <span class="terminal-dot green"></span>
-                    </div>
-                    <div class="terminal-body">
-                        <p class="typing">> Initializing DBOT...</p>
-                        <p class="typing delay-1">> First community-owned AI agent on Dogechain</p>
-                        <p class="typing delay-2">> Status: <span class="highlight">LOADING</span></p>
-                        <p class="typing delay-3">> <span class="blink">_</span></p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="shape-dbot">
-                <h2><span class="purple">#</span> SHAPE DBOT</h2>
-                <p class="subtitle">You decide who DBOT becomes</p>
-                
-                <div class="vote-cards">
-                    <div class="card">
-                        <div class="card-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" fill="currentColor">
-                                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM72,96a16,16,0,1,1,16,16A16,16,0,0,1,72,96Zm98.1,68.9a64,64,0,0,1-84.2,0,8,8,0,1,1,10.2-12.3,48,48,0,0,0,63.8,0,8,8,0,0,1,10.2,12.3ZM168,112a16,16,0,1,1,16-16A16,16,0,0,1,168,112Z"/>
-                            </svg>
-                        </div>
-                        <h3>PERSONALITY</h3>
-                        <p>Serious or Playful?<br>Technical or Fun?</p>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" fill="currentColor">
-                                <path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V56H216V200Z"/>
-                            </svg>
-                        </div>
-                        <h3>LOGO</h3>
-                        <p>Submit your designs<br>Community votes</p>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" fill="currentColor">
-                                <path d="M224,128a96,96,0,1,1-96-96A96,96,0,0,1,224,128Z" opacity="0.2"/>
-                                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/>
-                            </svg>
-                        </div>
-                        <h3>FIRST MISSION</h3>
-                        <p>What should DBOT<br>build first?</p>
-                    </div>
-                </div>
-                
-                <a href="https://t.me/DBOTCommunity" class="cta-button" target="_blank">
-                    JOIN THE VOTE
-                </a>
-            </section>
-
-            <section class="about">
-                <h2><span class="purple">#</span> WHAT IS DBOT?</h2>
-                <p>DBOT is the first community-owned AI agent built on Dogechain. Controlled by the DAO, shaped by the community.</p>
-                
-                <div class="features">
-                    <div class="feature">
-                        <span class="feature-icon">01</span>
-                        <h3>Community Owned</h3>
-                        <p>DAO governance decides DBOT's future</p>
-                    </div>
-                    <div class="feature">
-                        <span class="feature-icon">02</span>
-                        <h3>Autonomous</h3>
-                        <p>AI-powered operations 24/7</p>
-                    </div>
-                    <div class="feature">
-                        <span class="feature-icon">03</span>
-                        <h3>Transparent</h3>
-                        <p>All actions on-chain, verifiable</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="token-warning">
-                <p><strong>TOKEN COMING SOON</strong></p>
-                <p class="small">Official token address will be announced. Beware of scams.</p>
-            </section>
-        </main>
-
-        <footer>
-            <div class="socials">
-                <a href="https://twitter.com/DBOT_DOG" target="_blank">X/Twitter</a>
-                <a href="https://t.me/DBOTCommunity" target="_blank">Telegram</a>
-                <a href="https://github.com/DBOT-DC" target="_blank">GitHub</a>
+        
+        <main class="terminal-body">
+            <!-- Boot Sequence -->
+            <div class="boot-sequence" id="boot-sequence">
+                <div class="boot-line">> DBOT kernel loading...</div>
+                <div class="boot-line">> neural_network: <span class="muted">[OK]</span></div>
+                <div class="boot-line">> community_protocol: <span class="muted">[OK]</span></div>
+                <div class="boot-line">> governance_module: <span class="muted">[PENDING]</span></div>
+                <div class="boot-line">> establishing connection to Dogechain...</div>
+                <div class="boot-line blink">> _</div>
             </div>
-            <p class="copyright">2026 DBOT. Built on Dogechain.</p>
+            
+            <!-- Main Content -->
+            <div class="main-content" id="main-content" style="display: none;">
+                
+                <!-- Logo -->
+                <div class="text-logo">
+                    <span class="logo-text">D</span><span class="logo-text">B</span><span class="logo-text">O</span><span class="logo-text">T</span>
+                </div>
+                
+                <!-- Tagline -->
+                <div class="tagline">Decentralized Intelligence. Community Owned.</div>
+                
+                <!-- Hero Title with Glitch -->
+                <h1 class="hero-title">
+                    <span class="glitch" data-text="THE FUTURE IS">THE FUTURE IS</span>
+                    <span class="highlight">COMMUNITY OWNED</span>
+                </h1>
+                
+                <!-- CHANGE 2: Built on Dogechain moved here, purple color -->
+                <div class="badges-wrapper">
+                    <div class="chain-badge">
+                        <i class="ph-bold ph-link"></i>
+                        <span>BUILT ON DOGECHAIN</span>
+                    </div>
+                </div>
+                
+                <!-- Token Warning - CHANGE 6: removed period -->
+                <div class="badges-wrapper">
+                    <div class="token-warning">
+                        <i class="ph-bold ph-warning"></i>
+                        <span>NO TOKEN HAS LAUNCHED ANY $DBOT TOKEN IS FAKE</span>
+                        <i class="ph-bold ph-warning"></i>
+                    </div>
+                    
+                    <div class="coming-soon-badge">
+                        <span class="badge-dot"></span>
+                        <span>TOKEN COMING SOON</span>
+                    </div>
+                </div>
+                
+                <!-- CHANGE 1: Manifesto Box with typewriter effect -->
+                <div class="manifesto-box">
+                    <div class="box-header">
+                        <i class="ph-fill ph-file-text"></i>
+                        MANIFESTO.TXT
+                    </div>
+                    <div class="box-content" id="manifesto-content">
+                        <!-- Content will be typed out by JS -->
+                    </div>
+                </div>
+                
+                <!-- WHAT IS DBOT Section -->
+                <div class="about-section">
+                    <div class="section-header">
+                        <i class="ph-fill ph-info"></i>
+                        WHAT_IS_DBOT.TXT
+                    </div>
+                    <p class="about-text">DBOT is the first community-owned AI agent built on Dogechain. Controlled by the DAO, shaped by the community.</p>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <span class="feature-icon">01</span>
+                            <h3>Community Owned</h3>
+                            <p>DAO governance decides DBOT's future</p>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">02</span>
+                            <h3>Autonomous</h3>
+                            <p>AI-powered operations 24/7</p>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">03</span>
+                            <h3>Transparent</h3>
+                            <p>All actions on-chain, verifiable</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Shape DBOT Section -->
+                <div class="shape-section">
+                    <div class="section-header">
+                        <i class="ph-fill ph-cursor-click"></i>
+                        SHAPE_DBOT.EXE
+                    </div>
+                    <p class="shape-intro">// You decide who DBOT becomes</p>
+                    
+                    <!-- CHANGE 3: Cards now use same hover as features -->
+                    <div class="vote-cards">
+                        <div class="card feature-style">
+                            <i class="ph-bold ph-smiley card-icon"></i>
+                            <h3>PERSONALITY</h3>
+                            <p>Serious or Playful?<br>Technical or Fun?</p>
+                        </div>
+                        
+                        <div class="card feature-style">
+                            <i class="ph-bold ph-palette card-icon"></i>
+                            <h3>LOGO</h3>
+                            <p>Submit designs<br>Community votes</p>
+                        </div>
+                        
+                        <div class="card feature-style">
+                            <i class="ph-bold ph-rocket-launch card-icon"></i>
+                            <h3>FIRST MISSION</h3>
+                            <p>What should DBOT<br>build first?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="cta-buttons">
+                        <a href="https://t.me/DBOTCommunity" target="_blank" class="cta-btn primary">
+                            <i class="ph-bold ph-telegram-logo"></i>
+                            <span>JOIN THE VOTE</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Status Grid -->
+                <div class="status-grid">
+                    <div class="status-item">
+                        <i class="ph-bold ph-brain"></i>
+                        <span class="label">NEURAL NET</span>
+                        <span class="value active">ACTIVE</span>
+                    </div>
+                    <div class="status-item">
+                        <i class="ph-bold ph-users-three"></i>
+                        <span class="label">COMMUNITY</span>
+                        <span class="value">FORMING</span>
+                    </div>
+                    <div class="status-item">
+                        <i class="ph-bold ph-hexagon"></i>
+                        <span class="label">BLOCKCHAIN</span>
+                        <span class="value">DOGECHAIN</span>
+                    </div>
+                    <div class="status-item">
+                        <i class="ph-bold ph-gavel"></i>
+                        <span class="label">GOVERNANCE</span>
+                        <span class="value pending">PENDING</span>
+                    </div>
+                </div>
+                
+                <!-- Social CTA -->
+                <div class="cta-section">
+                    <p class="cta-prompt">// AWAITING INPUT</p>
+                    <div class="cta-buttons">
+                        <a href="https://twitter.com/DBOT_DOG" target="_blank" class="cta-btn">
+                            <i class="ph-bold ph-x-logo"></i>
+                            <span>FOLLOW_X</span>
+                        </a>
+                        <a href="https://t.me/DBOTCommunity" target="_blank" class="cta-btn telegram">
+                            <i class="ph-bold ph-telegram-logo"></i>
+                            <span>JOIN_TELEGRAM</span>
+                        </a>
+                        <a href="https://github.com/DBOT-DC" target="_blank" class="cta-btn secondary">
+                            <i class="ph-bold ph-github-logo"></i>
+                            <span>VIEW_CODE</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Command Line -->
+                <div class="command-line">
+                    <span class="prompt-symbol">$</span>
+                    <span class="cursor">_</span>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="terminal-footer">
+            <div class="footer-left">
+                <span class="footer-item"><i class="ph-bold ph-lock-key"></i> SECURE</span>
+                <span class="footer-item"><i class="ph-bold ph-wifi-high"></i> CONNECTED</span>
+            </div>
+            <div class="footer-center">
+                <span class="footer-item">2026 DBOT. Built on Dogechain.</span>
+            </div>
+            <div class="footer-right">
+                <span class="footer-item"><i class="ph-bold ph-cpu"></i> NEURAL_NET: ACTIVE</span>
+            </div>
         </footer>
     </div>
     
