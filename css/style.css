@@ -551,28 +551,26 @@ body {
     .token-warning { font-size: 0.5rem; }
 }
 
-/* Tabs - Centered */
-.tabs-header {
-    display: flex;
-    flex: 1;
-    justify-content: center;
-    gap: 0;
-}
-
+/* Tabs */
 .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     background: transparent;
     border: none;
     color: var(--text-muted);
     padding: 0.5rem 1rem;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     cursor: pointer;
-    text-align: center;
+    letter-spacing: 0.1em;
     border-bottom: 2px solid transparent;
 }
 
 .tab-btn:hover { color: var(--text-primary); }
 .tab-btn.active { color: var(--text-primary); border-bottom-color: var(--purple); }
+
+.tab-btn i { color: var(--text-primary); }
 
 /* Log Content - Centered */
 #dailylog-content, #weeklylog-content, #monthlylog-content {
