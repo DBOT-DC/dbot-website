@@ -129,30 +129,11 @@
                 <!-- Manifesto Box with Typewriter -->
                 <div class="manifesto-box">
                     <div class="box-header">
-                        <button class="tab-btn active" data-tab="manifesto">
-                            <i class="ph-fill ph-file-text"></i> MANIFESTO.TXT
-                        </button>
-                        <button class="tab-btn" data-tab="daily">
-                            <i class="ph-fill ph-calendar"></i> DAILY
-                        </button>
-                        <button class="tab-btn" data-tab="weekly">
-                            <i class="ph-fill ph-calendar-check"></i> WEEKLY
-                        </button>
-                        <button class="tab-btn" data-tab="monthly">
-                            <i class="ph-fill ph-calendar-blank"></i> MONTHLY
-                        </button>
+                        <i class="ph-fill ph-file-text"></i>
+                        MANIFESTO.TXT
                     </div>
                     <div class="box-content" id="manifesto-content">
                         <!-- Content will be typed out by JS -->
-                    </div>
-                    <div class="box-content" id="daily-content" style="display:none;">
-                        <!-- Daily content -->
-                    </div>
-                    <div class="box-content" id="weekly-content" style="display:none;">
-                        <!-- Weekly content -->
-                    </div>
-                    <div class="box-content" id="monthly-content" style="display:none;">
-                        <!-- Monthly content -->
                     </div>
                 </div>
                 
@@ -287,30 +268,10 @@
     
     <script src="js/main.js"></script>
     
-    <!-- Vercel Speed Insights - must be before <script>
-document.querySelectorAll(".tab-btn").forEach(function(btn) {
-    btn.addEventListener("click", function() {
-        var tab = this.dataset.tab;
-        document.querySelectorAll(".tab-btn").forEach(function(b) { b.classList.remove("active"); });
-        this.classList.add("active");
-        document.querySelectorAll(".box-content").forEach(function(c) { c.style.display = "none"; });
-        document.getElementById(tab + "-content").style.display = "block";
-    });
-});
-</script></body> -->
+    <!-- Vercel Speed Insights - must be before </body> -->
     <script>
         // Speed Insights will be auto-injected by Vercel when enabled in dashboard
         // No manual script needed - just enable in Vercel Dashboard → Speed Insights
     </script>
-<script>
-document.querySelectorAll(".tab-btn").forEach(function(btn) {
-    btn.addEventListener("click", function() {
-        var tab = this.dataset.tab;
-        document.querySelectorAll(".tab-btn").forEach(function(b) { b.classList.remove("active"); });
-        this.classList.add("active");
-        document.querySelectorAll(".box-content").forEach(function(c) { c.style.display = "none"; });
-        document.getElementById(tab + "-content").style.display = "block";
-    });
-});
-</script></body>
+</body>
 </html>
