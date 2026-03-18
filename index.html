@@ -143,16 +143,17 @@
                         </button>
                     </div>
                     <div class="box-content" id="manifesto-content">
+                        <audio id="manifesto-audio" src="audio/manifesto.m4a" preload="auto"></audio>
                         <!-- Content will be typed out by JS -->
                     </div>
                     <div class="box-content" id="dailylog-content" style="display:none;">
-                        <p>Daily log content</p>
+                        <p>Daily log content here</p>
                     </div>
                     <div class="box-content" id="weeklylog-content" style="display:none;">
-                        <p>Weekly log content</p>
+                        <p>Weekly log content here</p>
                     </div>
                     <div class="box-content" id="monthlylog-content" style="display:none;">
-                        <p>Monthly log content</p>
+                        <p>Monthly log content here</p>
                     </div>
                 </div>
                 
@@ -288,13 +289,19 @@
     <script src="js/main.js"></script>
     
     <!-- Vercel Speed Insights - must be before <script>
-document.querySelectorAll(".tab-btn").forEach(function(btn) {
-    btn.addEventListener("click", function() {
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
         var tab = this.dataset.tab;
-        document.querySelectorAll(".tab-btn").forEach(function(b) { b.classList.remove("active"); });
-        this.classList.add("active");
-        document.querySelectorAll(".box-content").forEach(function(c) { c.style.display = "none"; });
-        document.getElementById(tab + "-content").style.display = "block";
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        document.querySelectorAll('.box-content').forEach(function(c) { c.style.display = 'none'; });
+        document.getElementById(tab + '-content').style.display = 'block';
+        
+        // Auto-play audio when manifesto shown
+        if (tab === 'manifesto') {
+            var audio = document.getElementById('manifesto-audio');
+            if (audio) { audio.currentTime = 0; audio.play().catch(function(){}); }
+        }
     });
 });
 </script></body> -->
@@ -303,13 +310,19 @@ document.querySelectorAll(".tab-btn").forEach(function(btn) {
         // No manual script needed - just enable in Vercel Dashboard → Speed Insights
     </script>
 <script>
-document.querySelectorAll(".tab-btn").forEach(function(btn) {
-    btn.addEventListener("click", function() {
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
         var tab = this.dataset.tab;
-        document.querySelectorAll(".tab-btn").forEach(function(b) { b.classList.remove("active"); });
-        this.classList.add("active");
-        document.querySelectorAll(".box-content").forEach(function(c) { c.style.display = "none"; });
-        document.getElementById(tab + "-content").style.display = "block";
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        document.querySelectorAll('.box-content').forEach(function(c) { c.style.display = 'none'; });
+        document.getElementById(tab + '-content').style.display = 'block';
+        
+        // Auto-play audio when manifesto shown
+        if (tab === 'manifesto') {
+            var audio = document.getElementById('manifesto-audio');
+            if (audio) { audio.currentTime = 0; audio.play().catch(function(){}); }
+        }
     });
 });
 </script></body>
