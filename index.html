@@ -164,7 +164,7 @@
                     </div>
                     <div class="box-content" id="manifesto-content">
                         <!-- Content will be typed out by JS -->
-                        <audio id="manifesto-audio" src="audio/manifesto.m4a"></audio>
+                        <audio id="manifesto-audio" src="audio/manifesto.m4a" preload="auto"></audio>
                         <button class="audio-play-btn" onclick="document.getElementById('manifesto-audio').play()">▶ Play Voice</button>
                     </div>
                     <div class="box-content" id="dailylog-content" style="display:none;">
@@ -411,11 +411,14 @@ document.querySelectorAll('.tab-btn').forEach(function(btn) {
     });
 });
 <script>
-document.querySelectorAll(".tab-btn").forEach(function(btn) {
-    btn.addEventListener("click", function() {
-        if (this.dataset.tab === "manifesto") {
-            var audio = document.getElementById("manifesto-audio");
-            if (audio) audio.play().catch(function() {});
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        if (this.dataset.tab === 'manifesto') {
+            var audio = document.getElementById('manifesto-audio');
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(function(e) { console.log('Audio play failed:', e); });
+            }
         }
     });
 });
@@ -438,11 +441,14 @@ document.querySelectorAll('.tab-btn').forEach(function(btn) {
     });
 });
 <script>
-document.querySelectorAll(".tab-btn").forEach(function(btn) {
-    btn.addEventListener("click", function() {
-        if (this.dataset.tab === "manifesto") {
-            var audio = document.getElementById("manifesto-audio");
-            if (audio) audio.play().catch(function() {});
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        if (this.dataset.tab === 'manifesto') {
+            var audio = document.getElementById('manifesto-audio');
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(function(e) { console.log('Audio play failed:', e); });
+            }
         }
     });
 });
