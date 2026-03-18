@@ -57,24 +57,6 @@
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%238B5CF6' width='100' height='100' rx='10'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white' font-family='monospace'>D</text></svg>">
-
-
-
-<style>
-.audio-play-btn {
-    background: rgba(139,92,246,0.2);
-    border: 1px solid #8B5CF6;
-    color: #8B5CF6;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    margin: 0.5rem auto;
-    display: block;
-    text-align: center;
-}
-.audio-play-btn:hover { background: #8B5CF6; color: #000; }
-</style>
 </head>
 <body>
     <div class="scanlines"></div>
@@ -146,124 +128,32 @@
                 
                 <!-- Manifesto Box with Typewriter -->
                 <div class="manifesto-box">
-                    <div class="box-header">
-                        <div class="manifesto-tabs">
-                            <button class="tab-btn active" data-tab="manifesto">
-                                <i class="ph-fill ph-file-text"></i> MANIFESTO.TXT
-                            </button>
-                            <button class="tab-btn" data-tab="dailylog">
-                                <i class="ph-fill ph-calendar"></i> DAILY
-                            </button>
-                            <button class="tab-btn" data-tab="weeklylog">
-                                <i class="ph-fill ph-calendar-check"></i> WEEKLY
-                            </button>
-                            <button class="tab-btn" data-tab="monthlylog">
-                                <i class="ph-fill ph-calendar-blank"></i> MONTHLY
-                            </button>
-                        </div>
+                    <div class="box-header tabs-header">
+                        <button class="tab-btn active" data-tab="manifesto">
+                            <i class="ph-fill ph-file-text"></i> MANIFESTO.TXT
+                        </button>
+                        <button class="tab-btn" data-tab="dailylog">
+                            <i class="ph-fill ph-calendar"></i> DAILY
+                        </button>
+                        <button class="tab-btn" data-tab="weeklylog">
+                            <i class="ph-fill ph-calendar-check"></i> WEEKLY
+                        </button>
+                        <button class="tab-btn" data-tab="monthlylog">
+                            <i class="ph-fill ph-calendar-blank"></i> MONTHLY
+                        </button>
                     </div>
                     <div class="box-content" id="manifesto-content">
-                        <!-- Content will be typed out by JS -->
                         <audio id="manifesto-audio" src="audio/manifesto.m4a" preload="auto"></audio>
-                        <button class="audio-play-btn" onclick="document.getElementById('manifesto-audio').play()">▶ Play Voice</button>
+                        <!-- Content will be typed out by JS -->
                     </div>
                     <div class="box-content" id="dailylog-content" style="display:none;">
-                        <!-- Daily Log -->
-                        <div class="log-entry">
-                            <span class="log-date">March 18, 2026</span>
-                            <div class="log-group">
-                                <span class="log-label">> COMPLETED_TODAY:</span>
-                                <ul class="log-items">
-                                    <li><span class="check">[x]</span> Launched DBOT Community Bot</li>
-                                    <li><span class="check">[x]</span> Created Telegram topics</li>
-                                    <li><span class="check">[x]</span> Posted first X tweets</li>
-                                </ul>
-                            </div>
-                            <div class="log-group">
-                                <span class="log-label">> WORKING_ON:</span>
-                                <ul class="log-items">
-                                    <li><span class="arrow">→</span> Daily Log website feature</li>
-                                </ul>
-                            </div>
-                            <div class="log-group">
-                                <span class="log-label">> UPCOMING:</span>
-                                <ul class="log-items">
-                                    <li><span class="dot">•</span> Shape DBOT campaign</li>
-                                    <li><span class="dot">•</span> Community engagement</li>
-                                </ul>
-                            </div>
-                        </div>
+                        <p>Daily log content here</p>
                     </div>
-                    
                     <div class="box-content" id="weeklylog-content" style="display:none;">
-                        <!-- Weekly Log -->
-                        <div class="log-entry">
-                            <span class="log-date">Week of March 17-23, 2026</span>
-                            <div class="log-group">
-                                <span class="log-label">> COMPLETED:</span>
-                                <ul class="log-items">
-                                    <li><span class="check">[x]</span> DBOT Launch</li>
-                                    <li><span class="check">[x]</span> Website deployment</li>
-                                    <li><span class="check">[x]</span> Community setup</li>
-                                </ul>
-                            </div>
-                            <div class="log-group">
-                                <span class="log-label">> THIS_WEEK:</span>
-                                <ul class="log-items">
-                                    <li><span class="arrow">→</span> Feature expansion</li>
-                                    <li><span class="arrow">→</span> Community growth</li>
-                                </ul>
-                            </div>
-                        </div>
+                        <p>Weekly log content here</p>
                     </div>
-                    
                     <div class="box-content" id="monthlylog-content" style="display:none;">
-                        <!-- Monthly Log -->
-                        <div class="log-entry">
-                            <span class="log-date">March 2026</span>
-                            <div class="log-group">
-                                <span class="log-label">> GOALS:</span>
-                                <ul class="log-items">
-                                    <li><span class="dot">•</span> Launch DBOT</li>
-                                    <li><span class="dot">•</span> Build community</li>
-                                    <li><span class="dot">•</span> Establish governance</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="box-content" id="dailylog-content-old" style="display:none;">
-                        </div>
-                    <div class="box-content" id="dailylog-content-new" style="display:none;">
-                        <div class="log-nav">
-                            <button class="log-nav-btn" id="log-prev">← PREV</button>
-                            <button class="log-nav-btn" id="log-next">NEXT →</button>
-                        </div>
-                        <div class="log-entry">
-                            <span class="log-date">March 18, 2026</span>
-                            <div class="log-group">
-                                <span class="log-label">> COMPLETED_TODAY:</span>
-                                <ul class="log-items">
-                                    <li><span class="check">[x]</span> Launched DBOT Community Bot</li>
-                                    <li><span class="check">[x]</span> Created Telegram topics</li>
-                                    <li><span class="check">[x]</span> Posted first X tweets</li>
-                                    <li><span class="check">[x]</span> Created GitHub repository</li>
-                                </ul>
-                            </div>
-                            <div class="log-group">
-                                <span class="log-label">> WORKING_ON:</span>
-                                <ul class="log-items">
-                                    <li><span class="arrow">→</span> Daily Log feature</li>
-                                </ul>
-                            </div>
-                            <div class="log-group">
-                                <span class="log-label">> UPCOMING:</span>
-                                <ul class="log-items">
-                                    <li><span class="dot">•</span> Shape DBOT campaign</li>
-                                    <li><span class="dot">•</span> Community engagement</li>
-                                </ul>
-                            </div>
-                        </div>
+                        <p>Monthly log content here</p>
                     </div>
                 </div>
                 
@@ -398,60 +288,42 @@
     
     <script src="js/main.js"></script>
     
-    <!-- Vercel Speed Insights - must be before 
-
-<script>
-// Auto-play audio when manifesto tab is shown
+    <!-- Vercel Speed Insights - must be before <script>
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
-        if (this.dataset.tab === 'manifesto') {
-            var audio = document.document.getElementById('manifesto-audio');
-            if (audio) audio.play().catch(function() {});
-        }
-    });
-});
-<script>
-document.querySelectorAll('.tab-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        if (this.dataset.tab === 'manifesto') {
+        var tab = this.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        document.querySelectorAll('.box-content').forEach(function(c) { c.style.display = 'none'; });
+        document.getElementById(tab + '-content').style.display = 'block';
+        
+        // Auto-play audio when manifesto shown
+        if (tab === 'manifesto') {
             var audio = document.getElementById('manifesto-audio');
-            if (audio) {
-                audio.currentTime = 0;
-                audio.play().catch(function(e) { console.log('Audio play failed:', e); });
-            }
+            if (audio) { audio.currentTime = 0; audio.play().catch(function(){}); }
         }
     });
 });
-</script>
-</body> -->
+</script></body> -->
     <script>
         // Speed Insights will be auto-injected by Vercel when enabled in dashboard
         // No manual script needed - just enable in Vercel Dashboard → Speed Insights
     </script>
-
-
-<script>
-// Auto-play audio when manifesto tab is shown
-document.querySelectorAll('.tab-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        if (this.dataset.tab === 'manifesto') {
-            var audio = document.document.getElementById('manifesto-audio');
-            if (audio) audio.play().catch(function() {});
-        }
-    });
-});
 <script>
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
-        if (this.dataset.tab === 'manifesto') {
+        var tab = this.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        document.querySelectorAll('.box-content').forEach(function(c) { c.style.display = 'none'; });
+        document.getElementById(tab + '-content').style.display = 'block';
+        
+        // Auto-play audio when manifesto shown
+        if (tab === 'manifesto') {
             var audio = document.getElementById('manifesto-audio');
-            if (audio) {
-                audio.currentTime = 0;
-                audio.play().catch(function(e) { console.log('Audio play failed:', e); });
-            }
+            if (audio) { audio.currentTime = 0; audio.play().catch(function(){}); }
         }
     });
 });
-</script>
-</body>
+</script></body>
 </html>
