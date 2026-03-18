@@ -128,32 +128,12 @@
                 
                 <!-- Manifesto Box with Typewriter -->
                 <div class="manifesto-box">
-                    <div class="box-header tabs-header">
-                        <button class="tab-btn active" data-tab="manifesto">
-                            <i class="ph-fill ph-file-text"></i> MANIFESTO.TXT
-                        </button>
-                        <button class="tab-btn" data-tab="dailylog">
-                            <i class="ph-fill ph-calendar"></i> DAILY
-                        </button>
-                        <button class="tab-btn" data-tab="weeklylog">
-                            <i class="ph-fill ph-calendar-check"></i> WEEKLY
-                        </button>
-                        <button class="tab-btn" data-tab="monthlylog">
-                            <i class="ph-fill ph-calendar-blank"></i> MONTHLY
-                        </button>
+                    <div class="box-header">
+                        <i class="ph-fill ph-file-text"></i>
+                        MANIFESTO.TXT
                     </div>
                     <div class="box-content" id="manifesto-content">
-                        <audio id="manifesto-audio" src="audio/manifesto.m4a" preload="auto"></audio>
                         <!-- Content will be typed out by JS -->
-                    </div>
-                    <div class="box-content" id="dailylog-content" style="display:none;">
-                        <p>Daily log content here</p>
-                    </div>
-                    <div class="box-content" id="weeklylog-content" style="display:none;">
-                        <p>Weekly log content here</p>
-                    </div>
-                    <div class="box-content" id="monthlylog-content" style="display:none;">
-                        <p>Monthly log content here</p>
                     </div>
                 </div>
                 
@@ -288,42 +268,10 @@
     
     <script src="js/main.js"></script>
     
-    <!-- Vercel Speed Insights - must be before <script>
-document.querySelectorAll('.tab-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        var tab = this.dataset.tab;
-        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-        this.classList.add('active');
-        document.querySelectorAll('.box-content').forEach(function(c) { c.style.display = 'none'; });
-        document.getElementById(tab + '-content').style.display = 'block';
-        
-        // Auto-play audio when manifesto shown
-        if (tab === 'manifesto') {
-            var audio = document.getElementById('manifesto-audio');
-            if (audio) { audio.currentTime = 0; audio.play().catch(function(){}); }
-        }
-    });
-});
-</script></body> -->
+    <!-- Vercel Speed Insights - must be before </body> -->
     <script>
         // Speed Insights will be auto-injected by Vercel when enabled in dashboard
         // No manual script needed - just enable in Vercel Dashboard → Speed Insights
     </script>
-<script>
-document.querySelectorAll('.tab-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        var tab = this.dataset.tab;
-        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-        this.classList.add('active');
-        document.querySelectorAll('.box-content').forEach(function(c) { c.style.display = 'none'; });
-        document.getElementById(tab + '-content').style.display = 'block';
-        
-        // Auto-play audio when manifesto shown
-        if (tab === 'manifesto') {
-            var audio = document.getElementById('manifesto-audio');
-            if (audio) { audio.currentTime = 0; audio.play().catch(function(){}); }
-        }
-    });
-});
-</script></body>
+</body>
 </html>
