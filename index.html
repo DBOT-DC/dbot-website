@@ -129,11 +129,121 @@
                 <!-- Manifesto Box with Typewriter -->
                 <div class="manifesto-box">
                     <div class="box-header">
-                        <i class="ph-fill ph-file-text"></i>
-                        MANIFESTO.TXT
+                        <div class="manifesto-tabs">
+                            <button class="tab-btn active" data-tab="manifesto">
+                                <i class="ph-fill ph-file-text"></i> MANIFESTO.TXT
+                            </button>
+                            <button class="tab-btn" data-tab="dailylog">
+                                <i class="ph-fill ph-calendar"></i> DAILY
+                            </button>
+                            <button class="tab-btn" data-tab="weeklylog">
+                                <i class="ph-fill ph-calendar-check"></i> WEEKLY
+                            </button>
+                            <button class="tab-btn" data-tab="monthlylog">
+                                <i class="ph-fill ph-calendar-blank"></i> MONTHLY
+                            </button>
+                        </div>
                     </div>
                     <div class="box-content" id="manifesto-content">
                         <!-- Content will be typed out by JS -->
+                    </div>
+                    <div class="box-content" id="dailylog-content" style="display:none;">
+                        <!-- Daily Log -->
+                        <div class="log-entry">
+                            <span class="log-date">March 18, 2026</span>
+                            <div class="log-group">
+                                <span class="log-label">> COMPLETED_TODAY:</span>
+                                <ul class="log-items">
+                                    <li><span class="check">[x]</span> Launched DBOT Community Bot</li>
+                                    <li><span class="check">[x]</span> Created Telegram topics</li>
+                                    <li><span class="check">[x]</span> Posted first X tweets</li>
+                                </ul>
+                            </div>
+                            <div class="log-group">
+                                <span class="log-label">> WORKING_ON:</span>
+                                <ul class="log-items">
+                                    <li><span class="arrow">→</span> Daily Log website feature</li>
+                                </ul>
+                            </div>
+                            <div class="log-group">
+                                <span class="log-label">> UPCOMING:</span>
+                                <ul class="log-items">
+                                    <li><span class="dot">•</span> Shape DBOT campaign</li>
+                                    <li><span class="dot">•</span> Community engagement</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="box-content" id="weeklylog-content" style="display:none;">
+                        <!-- Weekly Log -->
+                        <div class="log-entry">
+                            <span class="log-date">Week of March 17-23, 2026</span>
+                            <div class="log-group">
+                                <span class="log-label">> COMPLETED:</span>
+                                <ul class="log-items">
+                                    <li><span class="check">[x]</span> DBOT Launch</li>
+                                    <li><span class="check">[x]</span> Website deployment</li>
+                                    <li><span class="check">[x]</span> Community setup</li>
+                                </ul>
+                            </div>
+                            <div class="log-group">
+                                <span class="log-label">> THIS_WEEK:</span>
+                                <ul class="log-items">
+                                    <li><span class="arrow">→</span> Feature expansion</li>
+                                    <li><span class="arrow">→</span> Community growth</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="box-content" id="monthlylog-content" style="display:none;">
+                        <!-- Monthly Log -->
+                        <div class="log-entry">
+                            <span class="log-date">March 2026</span>
+                            <div class="log-group">
+                                <span class="log-label">> GOALS:</span>
+                                <ul class="log-items">
+                                    <li><span class="dot">•</span> Launch DBOT</li>
+                                    <li><span class="dot">•</span> Build community</li>
+                                    <li><span class="dot">•</span> Establish governance</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="box-content" id="dailylog-content-old" style="display:none;">
+                        </div>
+                    <div class="box-content" id="dailylog-content-new" style="display:none;">
+                        <div class="log-nav">
+                            <button class="log-nav-btn" id="log-prev">← PREV</button>
+                            <button class="log-nav-btn" id="log-next">NEXT →</button>
+                        </div>
+                        <div class="log-entry">
+                            <span class="log-date">March 18, 2026</span>
+                            <div class="log-group">
+                                <span class="log-label">> COMPLETED_TODAY:</span>
+                                <ul class="log-items">
+                                    <li><span class="check">[x]</span> Launched DBOT Community Bot</li>
+                                    <li><span class="check">[x]</span> Created Telegram topics</li>
+                                    <li><span class="check">[x]</span> Posted first X tweets</li>
+                                    <li><span class="check">[x]</span> Created GitHub repository</li>
+                                </ul>
+                            </div>
+                            <div class="log-group">
+                                <span class="log-label">> WORKING_ON:</span>
+                                <ul class="log-items">
+                                    <li><span class="arrow">→</span> Daily Log feature</li>
+                                </ul>
+                            </div>
+                            <div class="log-group">
+                                <span class="log-label">> UPCOMING:</span>
+                                <ul class="log-items">
+                                    <li><span class="dot">•</span> Shape DBOT campaign</li>
+                                    <li><span class="dot">•</span> Community engagement</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
