@@ -551,38 +551,38 @@ body {
     .token-warning { font-size: 0.5rem; }
 }
 
-/* Tab Buttons - Centered */
-.manifesto-tabs {
+/* Tabs - Centered */
+.tabs-header {
     display: flex;
-    padding: 0.5rem;
+    flex: 1;
+    justify-content: center;
+    gap: 0;
 }
 
 .tab-btn {
     background: transparent;
     border: none;
-    color: #888;
-    padding: 0.6rem 1rem;
+    color: var(--text-muted);
+    padding: 0.5rem 1rem;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
     cursor: pointer;
-    flex: 1;
     text-align: center;
     border-bottom: 2px solid transparent;
 }
 
-.tab-btn:hover { color: #8B5CF6; }
-.tab-btn.active { color: #fff; border-bottom-color: #8B5CF6; }
+.tab-btn:hover { color: var(--text-primary); }
+.tab-btn.active { color: var(--text-primary); border-bottom-color: var(--purple); }
 
-/* Log Content */
+/* Log Content - Centered */
 #dailylog-content, #weeklylog-content, #monthlylog-content {
-    padding: 1rem;
     text-align: center;
 }
 
-.log-date { color: #F59E0B; display: block; margin-bottom: 0.5rem; }
-.log-label { color: #8B5CF6; display: block; margin: 0.5rem 0 0.25rem; }
+.log-date { color: #F59E0B; display: block; margin: 0.5rem 0; }
+.log-label { color: var(--purple); display: block; margin: 0.5rem 0 0.25rem; }
 .log-items { list-style: none; padding: 0; }
-.log-items li { color: #ccc; margin: 0.25rem 0; }
+.log-items li { color: var(--text-muted); margin: 0.25rem 0; }
 .log-items .check { color: #10B981; }
 .log-items .arrow { color: #F59E0B; }
 .log-items .dot { color: #666; }

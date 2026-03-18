@@ -113,12 +113,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 console.log('DBOT website loaded');
 
+// Tab switching
 document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         const tab = this.dataset.tab;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         document.querySelectorAll('.box-content').forEach(c => c.style.display = 'none');
-        document.getElementById(tab + '-content').style.display = 'block';
+        const contentEl = document.getElementById(tab + '-content');
+        if (contentEl) contentEl.style.display = 'block';
     });
 });
