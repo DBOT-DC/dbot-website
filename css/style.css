@@ -555,6 +555,7 @@ body {
 .tab-btn {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     gap: 0.5rem;
     background: transparent;
     border: none;
