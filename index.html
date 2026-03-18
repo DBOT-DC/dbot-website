@@ -59,9 +59,10 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%238B5CF6' width='100' height='100' rx='10'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white' font-family='monospace'>D</text></svg>">
 
 
-/* Audio Player */
+
+<style>
 .audio-play-btn {
-    background: rgba(139, 92, 246, 0.2);
+    background: rgba(139,92,246,0.2);
     border: 1px solid #8B5CF6;
     color: #8B5CF6;
     padding: 0.5rem 1rem;
@@ -73,6 +74,7 @@
     text-align: center;
 }
 .audio-play-btn:hover { background: #8B5CF6; color: #000; }
+</style>
 </head>
 <body>
     <div class="scanlines"></div>
@@ -162,6 +164,8 @@
                     </div>
                     <div class="box-content" id="manifesto-content">
                         <!-- Content will be typed out by JS -->
+                        <audio id="manifesto-audio" src="audio/manifesto.m4a"></audio>
+                        <button class="audio-play-btn" onclick="document.getElementById('manifesto-audio').play()">▶ Play Voice</button>
                     </div>
                     <div class="box-content" id="dailylog-content" style="display:none;">
                         <!-- Daily Log -->
@@ -406,6 +410,16 @@ document.querySelectorAll('.tab-btn').forEach(function(btn) {
         }
     });
 });
+<script>
+document.querySelectorAll(".tab-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+        if (this.dataset.tab === "manifesto") {
+            var audio = document.getElementById("manifesto-audio");
+            if (audio) audio.play().catch(function() {});
+        }
+    });
+});
+</script>
 </body> -->
     <script>
         // Speed Insights will be auto-injected by Vercel when enabled in dashboard
@@ -423,5 +437,15 @@ document.querySelectorAll('.tab-btn').forEach(function(btn) {
         }
     });
 });
+<script>
+document.querySelectorAll(".tab-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+        if (this.dataset.tab === "manifesto") {
+            var audio = document.getElementById("manifesto-audio");
+            if (audio) audio.play().catch(function() {});
+        }
+    });
+});
+</script>
 </body>
 </html>
