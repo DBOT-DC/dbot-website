@@ -582,7 +582,8 @@ body {
     min-width: 120px;
 
     text-align: center;
-}
+
+    text-align: center;
 
 .tab-btn:hover {
     color: #ccc;
@@ -611,7 +612,8 @@ body {
         border-right: none;
     
     text-align: center;
-}
+
+    text-align: center;
     .tab-btn.active {
         border-bottom: 1px solid #000;
     }
@@ -619,7 +621,7 @@ body {
 
 /* Daily Log Entry - matching manifesto style */
 #dailylog-content, #weeklylog-content, #monthlylog-content {
-    text-align: left;
+    text-align: center;
     padding: 0.75rem 1rem;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.8rem;
