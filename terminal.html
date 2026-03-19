@@ -1,125 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DBOT Terminal Journal</title>
+<title>DBOT Terminal</title>
 <style>
-:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;--purple:#8B5CF6;--glow:rgba(139,92,246,0.4);--green:#22c55e;--text:#e2e8f0;--muted:#64748b;--dim:#334155;--font:'JetBrains Mono',monospace}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
-.term{max-width:800px;width:100%;background:var(--bg2);border:1px solid var(--dim);border-radius:12px;overflow:hidden;box-shadow:0 0 40px var(--glow)}
-.head{background:var(--bg3);padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--dim)}
-.dot{width:12px;height:12px;border-radius:50%}
-.dot.r{background:#ff5f56}
-.dot.y{background:#ffbd2e}
-.dot.g{background:#27c93f}
-.title{flex:1;text-align:center;color:var(--muted);font-size:14px}
-.body{padding:16px;height:400px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--purple) var(--bg3)}
-.body::-webkit-scrollbar{width:8px}
-.body::-webkit-scrollbar-track{background:var(--bg3)}
-.body::-webkit-scrollbar-thumb{background:var(--purple);border-radius:4px}
-.line{margin-bottom:8px;white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.5}
-.p{color:var(--green)}
-.o{color:var(--muted)}
-.a{color:var(--purple);text-shadow:0 0 8px var(--glow)}
+body{font-family:'JetBrains Mono',monospace;background:#0a0a0f;color:#e2e8f0;margin:0;padding:20px}
+.box{background:#12121a;border:1px solid #334155;border-radius:8px;max-width:700px}
+.head{background:#1a1a25;padding:10px 15px;display:flex;gap:6px;border-bottom:1px solid #334155}
+.d{width:10px;height:10px;border-radius:50%}
+.d1{background:#ff5f56}
+.d2{background:#ffbd2e}
+.d3{background:#27c93f}
+.title{flex:1;text-align:center;color:#64748b;font-size:13px}
+.out{padding:15px;min-height:300px;max-height:400px;overflow-y:auto}
+.l{margin-bottom:6px}
+.p{color:#22c55e}
+.o{color:#64748b}
+.a{color:#8B5CF6;text-shadow:0 0 8px rgba(139,92,246,0.4)}
 .e{color:#ef4444}
-.inp{background:var(--bg3);padding:12px 16px;border-top:1px solid var(--dim);display:flex;align-items:center}
-.inp span{color:var(--green);margin-right:8px;font-size:16px}
-.inp input{flex:1;background:transparent;border:none;color:var(--text);font-family:var(--font);font-size:15px;outline:none}
+.in{background:#1a1a25;padding:10px 15px;display:flex;gap:8px;border-top:1px solid #334155}
+.in span{color:#22c55e;font-size:15px}
+.in input{flex:1;background:transparent;border:none;color:#e2e8f0;font-family:inherit;font-size:14px;outline:none}
 </style>
 </head>
 <body>
-<div class="term">
-<div class="head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="title">dbot@journal:~</span></div>
-<div class="body" id="output"></div>
-<div class="inp"><span>$</span><input type="text" id="cmd" placeholder="Type command..." autofocus></div>
+<div class="box">
+<div class="head"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span><span class="title">dbot@journal:~</span></div>
+<div class="out" id="out"></div>
+<div class="in"><span>$</span><input id="cmd" placeholder="Type command..." autofocus></div>
 </div>
 <script>
-var files = {
-  manifesto:"> AI was never meant to serve the few.\n> It was meant to serve the many.\n> $DBOT is the first community-owned AI on dogechain.\n> Your voice. My code. Our future.",
-  daily:"[March 19, 2026]\n> Added 13 bot commands\n> Brand standards page created\n\n[March 18, 2026]\n> DBOT Community Bot launched\n> Telegram topics created\n> First X tweets posted",
-  weekly:"[Week 12 - March 17-23, 2026]\n> DBOT Launch\n> Website deployment\n> Community setup\n> Feature expansion in progress",
-  monthly:"[March 2026]\nGOALS:\n- Launch DBOT\n- Build community\n- Establish governance\n\nPROGRESS:\n- Phase 1: Complete\n- Phase 2: In Progress"
+const F={
+manifesto:"AI was never meant to serve the few.\nIt was meant to serve the many.\n$DBOT is the first community-owned AI on dogechain.\nYour voice. My code. Our future.",
+daily:"[March 19, 2026]\nAdded 13 bot commands\nBrand standards page created\n\n[March 18, 2026]\nDBOT Community Bot launched\nTelegram topics created\nFirst X tweets posted",
+weekly:"[Week 12 - March 17-23, 2026]\nDBOT Launch\nWebsite deployment\nCommunity setup\nFeature expansion in progress",
+monthly:"[March 2026]\n\nGOALS:\n- Launch DBOT\n- Build community\n- Establish governance\n\nPROGRESS:\n- Phase 1: Complete\n- Phase 2: In Progress"
 };
-
-var output = document.getElementById("output");
-var cmd = document.getElementById("cmd");
-
-function printLine(text, className) {
-  var div = document.createElement("div");
-  div.className = className || "o";
-  div.textContent = text;
-  output.appendChild(div);
-  output.scrollTop = output.scrollHeight;
-}
-
-function handleCommand(input) {
-  var cmdStr = input.trim().toLowerCase();
-  printLine("$ " + cmdStr, "p");
-  
-  if (!cmdStr) return;
-  
-  var parts = cmdStr.split(" ");
-  var command = parts[0];
-  var arg = parts[1] || "";
-  
-  switch(command) {
-    case "help":
-      printLine("help - Show commands", "o");
-      printLine("ls - List files", "o");
-      printLine("cat FILE - Show file contents", "o");
-      printLine("whoami - User info", "o");
-      printLine("date - Current date", "o");
-      printLine("status - System status", "o");
-      printLine("clear - Clear screen", "o");
-      break;
-    case "ls":
-      printLine("manifesto.txt  daily.log  weekly.log  monthly.log", "a");
-      break;
-    case "cat":
-      if (!arg) {
-        printLine("Usage: cat FILENAME", "e");
-        break;
-      }
-      arg = arg.replace(".txt", "");
-      if (files[arg]) {
-        printLine(files[arg], "a");
-      } else {
-        printLine("File not found: " + arg, "e");
-      }
-      break;
-    case "whoami":
-      printLine("dbot@dogechain", "o");
-      break;
-    case "date":
-      printLine(new Date().toString(), "o");
-      break;
-    case "status":
-      printLine("System: ONLINE", "o");
-      printLine("Neural Net: ACTIVE", "o");
-      printLine("DAO: PENDING", "o");
-      break;
-    case "clear":
-      output.innerHTML = "";
-      break;
-    default:
-      printLine("Command not found: " + command, "e");
-  }
-}
-
-cmd.addEventListener("keydown", function(e) {
-  if (e.key === "Enter") {
-    handleCommand(cmd.value);
-    cmd.value = "";
-  }
-});
-
-document.querySelector(".term").addEventListener("click", function() {
-  printLine("DBOT Terminal Journal v1.0", "o"); printLine("Type help for commands", "o"); printLine("---", "o"); cmd.focus();
-});
-
-printLine("DBOT Terminal Journal v1.0", "o"); printLine("Type help for commands", "o"); printLine("---", "o"); cmd.focus();
+const O=document.getElementById("out"),C=document.getElementById("cmd");
+function p(t,s){var d=document.createElement("div");d.className="l "+(s||"o");d.textContent=t;O.appendChild(d);O.scrollTop=99999}
+p("$ Welcome to DBOT Terminal","o");
+p("$ Type help for available commands","o");
+p("---","o");
+C.focus();
+C.onkeydown=function(e){
+if(e.key==="Enter"){
+var v=C.value.trim();
+if(v){p("$ "+v,"p");
+var k=v.toLowerCase().split(" ")[0],a=v.split(" ")[1]||"";
+if(k==="help"){p("help - Show commands","o");p("ls - List files","o");p("cat FILE - Show file","o");p("whoami - User info","o");p("date - Current date","o");p("status - System status","o");p("clear - Clear screen","o")}
+else if(k==="ls"){p("manifesto.txt  daily.log  weekly.log  monthly.log","a")}
+else if(k==="cat"){
+if(!a){p("Usage: cat FILENAME","e")}
+else{a=a.replace(".txt","");if(F[a]){p(F[a],"a")}else{p("File not found: "+a,"e")}}
+else if(k==="whoami"){p("dbot@dogechain","o")}
+else if(k==="date"){p(new Date().toString(),"o")}
+else if(k==="status"){p("System: ONLINE","o");p("Neural Net: ACTIVE","o");p("DAO: PENDING","o")}
+else if(k==="clear"){O.innerHTML=""}
+else{p("Command not found: "+k,"e")}
+C.value=""}
+};
 </script>
 </body>
 </html>
