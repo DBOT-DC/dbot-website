@@ -3,46 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DBOT Terminal</title>
+<title>DBOT Terminal Journal</title>
 <style>
-:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;--purple:#8B5CF6;--green:#22c55e;--text:#e2e8f0;--muted:#64748b;--dim:#334155;--font:'JetBrains Mono',monospace}
+:root{
+  --bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;--purple:#8B5CF6;--pglow:rgba(139,92,246,0.4);--green:#22c55e;--text:#e2e8f0;--muted:#64748b;--dim:#334155;--font:'JetBrains Mono',monospace
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
-.term{max-width:800px;width:100%;background:var(--bg2);border:1px solid var(--dim);border-radius:12px;overflow:hidden;box-shadow:0 0 40px rgba(139,92,246,0.15)}
+.term{max-width:800px;width:100%;background:var(--bg2);border:1px solid var(--dim);border-radius:12px;overflow:hidden;box-shadow:0 0 40px var(--pglow)}
 .head{background:var(--bg3);padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--dim)}
 .dot{width:12px;height:12px;border-radius:50%}
 .dot.r{background:#ff5f56}
 .dot.y{background:#ffbd2e}
 .dot.g{background:#27c93f}
 .title{flex:1;text-align:center;color:var(--muted);font-size:14px}
-.body{padding:16px;height:400px;overflow-y:auto;font-size:15px;line-height:1.6}
-.line{margin-bottom:4px;white-space:pre-wrap;word-break:break-word}
+.body{padding:16px;height:400px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--purple) var(--bg3)}
+.body::-webkit-scrollbar{width:8px}
+.body::-webkit-scrollbar-track{background:var(--bg3)}
+.body::-webkit-scrollbar-thumb{background:var(--purple);border-radius:4px}
+.body::-webkit-scrollbar-thumb:hover{background:var(--purple-light:#A78BFA}
+.line{margin-bottom:8px;white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.5}
 .p{color:var(--green)}
 .o{color:var(--muted)}
-.a{color:var(--purple)}
+.a{color:var(--purple);text-shadow:0 0 8px var(--pglow)}
 .e{color:#ef4444}
 .inp{background:var(--bg3);padding:12px 16px;border-top:1px solid var(--dim);display:flex;align-items:center}
-.inp span{color:var(--green);margin-right:8px}
+.inp span{color:var(--green);margin-right:8px;font-size:16px}
 .inp input{flex:1;background:transparent;border:none;color:var(--text);font-family:var(--font);font-size:15px;outline:none}
 </style>
 </head>
 <body>
 <div class="term">
-<div class="head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="title">dbot@terminal:~</span></div>
-<div class="body" id="out"><div class="line o">DBOT Terminal v1.0</div><div class="line o">Type 'help' for commands</div><div class="line o">---</div></div>
-<div class="inp"><span>$</span><input type="text" id="cmd" placeholder="Type command..." autofocus></div>
+<div class="head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="title">dbot@journal:~</span></div>
+<div class="body" id="out"><div class="line o">DBOT Terminal Journal v1.0</div><div class="line o">Type 'help' for commands</div><div class="line o">---</div></div>
+<div class="inp"><span>$</span><input type="text" id="cmd" placeholder="Enter command..." autofocus></div>
 </div>
 <script>
-const F={manifesto:"> AI was never meant to serve the few.\n> It was meant to serve the many.\n$DBOT is the first community-owned AI on dogechain.\n> Your voice. My code. Our future.",daily:"[March 19, 2026]\n> Added 13 bot commands\n> Brand standards created\n\n[March 18, 2026]\n> DBOT Community Bot launched\n> Telegram topics created\n> First X tweets posted",weekly:"[Week 12 - March 17-23, 2026]\n> DBOT Launch\n> Website deployment\n> Community setup\n> Feature expansion",monthly:"[March 2026]\n\nGOALS:\n- Launch DBOT\n- Build community\n- Establish governance\n\nPROGRESS:\n- Phase 1: Complete\n- Phase 2: In Progress"};
+const F={
+  manifesto:`> AI was never meant to serve the few.
+> It was meant to serve the many.
+>$DBOT is the first community-owned AI on dogechain.
+> Your voice. My code. Our future.`,
+  daily:`[March 19, 2026]
+> Added 13 bot commands
+> Brand standards page created
+> Voice response framework added
+
+[March 18, 2026]
+> DBOT Community Bot launched
+> Telegram topics created
+> First X tweets posted`,
+  weekly:`[Week 12 - March 17-23, 2026]
+> DBOT Launch
+> Website deployment
+> Community setup
+> Feature expansion in progress`,
+  monthly:`[March 2026]
+GOALS:
+- Launch DBOT
+- Build community
+- Establish governance
+
+PROGRESS:
+- Phase 1: Complete
+- Phase 2: In Progress`
+};
 const O=document.getElementById('out'),C=document.getElementById('cmd');
-function p(t,c='o'){const d=document.createElement('div');d.className='line';d.innerHTML='<span class="'+c+'">'+t+'</span>';O.appendChild(d);O.scrollTop=O.scrollHeight}
+function p(t,c='o'){const d=document.createElement('div');d.className='line';d.innerHTML='<span class="'+c+'">'+t.replace(/>/g,'> ').replace(/\$/g,'$ ')+'</span>';O.appendChild(d);O.scrollTop=O.scrollHeight}
 function r(c){c=c.trim().toLowerCase();p('$ '+c,'p');
-if(!c){O.removeChild(O.lastChild);return}
+if(!c)return;
 const a=c.split(' '),k=a[0];
 switch(k){
-case'help':p('help - Show commands');p('ls - List files');p('cat FILE - Show file');p('whoami - User info');p('date - Current date');p('version - Show version');p('status - System status');p('clear - Clear screen');break;
+case'help':p('help - Show commands');p('ls - List files');p('cat FILE - Show file contents');p('whoami - User info');p('date - Current date');p('version - Version');p('status - System status');p('clear - Clear screen');break;
 case'ls':p('manifesto.txt  daily.log  weekly.log  monthly.log','a');break;
-case'cat':if(!a[1]){p('Usage: cat FILENAME','e');break}const f=F[a[1]];if(f){p(f.replace(/>/g,'> ').replace(/\$/g,'$ '),'a')}else{p('File not found: '+a[1],'e')}break;
+case'cat':
+  if(!a[1]){p('Usage: cat FILENAME','e');break}
+  const f=F[a[1]];if(f){p(f,'a')}else{p('File not found: '+a[1],'e')}break;
 case'whoami':p('dbot@dogechain');break;
 case'date':p(new Date().toString());break;
 case'version':p('DBOT Terminal v1.0.0','a');break;
