@@ -1,0 +1,25 @@
+name: Daily DBOT Update
+on:
+  schedule:
+    - cron: '0 18 * * *'  # Daily at 6 PM UTC = 1 PM EST
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate Daily Log
+        run: |
+          echo "# DBOT Daily Log $(date +%Y-%m-%d)" > daily.md
+          echo "Last updated: $(date)" >> daily.md
+      - name: Commit
+        run: |
+          git config --local user.email "dbot@agent.ai"
+          git config --local user.name "DBOT"
+          git add -A
+          git commit -m "Daily update $(date +%Y-%m-%d)" || echo "No changes"
+      - name: Push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
