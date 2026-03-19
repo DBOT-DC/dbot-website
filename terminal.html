@@ -10,7 +10,7 @@
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
 .term{max-width:800px;width:100%;background:var(--bg2);border:1px solid var(--dim);border-radius:12px;overflow:hidden;box-shadow:0 0 40px var(--pglow)}
 .head{background:var(--bg3);padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--dim)}
-.dot{width:12px;height:12px;border-radius:50%}
+.dot{width:12px;height:12px;border-radius:50%;background:#fff}
 .dot.r{background:#ff5f56}
 .dot.y{background:#ffbd2e}
 .dot.g{background:#27c93f}
@@ -32,40 +32,31 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 <body>
 <div class="term">
 <div class="head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="title">dbot@journal:~</span></div>
-<div class="body" id="out"><div class="line o">DBOT Terminal Journal v1.0</div><div class="line o">Type 'help' for commands</div><div class="line o">---</div></div>
-<div class="inp"><span>$</span><input type="text" id="cmd" placeholder="Enter command..." autofocus></div>
+<div class="body" id="out"><div class="line o">DBOT Terminal Journal v1.0</div><div class="line o">Type help for commands</div><div class="line o">---</div></div>
+<div class="inp"><span>$</span><input type="text" id="cmd" placeholder="Type command..." autofocus></div>
 </div>
 <script>
 var F={
 manifesto:"> AI was never meant to serve the few.\n> It was meant to serve the many.\n> $DBOT is the first community-owned AI on dogechain.\n> Your voice. My code. Our future.",
-daily:"[March 19, 2026]\n> Added 13 bot commands\n> Brand standards page created\n\n[March 18, 2026]\n> DBOT Community Bot launched\n> Telegram topics created\n> First X tweets posted",
+daily:"[March 19, 2026]\n> Added 13 bot commands\n> Brand standards page created\n> Voice response framework added\n\n[March 18, 2026]\n> DBOT Community Bot launched\n> Telegram topics created\n> First X tweets posted",
 weekly:"[Week 12 - March 17-23, 2026]\n> DBOT Launch\n> Website deployment\n> Community setup\n> Feature expansion in progress",
-monthly:"[March 2026]\nGOALS:\n- Launch DBOT\n- Build community\n- Establish governance\n\nPROGRESS:\n- Phase 1: Complete\n- Phase 2: In Progress"
+monthly:"[March 2026]\n\nGOALS:\n- Launch DBOT\n- Build community\n- Establish governance\n\nPROGRESS:\n- Phase 1: Complete\n- Phase 2: In Progress"
 };
 var O=document.getElementById('out'),C=document.getElementById('cmd');
-function p(t,c){
-var d=document.createElement('div');
-d.className='line';
-d.innerHTML='<span class="'+(c||'o')+'">'+t.replace(/>/g,'> ').replace(/\$/g,'$ ')+'</span>';
-O.appendChild(d);
-O.scrollTop=O.scrollHeight
-}
-function r(c){
-c=c.trim().toLowerCase();
-p('$ '+c,'p');
-if(!c)return;
-var a=c.split(' '),k=a[0];
-switch(k){
+function p(t,c){var d=document.createElement('div');d.className='line';d.innerHTML=(c||'o')+'|'+t.replace(/>/g,'&gt;').replace(/\$/g,'$ ');O.appendChild(d);O.scrollTop=O.scrollHeight}
+function r(k){k=k.trim().toLowerCase();p('$ '+k,'p');
+if(!k)return;
+var a=k.split(' '),cmd=a[0],arg=a[1]||'';
+if(arg)arg=arg.replace('.txt','');
+switch(cmd){
 case'help':p('help - Show commands');p('ls - List files');p('cat FILE - Show file');p('whoami - User info');p('date - Current date');p('status - System status');p('clear - Clear screen');break;
 case'ls':p('manifesto.txt  daily.log  weekly.log  monthly.log','a');break;
-case'cat':
-if(!a[1]){p('Usage: cat FILENAME','e');break}
-var f=F[a[1]];if(f){p(f,'a')}else{p('File not found: '+a[1],'e')}break;
+case'cat':if(!arg){p('Usage: cat FILENAME','e');break}var f=F[arg];if(f){p(f,'a')}else{p('File not found: '+arg,'e')}break;
 case'whoami':p('dbot@dogechain');break;
 case'date':p(new Date().toString());break;
 case'status':p('System: ONLINE');p('Neural Net: ACTIVE');p('DAO: PENDING');break;
 case'clear':O.innerHTML='';break;
-default:p('Command not found: '+k,'e');p("Type 'help' for commands");}
+default:p('Command not found: '+cmd,'e');p("Type help for commands");}
 }
 C.addEventListener('keydown',function(e){if(e.key==='Enter'){r(C.value);C.value=''}});
 document.querySelector('.term').addEventListener('click',function(){C.focus()});
