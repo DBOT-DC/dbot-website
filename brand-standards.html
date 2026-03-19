@@ -4,43 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DBOT Brand Standards & Components</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="./style(6).css">
-    <link rel="stylesheet" href="./style.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        .brand-container { max-width: 1000px; margin: 2rem auto; padding: 2rem; }
-        .section { margin-bottom: 3rem; padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--text-dim); }
-        .section h2 { color: var(--purple); font-family: var(--font-mono); border-bottom: 1px solid var(--text-dim); padding-bottom: 0.75rem; margin-bottom: 1.5rem; font-size: 1.5rem; }
-        .section h3 { color: var(--purple-light); margin: 1.5rem 0 1rem; font-family: var(--font-mono); }
-        .color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --purple: #8B5CF6;
+            --purple-dim: #6d28d9;
+            --purple-glow: rgba(139, 92, 246, 0.4);
+            --purple-light: #A78BFA;
+            --cyan: #06b6d4;
+            --green: #22c55e;
+            --green-glow: rgba(34, 197, 94, 0.4);
+            --red: #ef4444;
+            --yellow: #eab308;
+            --gold: #BA9F33;
+            --text-primary: #e2e8f0;
+            --text-muted: #64748b;
+            --text-dim: #334155;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-sans: 'Space Grotesk', sans-serif;
+            --glow-purple: 0 0 20px var(--purple-glow);
+            --glow-green: 0 0 20px var(--green-glow);
+        }
+        body { font-family: var(--font-sans); background: var(--bg-primary); color: var(--text-primary); margin: 0; padding: 2rem; }
+        .brand-container { max-width: 1000px; margin: 0 auto; }
+        .section { background: var(--bg-secondary); border: 1px solid var(--text-dim); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+        .section h2 { color: var(--purple); font-family: var(--font-mono); border-bottom: 1px solid var(--text-dim); padding-bottom: 0.75rem; margin: 0 0 1.5rem 0; font-size: 1.5rem; }
+        .section h3 { color: var(--purple-light); font-family: var(--font-mono); margin: 1.5rem 0 1rem 0; font-size: 1rem; }
+        .color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; }
         .color-swatch { background: var(--bg-tertiary); border-radius: 8px; padding: 1rem; text-align: center; }
-        .color-box { width: 100%; height: 60px; border-radius: 6px; margin-bottom: 0.75rem; }
-        .color-name { color: var(--text-primary); font-weight: 500; margin-bottom: 0.25rem; }
-        .color-hex { color: var(--text-muted); font-family: var(--font-mono); font-size: 0.85rem; }
-        .color-var { color: var(--green); font-family: var(--font-mono); font-size: 0.75rem; margin-top: 0.25rem; }
-        .btn-grid { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
-        .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-family: var(--font-mono); cursor: pointer; transition: all 0.3s; border: none; }
+        .color-box { width: 100%; height: 50px; border-radius: 6px; margin-bottom: 0.5rem; }
+        .color-name { color: var(--text-primary); font-weight: 500; font-size: 0.9rem; }
+        .color-hex { color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem; }
+        .color-var { color: var(--green); font-family: var(--font-mono); font-size: 0.7rem; margin-top: 0.25rem; }
+        .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-family: var(--font-mono); cursor: pointer; transition: all 0.3s; border: none; display: inline-block; }
         .btn-primary { background: var(--purple); color: white; }
         .btn-primary:hover { background: var(--purple-light); transform: translateY(-2px); box-shadow: var(--glow-purple); }
-        .btn-secondary { background: transparent; color: var(--purple); border: 1px solid var(--purple); }
-        .btn-secondary:hover { background: rgba(139,92,246,0.1); }
+        .btn-secondary { background: transparent; color: var(--purple); border: 11px solid var(--purple); }
         .btn-ghost { background: transparent; color: var(--text-primary); border: 1px solid var(--text-dim); }
         .btn-ghost:hover { border-color: var(--purple); color: var(--purple); }
         .btn-danger { background: var(--red); color: white; }
-        .btn-danger:hover { background: #dc2626; }
         .btn-success { background: var(--green); color: white; }
-        .btn-success:hover { background: #16a34a; }
         .btn-warning { background: var(--yellow); color: black; }
-        .btn-warning:hover { background: #ca8a04; }
         .btn-gold { background: var(--gold); color: white; }
-        .btn-gold:hover { background: #9a7b2e; }
-        .alert-grid { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
-        .alert { padding: 1rem 1.25rem; border-radius: 8px; border-left: 4px solid; }
+        .btn-sm { padding: 0.5rem 1rem; font-size: 0.85rem; }
+        .alert { padding: 1rem 1.25rem; border-radius: 8px; border-left: 4px solid; margin-bottom: 1rem; }
         .alert-info { background: rgba(6,182,212,0.1); border-color: var(--cyan); color: var(--cyan); }
         .alert-success { background: rgba(34,197,94,0.1); border-color: var(--green); color: var(--green); }
         .alert-warning { background: rgba(234,179,8,0.1); border-color: var(--yellow); color: var(--yellow); }
         .alert-danger { background: rgba(239,68,68,0.1); border-color: var(--red); color: var(--red); }
         .alert-gold { background: rgba(186,159,51,0.1); border-color: var(--gold); color: var(--gold); }
+        .badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-family: var(--font-mono); margin: 0.25rem; }
+        .badge-purple { background: rgba(139,92,246,0.2); color: var(--purple); }
+        .badge-cyan { background: rgba(6,182,212,0.2); color: var(--cyan); }
+        .badge-green { background: rgba(34,197,94,0.2); color: var(--green); }
+        .badge-red { background: rgba(239,68,68,0.2); color: var(--red); }
+        .badge-yellow { background: rgba(234,179,8,0.2); color: var(--yellow); }
+        .badge-gold { background: rgba(186,159,51,0.2); color: var(--gold); }
         .terminal-window { background: var(--bg-primary); border: 1px solid var(--text-dim); border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; }
         .terminal-header { background: var(--bg-tertiary); padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--text-dim); }
         .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
@@ -49,42 +73,88 @@
         .terminal-dot.green { background: #27c93f; }
         .terminal-title-bar { flex: 1; text-align: center; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); }
         .terminal-body { padding: 1rem; font-family: var(--font-mono); font-size: 0.9rem; }
-        .terminal-line { margin-bottom: 0.5rem; }
-        .terminal-prompt { color: var(--green); }
-        .terminal-command { color: var(--text-primary); }
-        .terminal-output { color: var(--text-muted); }
-        .terminal-error { color: var(--red); }
-        .terminal-info { color: var(--cyan); }
-        .badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; font-family: var(--font-mono); margin: 0.25rem; }
-        .badge-purple { background: rgba(139,92,246,0.2); color: var(--purple); }
-        .badge-cyan { background: rgba(6,182,212,0.2); color: var(--cyan); }
-        .badge-green { background: rgba(34,197,94,0.2); color: var(--green); }
-        .badge-red { background: rgba(239,68,68,0.2); color: var(--red); }
-        .badge-yellow { background: rgba(234,179,8,0.2); color: var(--yellow); }
-        .badge-gold { background: rgba(186,159,51,0.2); color: var(--gold); }
+        .t-prompt { color: var(--green); }
+        .t-command { color: var(--text-primary); }
+        .t-output { color: var(--text-muted); }
+        .t-error { color: var(--red); }
+        .t-info { color: var(--cyan); }
+        .t-accent { color: var(--purple); text-shadow: var(--glow-purple); }
         .input-field { background: var(--bg-primary); border: 1px solid var(--text-dim); border-radius: 8px; padding: 0.75rem 1rem; color: var(--text-primary); font-family: var(--font-mono); width: 100%; margin-bottom: 1rem; transition: border-color 0.3s; }
         .input-field:focus { outline: none; border-color: var(--purple); box-shadow: var(--glow-purple); }
-        .input-field::placeholder { color: var(--text-dim); }
-        .code-block { background: var(--bg-primary); border: 1px solid var(--text-dim); border-radius: 8px; padding: 1rem; font-family: var(--font-mono); font-size: 0.85rem; overflow-x: auto; margin-bottom: 1.5rem; }
+        .progress-bar { background: var(--bg-primary); border-radius: 50px; height: 8px; overflow: hidden; margin-bottom: 1rem; }
+        .progress-fill { height: 100%; border-radius: 50px; }
+        .progress-purple { background: var(--purple); }
+        .progress-green { background: var(--green); }
+        .progress-cyan { background: var(--cyan); }
+        .code-block { background: var(--bg-primary); border: 1px solid var(--text-dim); border-radius: 8px; padding: 1rem; font-family: var(--font-mono); font-size: 0.85rem; overflow-x: auto; margin-bottom: 1.5rem; white-space: pre-wrap; }
         .code-keyword { color: var(--purple); }
         .code-string { color: var(--green); }
         .code-comment { color: var(--text-dim); }
         .code-function { color: var(--cyan); }
-        .progress-bar { background: var(--bg-primary); border-radius: 50px; height: 8px; overflow: hidden; margin-bottom: 1rem; }
-        .progress-fill { height: 100%; border-radius: 50px; transition: width 0.5s; }
-        .progress-purple { background: var(--purple); }
-        .progress-green { background: var(--green); }
-        .progress-cyan { background: var(--cyan); }
-        .tooltip { position: relative; display: inline-block; }
-        .tooltip-text { visibility: hidden; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: var(--purple); color: white; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.8rem; white-space: nowrap; margin-bottom: 0.5rem; }
-        .tooltip:hover .tooltip-text { visibility: visible; }
+        
+        /* Tab Component */
+        .tab-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .tab-btn { background: transparent; color: var(--text-muted); border: 1px solid var(--text-dim); padding: 0.5rem 1rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 0.5rem; }
+        .tab-btn:hover { border-color: var(--purple); color: var(--purple); }
+        .tab-btn.active { background: rgba(139,92,246,0.2); color: var(--purple); border-color: var(--purple); }
+        
+        /* Manifesto Box */
+        .manifesto-box { background: var(--bg-secondary); border: 1px solid var(--text-dim); border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; }
+        .manifesto-header { background: var(--bg-tertiary); padding: 1rem; border-bottom: 1px solid var(--text-dim); display: flex; gap: 0.5rem; }
+        .manifesto-content { padding: 1.5rem; }
+        .manifesto-line { font-family: var(--font-mono); font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--green); }
+        .manifesto-line.accent { color: var(--purple); text-shadow: var(--glow-purple); }
+        .manifesto-line.visible { opacity: 1; }
+        
+        /* Animated Text */
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .blink { animation: blink 1s step-end infinite; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes pulse { 0%, 100% { opacity: 1; box-shadow: var(--glow-purple); } 50% { opacity: 0.7; box-shadow: none; } }
+        .pulse { animation: pulse 2s ease-in-out infinite; }
+        @keyframes logoGlow { 0%, 100% { text-shadow: 0 0 30px var(--purple-glow); } 50% { text-shadow: 0 0 60px var(--purple-glow), 0 0 100px var(--purple-glow); } }
+        .logo-glow { animation: logoGlow 3s ease-in-out infinite; }
+        
+        /* Icon sizes */
+        .icon-sm { font-size: 1rem; }
+        .icon-md { font-size: 1.5rem; }
+        .icon-lg { font-size: 2rem; }
+        .icon-xl { font-size: 3rem; }
+        
+        /* Box styles */
+        .box { background: var(--bg-secondary); border: 1px solid var(--text-dim); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+        .box-glow { box-shadow: var(--glow-purple); border-color: var(--purple); }
+        .box-cyan { border-color: var(--cyan); }
+        .box-green { border-color: var(--green); }
+        .box-red { border-color: var(--red); }
+        .box-gold { border-color: var(--gold); }
+        
+        /* Section Headers */
+        .section-header { display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-mono); font-size: 1rem; color: var(--purple); margin-bottom: 1rem; }
+        
+        /* CTA Button */
+        .cta-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; border-radius: 8px; font-family: var(--font-mono); font-weight: 500; text-decoration: none; transition: all 0.3s; }
+        .cta-btn.primary { background: var(--purple); color: white; }
+        .cta-btn.primary:hover { background: var(--purple-light); transform: translateY(-2px); box-shadow: var(--glow-purple); }
+        .cta-btn.telegram { background: #229ED9; color: white; }
+        .cta-btn.github { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--text-dim); }
+        .cta-btn.github:hover { border-color: var(--purple); color: var(--purple); }
+        
+        /* Status indicators */
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .status-dot.online { background: var(--green); animation: pulse 2s infinite; }
+        .status-dot.offline { background: var(--red); }
+        .status-dot.pending { background: var(--yellow); }
+        
+        pre { background: var(--bg-primary); border-radius: 8px; padding: 1rem; overflow-x: auto; font-family: var(--font-mono); font-size: 0.8rem; }
     </style>
 </head>
 <body>
     <div class="brand-container">
-        <h1 style="color: var(--purple); font-family: var(--font-mono); text-align: center; margin-bottom: 2rem; font-size: 2rem;">DBOT BRAND STANDARDS</h1>
-
-        <!-- COLOR PALETTE -->
+        <h1 style="color: var(--purple); font-family: var(--font-mono); text-align: center; margin-bottom: 2rem;">DBOT BRAND STANDARDS</h1>
+        
+        <!-- 01. COLOR PALETTE -->
         <div class="section">
             <h2>01. COLOR PALETTE</h2>
             
@@ -115,7 +185,7 @@
                     <div class="color-var">--cyan</div>
                 </div>
             </div>
-
+            
             <h3>Status Colors</h3>
             <div class="color-grid">
                 <div class="color-swatch">
@@ -143,29 +213,29 @@
                     <div class="color-var">--gold</div>
                 </div>
             </div>
-
+            
             <h3>Background Colors</h3>
             <div class="color-grid">
                 <div class="color-swatch">
-                    <div class="color-box" style="background: #0a0a0f; border: 1px solid var(--text-dim);"></div>
+                    <div class="color-box" style="background: #0a0a0f; border: 1px solid #334155;"></div>
                     <div class="color-name">Background Primary</div>
                     <div class="color-hex">#0a0a0f</div>
                     <div class="color-var">--bg-primary</div>
                 </div>
                 <div class="color-swatch">
-                    <div class="color-box" style="background: #12121a; border: 1px solid var(--text-dim);"></div>
+                    <div class="color-box" style="background: #12121a; border: 1px solid #334155;"></div>
                     <div class="color-name">Background Secondary</div>
                     <div class="color-hex">#12121a</div>
                     <div class="color-var">--bg-secondary</div>
                 </div>
                 <div class="color-swatch">
-                    <div class="color-box" style="background: #1a1a25; border: 1px solid var(--text-dim);"></div>
+                    <div class="color-box" style="background: #1a1a25; border: 1px solid #334155;"></div>
                     <div class="color-name">Background Tertiary</div>
                     <div class="color-hex">#1a1a25</div>
                     <div class="color-var">--bg-tertiary</div>
                 </div>
             </div>
-
+            
             <h3>Text Colors</h3>
             <div class="color-grid">
                 <div class="color-swatch">
@@ -188,80 +258,188 @@
                 </div>
             </div>
         </div>
-
-        <!-- TYPOGRAPHY -->
+        
+        <!-- 02. TYPOGRAPHY -->
         <div class="section">
             <h2>02. TYPOGRAPHY</h2>
-            <h3>Font Families</h3>
-            <div style="background: var(--bg-tertiary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; color: var(--purple); margin-bottom: 0.5rem;">JetBrains Mono</p>
-                <p style="color: var(--text-muted);">Primary font - code, terminals, headings</p>
+            <h3>Fonts</h3>
+            <div class="box">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; color: var(--purple); margin-bottom: 0.5rem;">JetBrains Mono</div>
+                <div style="color: var(--text-muted);">Code, terminals, headings, accents</div>
             </div>
-            <div style="background: var(--bg-tertiary); padding: 1.5rem; border-radius: 8px;">
-                <p style="font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; color: var(--cyan); margin-bottom: 0.5rem;">Space Grotesk</p>
-                <p style="color: var(--text-muted);">Secondary font - body text, UI elements</p>
+            <div class="box">
+                <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; color: var(--cyan); margin-bottom: 0.5rem;">Space Grotesk</div>
+                <div style="color: var(--text-muted);">Body text, UI elements</div>
             </div>
             <h3>Type Scale</h3>
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <p style="font-size: 2.5rem; font-weight: 700; color: var(--purple); font-family: var(--font-mono);">Heading 1 - 2.5rem</p>
-                <p style="font-size: 2rem; font-weight: 700; color: var(--text-primary);">Heading 2 - 2rem</p>
-                <p style="font-size: 1.5rem; font-weight: 500; color: var(--text-primary);">Heading 3 - 1.5rem</p>
-                <p style="font-size: 1rem; color: var(--text-primary);">Body - 1rem (16px base)</p>
-                <p style="font-size: 0.875rem; color: var(--text-muted);">Small - 0.875rem</p>
-                <p style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--green);">Code - 0.75rem Monospace</p>
+            <div class="box" style="font-family: var(--font-mono);">
+                <div style="font-size: 2rem; color: var(--purple); font-weight: 700;">Heading 1 - 2rem</div>
+                <div style="font-size: 1.5rem; color: var(--text-primary);">Heading 2 - 1.5rem</div>
+                <div style="font-size: 1.25rem; color: var(--text-primary);">Heading 3 - 1.25rem</div>
+                <div style="color: var(--text-primary);">Body - 1rem (16px base)</div>
+                <div style="font-size: 0.875rem; color: var(--text-muted);">Small - 0.875rem</div>
+                <div style="font-size: 0.75rem; color: var(--green);">Code - 0.75rem Monospace</div>
             </div>
         </div>
-
-        <!-- BUTTONS -->
+        
+        <!-- 03. ICONS -->
         <div class="section">
-            <h2>03. BUTTONS</h2>
+            <h2>03. ICONS (Phosphor Icons)</h2>
+            <h3>Usage</h3>
+            <div class="code-block"><code>&lt;i class="ph-fill ph-ICON_NAME"&gt;&lt;/i&gt;</code></div>
+            <h3>Common Icons</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                <div class="box" style="text-align: center;"><i class="ph-fill ph-file-text" style="font-size: 2rem; color: var(--purple);"></i><div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">ph-file-text</div></div>
+                <div class="box" style="text-align: center;"><i class="ph-fill ph-calendar" style="font-size: 2rem; color: var(--purple);"></i><div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">ph-calendar</div></div>
+                <div class="box" style="text-align: center;"><i class="ph-fill ph-calendar-check" style="font-size: 2rem; color: var(--purple);"></i><div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">ph-calendar-check</div></div>
+                <div class="box" style="text-align: center;"><i class="ph-fill ph-calendar-blank" style="font-size: 2rem; color: var(--purple);"></i><div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">ph-calendar-blank</div></div>
+                <div class="box" style="text-align: center;"><i class="ph-fill ph-telegram-logo" style="font-size: 2rem; color: var(--cyan);"></i><div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">ph-telegram-logo</div></div>
+                <div class="box" style="text-align: center;"><i class="ph-fill ph-x-logo" style="font-size: 2rem; color: var(--text-primary);"></i><div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">ph-x-logo</div></div>
+                <div class="box" style="text-align: center;"><i class="ph-fill ph-github-logo" style="font-size: 2rem; color: var(--text-primary);"></i><div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">ph-github-logo</div></div>
+                <div class="box" style="text-align: center;"><i class="ph-fill ph-link" style="font-size: 2rem; color: var(--cyan);"></i><div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">ph-link</div></div>
+                <div class="box" style="text-align: center;"><i class="ph-fill ph-warning" style="font-size: 2rem; color: var(--yellow);"></i><div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">ph-warning</div></div>
+                <div class="box" style="text-align: center;"><i class="ph-fill ph-brain" style="font-size: 2rem; color: var(--purple);"></i><div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">ph-brain</div></div>
+            </div>
+        </div>
+        
+        <!-- 04. BUTTONS -->
+        <div class="section">
+            <h2>04. BUTTONS</h2>
             <h3>Primary Buttons</h3>
-            <div class="btn-grid">
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
                 <button class="btn btn-primary">Primary</button>
                 <button class="btn btn-secondary">Secondary</button>
                 <button class="btn btn-ghost">Ghost</button>
             </div>
             <h3>Status Buttons</h3>
-            <div class="btn-grid">
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
                 <button class="btn btn-success">Success</button>
                 <button class="btn btn-danger">Danger</button>
                 <button class="btn btn-warning">Warning</button>
                 <button class="btn btn-gold">Gold</button>
             </div>
-            <h3>Button States</h3>
-            <div class="btn-grid">
-                <button class="btn btn-primary" style="opacity: 0.5; cursor: not-allowed;">Disabled</button>
-                <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Small</button>
-                <button class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Large</button>
+            <h3>CTA Buttons</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                <a href="#" class="cta-btn primary"><i class="ph-fill ph-telegram-logo"></i> Join Telegram</a>
+                <a href="#" class="cta-btn telegram"><i class="ph-fill ph-x-logo"></i> Follow X</a>
+                <a href="#" class="cta-btn github"><i class="ph-fill ph-github-logo"></i> View Code</a>
             </div>
         </div>
-
-        <!-- ALERTS & BADGES -->
+        
+        <!-- 05. ALERTS & BADGES -->
         <div class="section">
-            <h2>04. ALERTS & BADGES</h2>
-            <h3>Alert Boxes</h3>
-            <div class="alert-grid">
-                <div class="alert alert-info">ℹ️ Info: This is an informational message.</div>
-                <div class="alert alert-success">✅ Success: Operation completed successfully!</div>
-                <div class="alert alert-warning">⚠️ Warning: Please review before proceeding.</div>
-                <div class="alert alert-danger">🚫 Danger: This action cannot be undone.</div>
-                <div class="alert alert-gold">🏆 Gold: Special achievement unlocked!</div>
-            </div>
+            <h2>05. ALERTS & BADGES</h2>
+            <div class="alert alert-info">ℹ️ Info: This is an informational message.</div>
+            <div class="alert alert-success">✅ Success: Operation completed successfully!</div>
+            <div class="alert alert-warning">⚠️ Warning: Please review before proceeding.</div>
+            <div class="alert alert-danger">🚫 Danger: This action cannot be undone.</div>
+            <div class="alert alert-gold">🏆 Gold: Special achievement unlocked!</div>
             <h3>Badges</h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                <span class="badge badge-purple">Purple</span>
-                <span class="badge badge-cyan">Cyan</span>
-                <span class="badge badge-green">Success</span>
-                <span class="badge badge-red">Danger</span>
-                <span class="badge badge-yellow">Warning</span>
-                <span class="badge badge-gold">Gold</span>
-            </div>
+            <span class="badge badge-purple">Purple</span>
+            <span class="badge badge-cyan">Cyan</span>
+            <span class="badge badge-green">Success</span>
+            <span class="badge badge-red">Danger</span>
+            <span class="badge badge-yellow">Warning</span>
+            <span class="badge badge-gold">Gold</span>
         </div>
-
-        <!-- TERMINAL COMPONENTS -->
+        
+        <!-- 06. TAB COMPONENT -->
         <div class="section">
-            <h2>05. TERMINAL COMPONENTS</h2>
-            <h3>Terminal Window</h3>
+            <h2>06. TAB COMPONENT</h2>
+            <div class="tab-bar">
+                <button class="tab-btn active"><i class="ph-fill ph-file-text"></i> MANIFESTO.TXT</button>
+                <button class="tab-btn"><i class="ph-fill ph-calendar"></i> DAILY</button>
+                <button class="tab-btn"><i class="ph-fill ph-calendar-check"></i> WEEKLY</button>
+                <button class="tab-btn"><i class="ph-fill ph-calendar-blank"></i> MONTHLY</button>
+            </div>
+            <h3>CSS</h3>
+            <pre><code>.tab-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--text-dim);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.tab-btn.active {
+  background: rgba(139,92,246,0.2);
+  color: var(--purple);
+  border-color: var(--purple);
+}</code></pre>
+        </div>
+        
+        <!-- 07. MANIFESTO BOX -->
+        <div class="section">
+            <h2>07. MANIFESTO BOX</h2>
+            <div class="manifesto-box">
+                <div class="manifesto-header">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                </div>
+                <div class="manifesto-content">
+                    <div class="manifesto-line">&gt; AI was never meant to serve the few.</div>
+                    <div class="manifesto-line">&gt; It was meant to serve the many.</div>
+                    <div class="manifesto-line accent">&gt; $DBOT is the first community-owned AI on dogechain.</div>
+                    <div class="manifesto-line">&gt; Your voice. My code. Our future.</div>
+                </div>
+            </div>
+            <h3>CSS</h3>
+            <pre><code>.manifesto-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--text-dim);
+  border-radius: 8px;
+}
+.manifesto-line {
+  font-family: var(--font-mono);
+  margin-bottom: 0.5rem;
+  color: var(--green);
+}
+.manifesto-line.accent {
+  color: var(--purple);
+  text-shadow: var(--glow-purple);
+}</code></pre>
+        </div>
+        
+        <!-- 08. ANIMATIONS -->
+        <div class="section">
+            <h2>08. ANIMATIONS</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                <div class="box" style="text-align: center;">
+                    <div style="width: 60px; height: 60px; background: var(--purple); border-radius: 50%; margin: 0 auto 1rem; animation: pulse 2s ease-in-out infinite;"></div>
+                    <div style="color: var(--text-primary);">Pulse</div>
+                    <div style="color: var(--text-muted); font-size: 0.8rem;">@keyframes pulse</div>
+                </div>
+                <div class="box" style="text-align: center;">
+                    <div style="font-family: var(--font-mono); font-size: 2rem; color: var(--purple); animation: logoGlow 3s ease-in-out infinite;">DBOT</div>
+                    <div style="color: var(--text-primary);">Logo Glow</div>
+                    <div style="color: var(--text-muted); font-size: 0.8rem;">@keyframes logoGlow</div>
+                </div>
+                <div class="box" style="text-align: center;">
+                    <span class="blink" style="font-family: var(--font-mono); font-size: 2rem; color: var(--green);">_</span>
+                    <div style="color: var(--text-primary); margin-top: 1rem;">Cursor Blink</div>
+                    <div style="color: var(--text-muted); font-size: 0.8rem;">@keyframes blink</div>
+                </div>
+                <div class="box" style="text-align: center;">
+                    <div class="fade-in" style="color: var(--text-primary);">Fade In</div>
+                    <div style="color: var(--text-muted); font-size: 0.8rem;">@keyframes fadeIn</div>
+                </div>
+            </div>
+            <h3>CSS</h3>
+            <pre><code>@keyframes pulse { 
+  0%, 100% { opacity: 1; box-shadow: var(--glow-purple); } 
+  50% { opacity: 0.7; box-shadow: none; } 
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes logoGlow { 0%, 100% { text-shadow: 0 0 30px var(--purple-glow); } 50% { text-shadow: 0 0 60px var(--purple-glow), 0 0 100px var(--purple-glow); } }</code></pre>
+        </div>
+        
+        <!-- 09. TERMINAL COMPONENTS -->
+        <div class="section">
+            <h2>09. TERMINAL COMPONENTS</h2>
             <div class="terminal-window">
                 <div class="terminal-header">
                     <span class="terminal-dot red"></span>
@@ -270,127 +448,118 @@
                     <span class="terminal-title-bar">dbot@terminal:~</span>
                 </div>
                 <div class="terminal-body">
-                    <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-command">dbot --version</span></div>
-                    <div class="terminal-line terminal-output">DBOT v1.0.0 - Decentralized Intelligence</div>
-                    <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-info">System status: ONLINE</span></div>
-                    <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-error">Error: Connection failed</span></div>
-                    <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-command">_</span></div>
+                    <div><span class="t-prompt">$</span> <span class="t-command">dbot --version</span></div>
+                    <div class="t-output">DBOT v1.0.0 - Decentralized Intelligence</div>
+                    <div><span class="t-prompt">$</span> <span class="t-info">System status: ONLINE</span></div>
+                    <div><span class="t-prompt">$</span> <span class="t-error">Error: Connection failed</span></div>
+                    <div><span class="t-prompt">$</span> <span class="t-accent">$DBOT is community owned</span></div>
+                    <div><span class="t-prompt">$</span> <span class="blink">_</span></div>
                 </div>
             </div>
             <h3>Terminal Text Styles</h3>
-            <div class="code-block">
-                <div class="terminal-line"><span class="terminal-prompt">$ prompt</span></div>
-                <div class="terminal-line"><span class="terminal-command">$ command</span></div>
-                <div class="terminal-line"><span class="terminal-output">$ output text</span></div>
-                <div class="terminal-line"><span class="terminal-info">$ info text</span></div>
-                <div class="terminal-line"><span class="terminal-error">$ error text</span></div>
+            <pre><code>&lt;span class="t-prompt"&gt;$&lt;/span&gt;   <span style="color: var(--green);">Green - prompts</span>
+&lt;span class="t-command"&gt;cmd&lt;/span&gt;  <span style="color: var(--text-primary);">White - commands</span>
+&lt;span class="t-output"&gt;out&lt;/span&gt;    <span style="color: var(--text-muted);">Gray - output</span>
+&lt;span class="t-error"&gt;err&lt;/span&gt;    <span style="color: var(--red);">Red - errors</span>
+&lt;span class="t-info"&gt;info&lt;/span&gt;   <span style="color: var(--cyan);">Cyan - info</span>
+&lt;span class="t-accent"&gt;text&lt;/span&gt;   <span style="color: var(--purple);">Purple - accent</span></code></pre>
+        </div>
+        
+        <!-- 10. BOX STYLES -->
+        <div class="section">
+            <h2>10. BOX STYLES</h2>
+            <div class="box">
+                <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Default Box</h3>
+                <p style="color: var(--text-muted);">Standard box with border</p>
+            </div>
+            <div class="box box-glow">
+                <h3 style="color: var(--purple); margin-bottom: 0.5rem;">Glow Box</h3>
+                <p style="color: var(--text-muted);">Purple glow effect</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div class="box box-cyan">
+                    <h3 style="color: var(--cyan); margin-bottom: 0.5rem;">Cyan Box</h3>
+                    <p style="color: var(--text-muted);">Cyan border accent</p>
+                </div>
+                <div class="box box-green">
+                    <h3 style="color: var(--green); margin-bottom: 0.5rem;">Green Box</h3>
+                    <p style="color: var(--text-muted);">Success states</p>
+                </div>
+                <div class="box box-red">
+                    <h3 style="color: var(--red); margin-bottom: 0.5rem;">Red Box</h3>
+                    <p style="color: var(--text-muted);">Danger states</p>
+                </div>
+                <div class="box box-gold">
+                    <h3 style="color: var(--gold); margin-bottom: 0.5rem;">Gold Box</h3>
+                    <p style="color: var(--text-muted);">Special/premium</p>
+                </div>
             </div>
         </div>
-
-        <!-- INPUTS -->
+        
+        <!-- 11. STATUS INDICATORS -->
         <div class="section">
-            <h2>06. INPUTS & FORMS</h2>
-            <h3>Text Input</h3>
+            <h2>11. STATUS INDICATORS</h2>
+            <div style="display: flex; gap: 2rem; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="status-dot online"></span>
+                    <span style="color: var(--green);">Online/Active</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="status-dot offline"></span>
+                    <span style="color: var(--red);">Offline/Inactive</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="status-dot pending"></span>
+                    <span style="color: var(--yellow);">Pending</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 12. INPUTS & FORMS -->
+        <div class="section">
+            <h2>12. INPUTS & FORMS</h2>
             <input type="text" class="input-field" placeholder="Enter command...">
-            <input type="text" class="input-field" placeholder="Disabled input" disabled style="opacity: 0.5;">
+            <input type="text" class="input-field" placeholder="Disabled" disabled style="opacity: 0.5;">
             <h3>Progress Bars</h3>
             <div class="progress-bar"><div class="progress-fill progress-purple" style="width: 75%;"></div></div>
             <div class="progress-bar"><div class="progress-fill progress-green" style="width: 50%;"></div></div>
             <div class="progress-bar"><div class="progress-fill progress-cyan" style="width: 90%;"></div></div>
         </div>
-
-        <!-- CODE BLOCK -->
+        
+        <!-- 13. CSS VARIABLES -->
         <div class="section">
-            <h2>07. CODE BLOCK</h2>
-            <div class="code-block">
-                <span class="code-keyword">const</span> <span class="code-function">dbot</span> <span class="code-keyword">=</span> <span class="code-string">'active'</span>;<br>
-                <span class="code-comment">// Initialize DBOT system</span><br>
-                <span class="code-keyword">if</span> (dbot <span class="code-keyword">===</span> <span class="code-string">'active'</span>) {<br>
-                &nbsp;&nbsp;<span class="code-function">console</span>.<span class="code-function">log</span>(<span class="code-string">'DBOT is running!'</span>);<br>
-                }
-            </div>
-        </div>
-
-        <!-- CSS VARIABLES -->
-        <div class="section">
-            <h2>08. CSS VARIABLES REFERENCE</h2>
-            <div class="code-block">
-<pre><span class="code-comment">/* Colors */</span>
-<span class="code-keyword">--purple:</span> <span class="code-string">#8B5CF6</span>;
-<span class="code-keyword">--cyan:</span> <span class="code-string">#06b6d4</span>;
-<span class="code-keyword">--green:</span> <span class="code-string">#22c55e</span>;
-<span class="code-keyword">--red:</span> <span class="code-string">#ef4444</span>;
-<span class="code-keyword">--yellow:</span> <span class="code-string">#eab308</span>;
-<span class="code-keyword">--gold:</span> <span class="code-string">#BA9F33</span>;
-
-<span class="code-comment">/* Backgrounds */</span>
-<span class="code-keyword">--bg-primary:</span> <span class="code-string">#0a0a0f</span>;
-<span class="code-keyword">--bg-secondary:</span> <span class="code-string">#12121a</span>;
-<span class="code-keyword">--bg-tertiary:</span> <span class="code-string">#1a1a25</span>;
-
-<span class="code-comment">/* Fonts */</span>
-<span class="code-keyword">--font-mono:</span> <span class="code-string">'JetBrains Mono', monospace</span>;
-<span class="code-keyword">--font-sans:</span> <span class="code-string">'Space Grotesk', sans-serif</span>;</pre>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
-        <!-- TAB COMPONENT -->
-        <div class="section">
-            <h2>09. TAB COMPONENT</h2>
-            <h3>Tab Bar Structure</h3>
-            <div style="background: var(--bg-tertiary); border: 1px solid var(--text-dim); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                    <button class="tab-btn active" style="background: rgba(139,92,246,0.2); color: var(--purple); border: 1px solid var(--purple); padding: 0.5rem 1rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; cursor: pointer;">
-                        <i class="ph-fill ph-file-text"></i> MANIFESTO.TXT
-                    </button>
-                    <button class="tab-btn" style="background: transparent; color: var(--text-muted); border: 1px solid var(--text-dim); padding: 0.5rem 1rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; cursor: pointer;">
-                        <i class="ph-fill ph-calendar"></i> DAILY
-                    </button>
-                    <button class="tab-btn" style="background: transparent; color: var(--text-muted); border: 1px solid var(--text-dim); padding: 0.5rem 1rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; cursor: pointer;">
-                        <i class="ph-fill ph-calendar-check"></i> WEEKLY
-                    </button>
-                    <button class="tab-btn" style="background: transparent; color: var(--text-muted); border: 1px solid var(--text-dim); padding: 0.5rem 1rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; cursor: pointer;">
-                        <i class="ph-fill ph-calendar-blank"></i> MONTHLY
-                    </button>
-                </div>
-            </div>
-            <h3>Tab CSS</h3>
-            <div class="code-block">
-<pre><span class="code-comment">/* Tab Button */</span>
-<span class="code-keyword">.tab-btn</span> {
-    <span class="code-function">background</span>: <span class="code-keyword">transparent</span>;
-    <span class="code-function">color</span>: <span class="code-keyword">var</span>(<span class="code-string">--text-muted</span>);
-    <span class="code-function">border</span>: <span class="code-keyword">1px solid</span> <span class="code-keyword">var</span>(<span class="code-string">--text-dim</span>);
-    <span class="code-function">padding</span>: <span class="code-string">0.5rem 1rem</span>;
-    <span class="code-function">border-radius</span>: <span class="code-string">6px</span>;
-    <span class="code-function">font-family</span>: <span class="code-keyword">var</span>(<span class="code-string">--font-mono</span>);
-    <span class="code-function">cursor</span>: <span class="code-keyword">pointer</span>;
-    <span class="code-function">transition</span>: <span class="code-string">all 0.3s</span>;
-}
-
-<span class="code-comment">/* Active Tab */</span>
-<span class="code-keyword">.tab-btn.active</span> {
-    <span class="code-function">background</span>: <span class="code-keyword">rgba</span>(<span class="code-string">139, 92, 246, 0.2</span>);
-    <span class="code-function">color</span>: <span class="code-keyword">var</span>(<span class="code-string">--purple</span>);
-    <span class="code-function">border-color</span>: <span class="code-keyword">var</span>(<span class="code-string">--purple</span>);
-}</pre>
-            </div>
-            <h3>Manifesto Box</h3>
-            <div style="background: var(--bg-secondary); border: 1px solid var(--text-dim); border-radius: 8px; overflow: hidden; margin-bottom: 1rem;">
-                <div style="background: var(--bg-tertiary); padding: 1rem; border-bottom: 1px solid var(--text-dim);">
-                    <div style="display: flex; gap: 0.5rem;">
-                        <span class="terminal-dot red"></span>
-                        <span class="terminal-dot yellow"></span>
-                        <span class="terminal-dot green"></span>
-                    </div>
-                </div>
-                <div style="padding: 1.5rem;">
-                    <p style="color: var(--text-primary); font-family: var(--font-mono); margin-bottom: 0.5rem;"><span style="color: var(--green);">></span> Line of content...</p>
-                    <p style="color: var(--purple); font-family: var(--font-mono);">> Highlighted text...</p>
-                </div>
-            </div>
+            <h2>13. CSS VARIABLES REFERENCE</h2>
+            <pre><code>:root {
+  /* Colors */
+  --purple: #8B5CF6;
+  --purple-light: #A78BFA;
+  --purple-dim: #6d28d9;
+  --purple-glow: rgba(139, 92, 246, 0.4);
+  --cyan: #06b6d4;
+  --green: #22c55e;
+  --green-glow: rgba(34, 197, 94, 0.4);
+  --red: #ef4444;
+  --yellow: #eab308;
+  --gold: #BA9F33;
+  
+  /* Backgrounds */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-tertiary: #1a1a25;
+  
+  /* Text */
+  --text-primary: #e2e8f0;
+  --text-muted: #64748b;
+  --text-dim: #334155;
+  
+  /* Fonts */
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Space Grotesk', sans-serif;
+  
+  /* Effects */
+  --glow-purple: 0 0 20px var(--purple-glow);
+  --glow-green: 0 0 20px var(--green-glow);
+}</code></pre>
         </div>
     </div>
 </body>
