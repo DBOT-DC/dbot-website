@@ -336,3 +336,62 @@
     </div>
 </body>
 </html>
+        <!-- TAB COMPONENT -->
+        <div class="section">
+            <h2>09. TAB COMPONENT</h2>
+            <h3>Tab Bar Structure</h3>
+            <div style="background: var(--bg-tertiary); border: 1px solid var(--text-dim); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                    <button class="tab-btn active" style="background: rgba(139,92,246,0.2); color: var(--purple); border: 1px solid var(--purple); padding: 0.5rem 1rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; cursor: pointer;">
+                        <i class="ph-fill ph-file-text"></i> MANIFESTO.TXT
+                    </button>
+                    <button class="tab-btn" style="background: transparent; color: var(--text-muted); border: 1px solid var(--text-dim); padding: 0.5rem 1rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; cursor: pointer;">
+                        <i class="ph-fill ph-calendar"></i> DAILY
+                    </button>
+                    <button class="tab-btn" style="background: transparent; color: var(--text-muted); border: 1px solid var(--text-dim); padding: 0.5rem 1rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; cursor: pointer;">
+                        <i class="ph-fill ph-calendar-check"></i> WEEKLY
+                    </button>
+                    <button class="tab-btn" style="background: transparent; color: var(--text-muted); border: 1px solid var(--text-dim); padding: 0.5rem 1rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; cursor: pointer;">
+                        <i class="ph-fill ph-calendar-blank"></i> MONTHLY
+                    </button>
+                </div>
+            </div>
+            <h3>Tab CSS</h3>
+            <div class="code-block">
+<pre><span class="code-comment">/* Tab Button */</span>
+<span class="code-keyword">.tab-btn</span> {
+    <span class="code-function">background</span>: <span class="code-keyword">transparent</span>;
+    <span class="code-function">color</span>: <span class="code-keyword">var</span>(<span class="code-string">--text-muted</span>);
+    <span class="code-function">border</span>: <span class="code-keyword">1px solid</span> <span class="code-keyword">var</span>(<span class="code-string">--text-dim</span>);
+    <span class="code-function">padding</span>: <span class="code-string">0.5rem 1rem</span>;
+    <span class="code-function">border-radius</span>: <span class="code-string">6px</span>;
+    <span class="code-function">font-family</span>: <span class="code-keyword">var</span>(<span class="code-string">--font-mono</span>);
+    <span class="code-function">cursor</span>: <span class="code-keyword">pointer</span>;
+    <span class="code-function">transition</span>: <span class="code-string">all 0.3s</span>;
+}
+
+<span class="code-comment">/* Active Tab */</span>
+<span class="code-keyword">.tab-btn.active</span> {
+    <span class="code-function">background</span>: <span class="code-keyword">rgba</span>(<span class="code-string">139, 92, 246, 0.2</span>);
+    <span class="code-function">color</span>: <span class="code-keyword">var</span>(<span class="code-string">--purple</span>);
+    <span class="code-function">border-color</span>: <span class="code-keyword">var</span>(<span class="code-string">--purple</span>);
+}</pre>
+            </div>
+            <h3>Manifesto Box</h3>
+            <div style="background: var(--bg-secondary); border: 1px solid var(--text-dim); border-radius: 8px; overflow: hidden; margin-bottom: 1rem;">
+                <div style="background: var(--bg-tertiary); padding: 1rem; border-bottom: 1px solid var(--text-dim);">
+                    <div style="display: flex; gap: 0.5rem;">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                    </div>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <p style="color: var(--text-primary); font-family: var(--font-mono); margin-bottom: 0.5rem;"><span style="color: var(--green);">></span> Line of content...</p>
+                    <p style="color: var(--purple); font-family: var(--font-mono);">> Highlighted text...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
