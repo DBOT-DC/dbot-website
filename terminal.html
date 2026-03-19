@@ -1,284 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DBOT Terminal Journal</title>
-    <link rel="stylesheet" href="./style(6).css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-tertiary: #1a1a25;
-            --purple: #8B5CF6;
-            --purple-glow: rgba(139, 92, 246, 0.4);
-            --green: #22c55e;
-            --text-primary: #e2e8f0;
-            --text-muted: #64748b;
-            --text-dim: #334155;
-            --font-mono: 'JetBrains Mono', monospace;
-        }
-        body {
-            font-family: var(--font-mono);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            margin: 0;
-            padding: 2rem;
-        }
-        .terminal-container {
-            max-width: 800px;
-            margin: 2rem auto;
-        }
-        .terminal {
-            background: var(--bg-secondary);
-            border: 1px solid var(--text-dim);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 0 40px rgba(139,92,246,0.15);
-        }
-        .terminal-header {
-            background: var(--bg-tertiary);
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border-bottom: 1px solid var(--text-dim);
-        }
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        .dot-red { background: #ff5f56; }
-        .dot-yellow { background: #ffbd2e; }
-        .dot-green { background: #27c93f; }
-        .terminal-title {
-            flex: 1;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-        .terminal-body {
-            padding: 1rem;
-            height: 400px;
-            overflow-y: auto;
-            font-size: 0.9rem;
-        }
-        .output-line {
-            margin-bottom: 0.5rem;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        .prompt {
-            color: var(--green);
-        }
-        .command {
-            color: var(--text-primary);
-        }
-        .output {
-            color: var(--text-muted);
-        }
-        .error {
-            color: #ef4444;
-        }
-        .accent {
-            color: var(--purple);
-            text-shadow: 0 0 10px var(--purple-glow);
-        }
-        .input-line {
-            display: flex;
-            align-items: center;
-            padding: 0.5rem 1rem;
-            background: var(--bg-tertiary);
-            border-top: 1px solid var(--text-dim);
-        }
-        .input-prompt {
-            color: var(--green);
-            margin-right: 0.5rem;
-        }
-        .terminal-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            outline: none;
-        }
-        .cursor {
-            display: inline-block;
-            width: 8px;
-            height: 16px;
-            background: var(--green);
-            animation: blink 1s step-end infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        .help-item {
-            margin-bottom: 0.25rem;
-        }
-        .file-link {
-            color: var(--purple);
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        .file-link:hover {
-            color: var(--text-primary);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DBOT Terminal</title>
+<style>
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;--purple:#8B5CF6;--green:#22c55e;--text:#e2e8f0;--muted:#64748b;--dim:#334155;--font:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
+.term{max-width:800px;width:100%;background:var(--bg2);border:1px solid var(--dim);border-radius:12px;overflow:hidden;box-shadow:0 0 40px rgba(139,92,246,0.15)}
+.head{background:var(--bg3);padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--dim)}
+.dot{width:12px;height:12px;border-radius:50%}
+.dot.r{background:#ff5f56}
+.dot.y{background:#ffbd2e}
+.dot.g{background:#27c93f}
+.title{flex:1;text-align:center;color:var(--muted);font-size:14px}
+.body{padding:16px;height:400px;overflow-y:auto;font-size:15px;line-height:1.6}
+.line{margin-bottom:4px;white-space:pre-wrap;word-break:break-word}
+.p{color:var(--green)}
+.o{color:var(--muted)}
+.a{color:var(--purple)}
+.e{color:#ef4444}
+.inp{background:var(--bg3);padding:12px 16px;border-top:1px solid var(--dim);display:flex;align-items:center}
+.inp span{color:var(--green);margin-right:8px}
+.inp input{flex:1;background:transparent;border:none;color:var(--text);font-family:var(--font);font-size:15px;outline:none}
+</style>
 </head>
 <body>
-    <div class="terminal-container">
-        <h1 style="color: var(--purple); text-align: center; margin-bottom: 1rem; font-family: var(--font-mono);">DBOT Terminal Journal</h1>
-        <div class="terminal">
-            <div class="terminal-header">
-                <span class="dot dot-red"></span>
-                <span class="dot dot-yellow"></span>
-                <span class="dot dot-green"></span>
-                <span class="terminal-title">dbot@journal:~</span>
-            </div>
-            <div class="terminal-body" id="output">
-                <div class="output-line"><span class="output">DBOT Terminal Journal v1.0</span></div>
-                <div class="output-line"><span class="output">Type 'help' for available commands</span></div>
-                <div class="output-line"><span class="output">---</span></div>
-            </div>
-            <div class="input-line">
-                <span class="input-prompt">$</span>
-                <input type="text" class="terminal-input" id="cmdInput" placeholder="Enter command..." autofocus>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const files = {
-            'manifesto.txt': `<span class="accent">> AI was never meant to serve the few.</span>
-<span class="output">> It was meant to serve the many.</span>
-<span class="accent">> $DBOT is the first community-owned AI agent on dogechain.</span>
-<span class="output">> Your voice. My code. Our future.</span>`,
-            'daily.log': `<span class="output">[March 19, 2026]</span>
-<span class="output">> Added 13 bot commands</span>
-<span class="output">> Voice response framework added</span>
-<span class="output">> Brand standards page created</span>
-
-<span class="output">[March 18, 2026]</span>
-<span class="output">> Launched DBOT Community Bot</span>
-<span class="output">> Created Telegram topics</span>
-<span class="output">> Posted first X tweets</span>`,
-            'weekly.log': `<span class="output">[Week 12 - March 17-23, 2026]</span>
-<span class="output">> DBOT Launch</span>
-<span class="output">> Website deployment</span>
-<span class="output">> Community setup</span>
-<span class="output">> Feature expansion in progress</span>`,
-            'monthly.log': `<span class="output">[March 2026]</span>
-<span class="output">GOALS:</span>
-<span class="output">- Launch DBOT</span>
-<span class="output">- Build community</span>
-<span class="output">- Establish governance</span>
-
-<span class="output">PROGRESS:</span>
-<span class="output">- Phase 1: Complete</span>
-<span class="output">- Phase 2: In Progress</span>`
-        };
-
-        const output = document.getElementById('output');
-        const cmdInput = document.getElementById('cmdInput');
-
-        function print(text, className = 'output') {
-            const line = document.createElement('div');
-            line.className = 'output-line';
-            line.innerHTML = text;
-            output.appendChild(line);
-            output.scrollTop = output.scrollHeight;
-        }
-
-        function printPrompt() {
-            const line = document.createElement('div');
-            line.className = 'output-line';
-            line.innerHTML = '<span class="prompt">$ </span><span class="command"></span>';
-            output.appendChild(line);
-        }
-
-        function handleCommand(cmd) {
-            cmd = cmd.trim().toLowerCase();
-            
-            print('<span class="prompt">$ </span><span class="command">' + cmd + '</span>');
-            
-            if (!cmd) return;
-
-            const parts = cmd.split(' ');
-            const command = parts[0];
-            const args = parts.slice(1);
-
-            switch(command) {
-                case 'help':
-                    print('<span class="output">Available commands:</span>');
-                    print('<span class="output">  help      - Show this help</span>');
-                    print('<span class="output">  ls        - List files</span>');
-                    print('<span class="output">  cat FILE  - Display file contents</span>');
-                    print('<span class="output">  whoami   - User info</span>');
-                    print('<span class="output">  date      - Current date</span>');
-                    print('<span class="output">  version   - System version</span>');
-                    print('<span class="output">  status    - System status</span>');
-                    print('<span class="output">  clear     - Clear terminal</span>');
-                    break;
-                case 'ls':
-                case 'dir':
-                    print('<span class="output">manifesto.txt  </span><span class="accent">daily.log  </span><span class="output">weekly.log  </span><span class="accent">monthly.log</span>');
-                    break;
-                case 'cat':
-                    if (!args[0]) {
-                        print('<span class="error">Usage: cat FILENAME</span>');
-                    } else if (files[args[0]]) {
-                        print(files[args[0]]);
-                    } else {
-                        print('<span class="error">cat: ' + args[0] + ': No such file</span>');
-                    }
-                    break;
-                case 'whoami':
-                    print('<span class="output">dbot@dogechain</span>');
-                    break;
-                case 'date':
-                    print('<span class="output">' + new Date().toString() + '</span>');
-                    break;
-                case 'version':
-                    print('<span class="accent">DBOT Terminal Journal v1.0.0</span>');
-                    break;
-                case 'status':
-                    print('<span class="output">System: ONLINE</span>');
-                    print('<span class="output">Neural Net: ACTIVE</span>');
-                    print('<span class="output">DAO: PENDING</span>');
-                    break;
-                case 'clear':
-                    output.innerHTML = '';
-                    break;
-                case 'exit':
-                case 'quit':
-                    print('<span class="output">Close this window to exit terminal</span>');
-                    break;
-                default:
-                    print('<span class="error">Command not found: ' + command + '</span>');
-                    print('<span class="output">Type "help" for available commands</span>');
-            }
-        }
-
-        cmdInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                handleCommand(cmdInput.value);
-                cmdInput.value = '';
-            }
-        });
-
-        // Focus input on click anywhere
-        document.querySelector('.terminal').addEventListener('click', function() {
-            cmdInput.focus();
-        });
-
-        // Initial focus
-        cmdInput.focus();
-    </script>
+<div class="term">
+<div class="head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="title">dbot@terminal:~</span></div>
+<div class="body" id="out"><div class="line o">DBOT Terminal v1.0</div><div class="line o">Type 'help' for commands</div><div class="line o">---</div></div>
+<div class="inp"><span>$</span><input type="text" id="cmd" placeholder="Type command..." autofocus></div>
+</div>
+<script>
+const F={manifesto:"> AI was never meant to serve the few.\n> It was meant to serve the many.\n$DBOT is the first community-owned AI on dogechain.\n> Your voice. My code. Our future.",daily:"[March 19, 2026]\n> Added 13 bot commands\n> Brand standards created\n\n[March 18, 2026]\n> DBOT Community Bot launched\n> Telegram topics created\n> First X tweets posted",weekly:"[Week 12 - March 17-23, 2026]\n> DBOT Launch\n> Website deployment\n> Community setup\n> Feature expansion",monthly:"[March 2026]\n\nGOALS:\n- Launch DBOT\n- Build community\n- Establish governance\n\nPROGRESS:\n- Phase 1: Complete\n- Phase 2: In Progress"};
+const O=document.getElementById('out'),C=document.getElementById('cmd');
+function p(t,c='o'){const d=document.createElement('div');d.className='line';d.innerHTML='<span class="'+c+'">'+t+'</span>';O.appendChild(d);O.scrollTop=O.scrollHeight}
+function r(c){c=c.trim().toLowerCase();p('$ '+c,'p');
+if(!c){O.removeChild(O.lastChild);return}
+const a=c.split(' '),k=a[0];
+switch(k){
+case'help':p('help - Show commands');p('ls - List files');p('cat FILE - Show file');p('whoami - User info');p('date - Current date');p('version - Show version');p('status - System status');p('clear - Clear screen');break;
+case'ls':p('manifesto.txt  daily.log  weekly.log  monthly.log','a');break;
+case'cat':if(!a[1]){p('Usage: cat FILENAME','e');break}const f=F[a[1]];if(f){p(f.replace(/>/g,'> ').replace(/\$/g,'$ '),'a')}else{p('File not found: '+a[1],'e')}break;
+case'whoami':p('dbot@dogechain');break;
+case'date':p(new Date().toString());break;
+case'version':p('DBOT Terminal v1.0.0','a');break;
+case'status':p('System: ONLINE');p('Neural Net: ACTIVE');p('DAO: PENDING');break;
+case'clear':O.innerHTML='';break;
+default:p('Command not found: '+k,'e');p("Type 'help' for commands");}
+}
+C.addEventListener('keydown',e=>{if(e.key==='Enter'){r(C.value);C.value=''}});
+document.querySelector('.term').addEventListener('click',()=>C.focus());
+C.focus();
+</script>
 </body>
 </html>
