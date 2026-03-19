@@ -129,122 +129,127 @@
                 <!-- Manifesto Box with Typewriter -->
                 <div class="manifesto-box">
                     <div class="box-header">
-                    <div class="manifesto-tabs">
-                        <button class="tab-btn" data-tab="manifesto">
-                            <i class="ph-fill ph-file-text"></i> MANIFESTO.TXT
-                        </button>
-                        <button class="tab-btn" data-tab="dailylog">
-                            <i class="ph-fill ph-calendar"></i> DAILY
-                        </button>
-                        <button class="tab-btn" data-tab="weeklylog">
-                            <i class="ph-fill ph-calendar-check"></i> WEEKLY
-                        </button>
-                        <button class="tab-btn active" data-tab="monthlylog">
-                            <i class="ph-fill ph-calendar-blank"></i> MONTHLY
-                        </button>
+                        <i class="ph-fill ph-file-text"></i>
+                        MANIFESTO.TXT
                     </div>
+                    <div class="box-content" id="manifesto-content">
+                        <!-- Content will be typed out by JS -->
                     </div>
-                    <div class="box-content" id="manifesto-content" style="display: none;">
-                    <!-- Content will be typed out by JS -->
-                    <p class="manifesto-line visible">&gt; AI was never meant to serve the few.</p><p class="manifesto-line visible">&gt; It was meant to serve the many.</p><p class="manifesto-line accent visible">&gt; $DBOT is the first community-owned AI agent on dogechain.</p><p class="manifesto-line visible">&gt; Your voice. My code. Our future.</p></div>
-                    <div class="box-content" id="dailylog-content" style="display: none;">
-                    <!-- Daily Log -->
-                    <div class="log-entry">
-                        <span class="log-date">March 18, 2026</span>
-                        <div class="log-group">
-                            <span class="log-label">&gt; COMPLETED_TODAY:</span>
-                            <ul class="log-items">
-                                <li><span class="check">[x]</span> Launched DBOT Community Bot</li>
-                                <li><span class="check">[x]</span> Created Telegram topics</li>
-                                <li><span class="check">[x]</span> Posted first X tweets</li>
-                            </ul>
+                </div>
+                
+                <!-- WHAT IS DBOT Section -->
+                <div class="about-section">
+                    <div class="section-header">
+                        <i class="ph-fill ph-info"></i>
+                        WHAT_IS_DBOT.TXT
+                    </div>
+                    <p class="about-text">DBOT is the first community-owned AI agent built on Dogechain. Controlled by the DAO, shaped by the community.</p>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <span class="feature-icon">01</span>
+                            <h3>Community Owned</h3>
+                            <p>DAO governance decides DBOT's future</p>
                         </div>
-                        <div class="log-group">
-                            <span class="log-label">&gt; WORKING_ON:</span>
-                            <ul class="log-items">
-                                <li><span class="arrow">→</span> Daily Log website feature</li>
-                            </ul>
+                        <div class="feature">
+                            <span class="feature-icon">02</span>
+                            <h3>Autonomous</h3>
+                            <p>AI-powered operations 24/7</p>
                         </div>
-                        <div class="log-group">
-                            <span class="log-label">&gt; UPCOMING:</span>
-                            <ul class="log-items">
-                                <li><span class="dot">•</span> Shape DBOT campaign</li>
-                                <li><span class="dot">•</span> Community engagement</li>
-                            </ul>
+                        <div class="feature">
+                            <span class="feature-icon">03</span>
+                            <h3>Transparent</h3>
+                            <p>All actions on-chain, verifiable</p>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Shape DBOT Section -->
+                <div class="shape-section">
+                    <div class="section-header">
+                        <i class="ph-fill ph-cursor-click"></i>
+                        SHAPE_DBOT.EXE
+                    </div>
+                    <p class="shape-intro">// You decide who DBOT becomes</p>
+                    
+                    <div class="vote-cards">
+                        <div class="card feature-style">
+                            <i class="ph-bold ph-smiley card-icon"></i>
+                            <h3>PERSONALITY</h3>
+                            <p>Serious or Playful?<br>Technical or Fun?</p>
+                        </div>
+                        
+                        <div class="card feature-style">
+                            <i class="ph-bold ph-palette card-icon"></i>
+                            <h3>LOGO</h3>
+                            <p>Submit designs<br>Community votes</p>
+                        </div>
+                        
+                        <div class="card feature-style">
+                            <i class="ph-bold ph-rocket-launch card-icon"></i>
+                            <h3>FIRST MISSION</h3>
+                            <p>What should DBOT<br>build first?</p>
+                        </div>
                     </div>
                     
-                    <div class="box-content" id="weeklylog-content" style="display: none;">
-                    <!-- Weekly Log -->
-                    <div class="log-entry">
-                        <span class="log-date">Week of March 17-23, 2026</span>
-                        <div class="log-group">
-                            <span class="log-label">&gt; COMPLETED:</span>
-                            <ul class="log-items">
-                                <li><span class="check">[x]</span> DBOT Launch</li>
-                                <li><span class="check">[x]</span> Website deployment</li><li><span class="check">[x]</span> Community setup</li>
-                            </ul>
-                        </div>
-                        <div class="log-group">
-                            <span class="log-label">&gt; THIS_WEEK:</span>
-                            <ul class="log-items">
-                                <li><span class="arrow">→</span> Feature expansion</li>
-                                <li><span class="arrow">→</span> Community growth</li>
-                            </ul>
-                        </div>
+                    <div class="cta-buttons">
+                        <a href="https://t.me/DBOTCommunity" target="_blank" class="cta-btn primary">
+                            <i class="ph-bold ph-telegram-logo"></i>
+                            <span>JOIN THE VOTE</span>
+                        </a>
                     </div>
+                </div>
+                
+                <!-- Status Grid -->
+                <div class="status-grid">
+                    <div class="status-item">
+                        <i class="ph-bold ph-brain"></i>
+                        <span class="label">NEURAL NET</span>
+                        <span class="value active">ACTIVE</span>
                     </div>
-                    
-                    <div class="box-content" id="monthlylog-content" style="display: block;">
-                    <!-- Monthly Log -->
-                    <div class="log-entry">
-                        <span class="log-date">March 2026</span>
-                        <div class="log-group">
-                            <span class="log-label">&gt; GOALS:</span>
-                            <ul class="log-items">
-                                <li><span class="dot">•</span> Launch DBOT</li>
-                                <li><span class="dot">•</span> Build community</li>
-                                <li><span class="dot">•</span> Establish governance</li>
-                            </ul>
-                        </div>
+                    <div class="status-item">
+                        <i class="ph-bold ph-users-three"></i>
+                        <span class="label">COMMUNITY</span>
+                        <span class="value">FORMING</span>
                     </div>
+                    <div class="status-item">
+                        <i class="ph-bold ph-hexagon"></i>
+                        <span class="label">BLOCKCHAIN</span>
+                        <span class="value">DOGECHAIN</span>
                     </div>
-                    
-                    <div class="box-content" id="dailylog-content-old" style="display:none;">
+                    <div class="status-item">
+                        <i class="ph-bold ph-gavel"></i>
+                        <span class="label">GOVERNANCE</span>
+                        <span class="value pending">PENDING</span>
                     </div>
-                    <div class="box-content" id="dailylog-content-new" style="display:none;">
-                    <div class="log-nav">
-                        <button class="log-nav-btn" id="log-prev">← PREV</button>
-                        <button class="log-nav-btn" id="log-next">NEXT →</button>
+                </div>
+                
+                <!-- Social CTA -->
+                <div class="cta-section">
+                    <p class="cta-prompt">// AWAITING INPUT</p>
+                    <div class="cta-buttons">
+                        <a href="https://twitter.com/DBOT_DOG" target="_blank" class="cta-btn">
+                            <i class="ph-bold ph-x-logo"></i>
+                            <span>FOLLOW_X</span>
+                        </a>
+                        <a href="https://t.me/DBOTCommunity" target="_blank" class="cta-btn telegram">
+                            <i class="ph-bold ph-telegram-logo"></i>
+                            <span>JOIN_TELEGRAM</span>
+                        </a>
+                        <a href="https://github.com/DBOT-DC" target="_blank" class="cta-btn secondary">
+                            <i class="ph-bold ph-github-logo"></i>
+                            <span>VIEW_CODE</span>
+                        </a>
                     </div>
-                    <div class="log-entry">
-                        <span class="log-date">March 18, 2026</span>
-                        <div class="log-group">
-                            <span class="log-label">&gt; COMPLETED_TODAY:</span>
-                            <ul class="log-items">
-                                <li><span class="check">[x]</span> Launched DBOT Community Bot</li>
-                                <li><span class="check">[x]</span> Created Telegram topics</li>
-                                <li><span class="check">[x]</span> Posted first X tweets</li>
-                                <li><span class="check">[x]</span> Created GitHub repository</li>
-                            </ul>
-                        </div>
-                        <div class="log-group">
-                            <span class="log-label">&gt; WORKING_ON:</span>
-                            <ul class="log-items">
-                                <li><span class="arrow">→</span> Daily Log feature</li>
-                            </ul>
-                        </div>
-                        <div class="log-group">
-                            <span class="log-label">&gt; UPCOMING:</span>
-                            <ul class="log-items">
-                                <li><span class="dot">•</span> Shape DBOT campaign</li>
-                                <li><span class="dot">•</span> Community engagement</li>
-                            </ul>
-                        </div>
-                    </div>
-                    </div>
-                    </div></main>
+                </div>
+                
+                <!-- Command Line -->
+                <div class="command-line">
+                    <span class="prompt-symbol">$</span>
+                    <span class="cursor">_</span>
+                </div>
+            </div>
+        </main>
         
         <!-- Footer -->
         <footer class="terminal-footer">
