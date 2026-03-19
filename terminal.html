@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DBOT Terminal Journal</title>
 <style>
-:root{
-  --bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;--purple:#8B5CF6;--pglow:rgba(139,92,246,0.4);--green:#22c55e;--text:#e2e8f0;--muted:#64748b;--dim:#334155;--font:'JetBrains Mono',monospace
-}
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;--purple:#8B5CF6;--pglow:rgba(139,92,246,0.4);--green:#22c55e;--text:#e2e8f0;--muted:#64748b;--dim:#334155;--font:'JetBrains Mono',monospace}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
 .term{max-width:800px;width:100%;background:var(--bg2);border:1px solid var(--dim);border-radius:12px;overflow:hidden;box-shadow:0 0 40px var(--pglow)}
@@ -21,7 +19,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .body::-webkit-scrollbar{width:8px}
 .body::-webkit-scrollbar-track{background:var(--bg3)}
 .body::-webkit-scrollbar-thumb{background:var(--purple);border-radius:4px}
-.body::-webkit-scrollbar-thumb:hover{background:var(--purple-light:#A78BFA}
 .line{margin-bottom:8px;white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.5}
 .p{color:var(--green)}
 .o{color:var(--muted)}
@@ -39,55 +36,39 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 <div class="inp"><span>$</span><input type="text" id="cmd" placeholder="Enter command..." autofocus></div>
 </div>
 <script>
-const F={
-  manifesto:`> AI was never meant to serve the few.
-> It was meant to serve the many.
->$DBOT is the first community-owned AI on dogechain.
-> Your voice. My code. Our future.`,
-  daily:`[March 19, 2026]
-> Added 13 bot commands
-> Brand standards page created
-> Voice response framework added
-
-[March 18, 2026]
-> DBOT Community Bot launched
-> Telegram topics created
-> First X tweets posted`,
-  weekly:`[Week 12 - March 17-23, 2026]
-> DBOT Launch
-> Website deployment
-> Community setup
-> Feature expansion in progress`,
-  monthly:`[March 2026]
-GOALS:
-- Launch DBOT
-- Build community
-- Establish governance
-
-PROGRESS:
-- Phase 1: Complete
-- Phase 2: In Progress`
+var F={
+manifesto:"> AI was never meant to serve the few.\n> It was meant to serve the many.\n> $DBOT is the first community-owned AI on dogechain.\n> Your voice. My code. Our future.",
+daily:"[March 19, 2026]\n> Added 13 bot commands\n> Brand standards page created\n\n[March 18, 2026]\n> DBOT Community Bot launched\n> Telegram topics created\n> First X tweets posted",
+weekly:"[Week 12 - March 17-23, 2026]\n> DBOT Launch\n> Website deployment\n> Community setup\n> Feature expansion in progress",
+monthly:"[March 2026]\nGOALS:\n- Launch DBOT\n- Build community\n- Establish governance\n\nPROGRESS:\n- Phase 1: Complete\n- Phase 2: In Progress"
 };
-const O=document.getElementById('out'),C=document.getElementById('cmd');
-function p(t,c='o'){const d=document.createElement('div');d.className='line';d.innerHTML='<span class="'+c+'">'+t.replace(/>/g,'> ').replace(/\$/g,'$ ')+'</span>';O.appendChild(d);O.scrollTop=O.scrollHeight}
-function r(c){c=c.trim().toLowerCase();p('$ '+c,'p');
+var O=document.getElementById('out'),C=document.getElementById('cmd');
+function p(t,c){
+var d=document.createElement('div');
+d.className='line';
+d.innerHTML='<span class="'+(c||'o')+'">'+t.replace(/>/g,'> ').replace(/\$/g,'$ ')+'</span>';
+O.appendChild(d);
+O.scrollTop=O.scrollHeight
+}
+function r(c){
+c=c.trim().toLowerCase();
+p('$ '+c,'p');
 if(!c)return;
-const a=c.split(' '),k=a[0];
+var a=c.split(' '),k=a[0];
 switch(k){
-case'help':p('help - Show commands');p('ls - List files');p('cat FILE - Show file contents');p('whoami - User info');p('date - Current date');p('version - Version');p('status - System status');p('clear - Clear screen');break;
+case'help':p('help - Show commands');p('ls - List files');p('cat FILE - Show file');p('whoami - User info');p('date - Current date');p('status - System status');p('clear - Clear screen');break;
 case'ls':p('manifesto.txt  daily.log  weekly.log  monthly.log','a');break;
 case'cat':
-  if(!a[1]){p('Usage: cat FILENAME','e');break}
-  const f=F[a[1]];if(f){p(f,'a')}else{p('File not found: '+a[1],'e')}break;
+if(!a[1]){p('Usage: cat FILENAME','e');break}
+var f=F[a[1]];if(f){p(f,'a')}else{p('File not found: '+a[1],'e')}break;
 case'whoami':p('dbot@dogechain');break;
 case'date':p(new Date().toString());break;
-case'version':p('DBOT Terminal v1.0.0','a');break;
 case'status':p('System: ONLINE');p('Neural Net: ACTIVE');p('DAO: PENDING');break;
 case'clear':O.innerHTML='';break;
 default:p('Command not found: '+k,'e');p("Type 'help' for commands");}
 }
-C.addEventListener('keydown',e=>{if(e.key==='Enter'){r(C.value);C.value=''}});
-document.querySelector('.term').addEventListener('click',()=>C.focus());
+C.addEventListener('keydown',function(e){if(e.key==='Enter'){r(C.value);C.value=''}});
+document.querySelector('.term').addEventListener('click',function(){C.focus()});
 C.focus();
 </script>
 </body>
