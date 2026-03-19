@@ -129,7 +129,8 @@
                 <!-- Manifesto Box with Typewriter -->
                 <div class="manifesto-box">
                     <div class="box-header">
-                        <button class="tab-btn active" data-tab="manifesto">
+                    <div class="manifesto-tabs">
+                        <button class="tab-btn" data-tab="manifesto">
                             <i class="ph-fill ph-file-text"></i> MANIFESTO.TXT
                         </button>
                         <button class="tab-btn" data-tab="dailylog">
@@ -138,10 +139,11 @@
                         <button class="tab-btn" data-tab="weeklylog">
                             <i class="ph-fill ph-calendar-check"></i> WEEKLY
                         </button>
-                        <button class="tab-btn" data-tab="monthlylog">
+                        <button class="tab-btn active" data-tab="monthlylog">
                             <i class="ph-fill ph-calendar-blank"></i> MONTHLY
                         </button>
                     </div>
+                </div>
                     <div class="box-content" id="manifesto-content">
                         <!-- Content will be typed out by JS -->
                     </div>
@@ -151,9 +153,20 @@
                     <div class="box-content" id="weeklylog-content" style="display:none;">
                         <p>Weekly log content here</p>
                     </div>
-                    <div class="box-content" id="monthlylog-content" style="display:none;">
-                        <p>Monthly log content here</p>
+                    <div class="box-content" id="monthlylog-content" style="display: block;">
+                    <!-- Monthly Log -->
+                    <div class="log-entry">
+                        <span class="log-date">March 2026</span>
+                        <div class="log-group">
+                            <span class="log-label">&gt; GOALS:</span>
+                            <ul class="log-items">
+                                <li><span class="dot">•</span> Launch DBOT</li>
+                                <li><span class="dot">•</span> Build community</li>
+                                <li><span class="dot">•</span> Establish governance</li>
+                            </ul>
+                        </div>
                     </div>
+                </div>
                 </div>
                 
                 <!-- WHAT IS DBOT Section -->
