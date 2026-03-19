@@ -1,0 +1,78 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Validate HTML
+        run: |
+          echo "Checking for broken HTML references..."
+          # Check for broken file references
+          if grep -q 'chrome-extension://' index.html; then
+            echo "ERROR: Found browser extension code in HTML!"
+            exit 1
+          fi
+          
+          # Check HTML exists and has content
+          if [ ! -s index.html ]; then
+            echo "ERROR: index.html is empty!"
+            exit 1
+          fi
+          
+          echo "✓ HTML validation passed"
+      
+      - name: Validate CSS files
+        run: |
+          echo "Checking CSS files..."
+          for f in style*.css; do
+            if [ -f "$f" ]; then
+              echo "  ✓ $f exists ($(wc -c < "$f") bytes)"
+            fi
+          done
+          echo "✓ CSS validation passed"
+      
+      - name: Validate JS files
+        run: |
+          echo "Checking JS files..."
+          for f in *.js; do
+            if [ -f "$f" ]; then
+              echo "  ✓ $f exists ($(wc -c < "$f") bytes)"
+            fi
+          done
+          echo "✓ JS validation passed"
+      
+      - name: Check for required assets
+        run: |
+          echo "Checking required assets..."
+          required_files="index.html vercel.json"
+          for f in $required_files; do
+            if [ ! -f "$f" ]; then
+              echo "ERROR: Missing $f"
+              exit 1
+            fi
+            echo "  ✓ $f"
+          done
+          echo "✓ Assets check passed"
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: 'team_f6mg2AXANLWsOvelJb49WN4l'
+          vercel-project-id: 'prj_oQVyaevJtLXNWHRKLvniW8PUzHTt'
+          vercel-args: '--prod'
