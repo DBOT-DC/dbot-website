@@ -549,7 +549,7 @@ body {
     .footer-left, .footer-center, .footer-right { justify-content: center; text-align: center; }
     .status-grid { grid-template-columns: repeat(2, 1fr); }
     .features, .vote-cards { grid-template-columns: 1fr; }
-    .cta-btn { width: 100%; }
+    .cta-btn { width: 100%; text-align: center; justify-content: center; }
     .token-warning { font-size: 0.5rem; }
     .manifesto-tabs {
         padding: 0.5rem 0.25rem;
@@ -620,6 +620,7 @@ body {
         min-width: 70px;
         padding: 0.5rem 0.75rem;
         font-size: 0.65rem;
+        justify-content: center;
     }
 }
 
