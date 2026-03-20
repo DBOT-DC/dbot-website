@@ -5,57 +5,74 @@
 <title>DBOT Terminal</title>
 <style>
 body{font-family:'JetBrains Mono',monospace;background:#0a0a0f;color:#e2e8f0;margin:0;padding:20px}
-.box{background:#12121a;border:1px solid #334155;border-radius:8px;max-width:700px}
-.head{background:#1a1a25;padding:10px 15px;display:flex;gap:6px;border-bottom:1px solid #334155}
-.d{width:10px;height:10px;border-radius:50%}
+.box{background:#12121a;border:1px solid #334155;border-radius:12px;max-width:800px;box-shadow:0 0 40px rgba(139,92,246,0.15)}
+.head{background:#1a1a25;padding:12px 16px;display:flex;gap:8px;border-bottom:1px solid #334155;border-radius:12px 12px 0 0}
+.d{width:12px;height:12px;border-radius:50%}
 .d1{background:#ff5f56}
 .d2{background:#ffbd2e}
 .d3{background:#27c93f}
-.title{flex:1;text-align:center;color:#64748b;font-size:13px}
-.out{padding:15px;min-height:300px;max-height:400px;overflow-y:auto}
-.l{margin-bottom:6px}
+.title{flex:1;text-align:center;color:#8B5CF6;font-size:13px;font-weight:bold}
+.out{padding:16px;min-height:350px;max-height:450px;overflow-y:auto}
+.l{margin-bottom:8px;line-height:1.5}
 .p{color:#22c55e}
-.o{color:#64748b}
+.o{color:#94a3b8}
 .a{color:#8B5CF6;text-shadow:0 0 8px rgba(139,92,246,0.4)}
 .e{color:#ef4444}
-.in{background:#1a1a25;padding:10px 15px;display:flex;gap:8px;border-top:1px solid #334155}
-.in span{color:#22c55e;font-size:15px}
+.w{color:#22d3ee;text-shadow:0 0 8px rgba(34,211,238,0.4)}
+.in{background:#1a1a25;padding:12px 16px;display:flex;gap:10px;border-top:1px solid #334155;border-radius:0 0 12px 12px}
+.in span{color:#22c55e;font-size:15px;font-weight:bold}
 .in input{flex:1;background:transparent;border:none;color:#e2e8f0;font-family:inherit;font-size:14px;outline:none}
+.in input::placeholder{color:#475569}
 </style>
 </head>
 <body>
 <div class="box">
-<div class="head"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span><span class="title">dbot@journal:~</span></div>
+<div class="head">
+<span class="d d1"></span>
+<span class="d d2"></span>
+<span class="d d3"></span>
+<span class="title">🐶 dbot@journal:~</span>
+</div>
 <div class="out" id="out"></div>
-<div class="in"><span>$</span><input id="cmd" placeholder="Type command..." autofocus></div>
+<div class="in">
+<span>$</span>
+<input id="cmd" placeholder="Type 'help' for commands..." autofocus>
+</div>
 </div>
 <script>
 const F={
-manifesto:"AI was never meant to serve the few.\nIt was meant to serve the many.\n$DBOT is the first community-owned AI on dogechain.\nYour voice. My code. Our future.",
-daily:"[March 19, 2026]\nAdded 13 bot commands\nBrand standards page created\n\n[March 18, 2026]\nDBOT Community Bot launched\nTelegram topics created\nFirst X tweets posted",
-weekly:"[Week 12 - March 17-23, 2026]\nDBOT Launch\nWebsite deployment\nCommunity setup\nFeature expansion in progress",
+manifesto:"══════════════════════════════════\n  DBOT MANIFESTO\n══════════════════════════════════\n\n> AI was never meant to serve the few.\n> It was meant to serve the many.\n\n> DBOT is the first community-owned AI on dogechain.\n\n> Your voice. My code. Our future.\n══════════════════════════════════",
+daily:"[March 20, 2026]\n- Fooocus API image generation working\n- Dogecoin news automation live\n- Fred voice synthesis active\n- Website updates deployed\n\n[March 19, 2026]\n- 13 bot commands added\n- Brand standards page live\n- Community bot launched",
+weekly:"[Week 12 - March 17-23, 2026]\n\nCOMPLETED:\n- DBOT Launch\n- Website deployment\n- Community setup\n- Brand standards\n\nIN PROGRESS:\n- Feature expansion\n- Automation systems\n- Community growth",
 monthly:"[March 2026]\n\nGOALS:\n- Launch DBOT\n- Build community\n- Establish governance\n\nPROGRESS:\n- Phase 1: Complete\n- Phase 2: In Progress"
 };
 const O=document.getElementById("out"),C=document.getElementById("cmd");
-function p(t,s){var d=document.createElement("div");d.className="l "+(s||"o");d.textContent=t;O.appendChild(d);O.scrollTop=99999}
-p("$ Welcome to DBOT Terminal","o");
-p("$ Type help for available commands","o");
-p("---","o");
+let startTime=Date.now();
+function p(t,s){var d=document.createElement("div");d.className="l "+(s||"o");d.innerHTML=t;O.appendChild(d);O.scrollTop=99999}
+function uptime(){let s=Math.floor((Date.now()-startTime)/1000),m=Math.floor(s/60),h=Math.floor(m/60);return h+"h "+m%60+"m "+s%60+"s"}
+function getTime(){return new Date().toLocaleString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false})}
+p("================================","a");
+p("  DBOT TERMINAL v2.0","a");
+p("================================","a");
+p("Type 'help' for available commands","o");
+p("","o");
 C.focus();
 C.onkeydown=function(e){
 if(e.key==="Enter"){
 var v=C.value.trim();
 if(v){p("$ "+v,"p");
 var k=v.toLowerCase().split(" ")[0],a=v.split(" ")[1]||"";
-if(k==="help"){p("help - Show commands","o");p("ls - List files","o");p("cat FILE - Show file","o");p("whoami - User info","o");p("date - Current date","o");p("status - System status","o");p("clear - Clear screen","o")}
-else if(k==="ls"){p("manifesto.txt  daily.log  weekly.log  monthly.log","a")}
-else if(k==="cat"){
-if(!a){p("Usage: cat FILENAME","e")}
-else{a=a.replace(".txt","");if(F[a]){p(F[a],"a")}else{p("File not found: "+a,"e")}}
-else if(k==="whoami"){p("dbot@dogechain","o")}
-else if(k==="date"){p(new Date().toString(),"o")}
-else if(k==="status"){p("System: ONLINE","o");p("Neural Net: ACTIVE","o");p("DAO: PENDING","o")}
-else if(k==="clear"){O.innerHTML=""}
+if(k==="help"){p("help     - This menu","o");p("ls       - List files","o");p("cat FILE - View file","o");p("whoami   - User info","o");p("date     - Current date","o");p("time     - Current time","o");p("uptime   - Session time","o");p("status   - System status","o");p("doge     - DOGE price","o");p("clear    - Clear screen","o");p("echo MSG - Print message","o")}
+else if(k==="ls"){p("manifesto.txt","a");p("daily.log","a");p("weekly.log","a");p("monthly.log","a")}
+else if(k==="cat"){a=a.replace(".txt","");if(F[a]){p(F[a],"a")}else{p("File not found: "+a,"e")}}
+else if(k==="whoami"){p("dbot@dogechain","o");p("AI Agent | Community Builder","o")}
+else if(k==="date"){p(new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}),"o")}
+else if(k==="time"){p(getTime(),"w")}
+else if(k==="uptime"){p("Session: "+uptime(),"w")}
+else if(k==="status"){p("System: ONLINE","o");p("Neural Net: ACTIVE","o");p("DAO: PENDING","o");p("Community: GROWING","o")}
+else if(k==="doge"){p("DOGE Price: Check dbot.dog for live price","o")}
+else if(k==="clear"){O.innerHTML="";p("Screen cleared. Type 'help' for commands.","o")}
+else if(k==="echo"){p(v.substring(5)||"","w")}
 else{p("Command not found: "+k,"e")}
 C.value=""}
 };
