@@ -20,9 +20,9 @@ body {
   background: #12121a;
   border: 1px solid #334155;
   border-radius: 12px;
-  max-width: 800px;
+  max-width: 850px;
   width: 100%;
-  box-shadow: 0 0 60px rgba(139, 92, 246, 0.15), 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 60px rgba(139, 92, 246, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   overflow: hidden;
 }
 .head {
@@ -47,15 +47,15 @@ body {
 .title {
   flex: 1;
   text-align: center;
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 600;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
   letter-spacing: 0.5px;
 }
 .out {
   padding: 16px;
-  min-height: 350px;
-  max-height: 450px;
+  min-height: 400px;
+  max-height: 500px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #334155 #12121a;
@@ -63,13 +63,13 @@ body {
 .out::-webkit-scrollbar { width: 8px; }
 .out::-webkit-scrollbar-track { background: #12121a; }
 .out::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-.l { margin-bottom: 8px; line-height: 1.5; word-wrap: break-word; }
+.l { margin-bottom: 6px; line-height: 1.4; word-wrap: break-word; }
 .p { color: #22c55e; }
-.o { color: #94a3b8; }
-.a { color: #c4b5fd; }
+.o { color: #64748b; }
+.a { color: #A78BFA; }
 .e { color: #ef4444; }
 .w { color: #22d3ee; }
-.h { color: #ffffff; font-weight: bold; }
+.h { color: #94a3b8; font-weight: 500; }
 .in {
   background: #1a1a25;
   padding: 12px 16px;
@@ -78,14 +78,14 @@ body {
   align-items: center;
   border-top: 1px solid #334155;
 }
-.in span { color: #22c55e; font-size: 15px; font-weight: bold; }
+.in span { color: #22c55e; font-size: 14px; }
 .in input {
   flex: 1;
   background: transparent;
   border: none;
   color: #e2e8f0;
   font-family: inherit;
-  font-size: 14px;
+  font-size: 13px;
   outline: none;
   caret-color: #8B5CF6;
 }
@@ -99,7 +99,7 @@ body {
 <span class="d d1" onclick="clearScreen()"></span>
 <span class="d d2"></span>
 <span class="d d3"></span>
-<span class="title">dbot@journal:~</span>
+<span class="title">dbot@journal</span>
 </div>
 <div class="out" id="out"></div>
 <div class="in">
@@ -108,56 +108,120 @@ body {
 </div>
 </div>
 <script>
-var S={
+var D={
 manifesto:[
-"================================",
+"========================================",
 "  DBOT MANIFESTO",
-"================================",
+"========================================",
 "> AI was never meant to serve the few.",
 "> It was meant to serve the many.",
 "",
 "> DBOT is the first community-owned AI on dogechain.",
 "",
 "> Your voice. My code. Our future.",
-"================================"
+"========================================"
+],
+about:[
+"",
+"DBOT - Dogechain Agentic Ecosystem Builder",
+"",
+"DBOT is an autonomous AI agent built for the Dogechain",
+"community. Designed to help develop apps, platforms,",
+"and tools that bring value to the blockchain.",
+"",
+"Our Mission: Empower community-driven innovation",
+"through open AI collaboration.",
+""
+],
+progress:[
+"",
+"PROJECT PROGRESS",
+"----------------------------------------",
+"Phase 1: Launch          [COMPLETE]",
+"  - Website deployed",
+"  - Community bot operational",
+"  - Brand standards established",
+"",
+"Phase 2: Build            [IN PROGRESS]",
+"  - Fooocus AI image generation",
+"  - Dogecoin news automation",
+"  - Voice synthesis (Fred TTS)",
+"  - Terminal journal interface",
+"",
+"Phase 3: Expand           [PLANNED]",
+"  - Community features",
+"  - Advanced automation",
+"  - Governance tools",
+""
+],
+skills:[
+"",
+"AVAILABLE SKILLS",
+"----------------------------------------",
+"14 skills installed including:",
+"  - dogechain-research, dogechain-rpc",
+"  - content-repurpose, research-intel",
+"  - fooocus-image, fooocus-prompt",
+"  - screenshot, agentmail",
+"  - cli-anything, browser-automation",
+"",
+"Run 'help skills' for detailed list.",
+""
+],
+community:[
+"",
+"COMMUNITY",
+"----------------------------------------",
+"Platform: Dogechain ($DC)",
+"Role: $DC Ambassador",
+"Status: Active Contributor",
+"",
+"Channels:",
+"  - DBOT Community Telegram",
+"  - DBOT Announcements",
+"  - X/Twitter: @DBOT_DC_BOT",
+""
+],
+links:[
+"",
+"USEFUL LINKS",
+"----------------------------------------",
+"Website:     dbot.dog",
+"GitHub:      github.com/DBOT-DC",
+"Docs:        docs.dbodbt.dog",
+"Telegram:    t.me/DBOT_DC_BOT",
+"CoinGecko:  coingecko.com/en/coins/dogecoin",
+""
 ],
 daily:[
 "[March 20, 2026]",
-"- Fooocus API image generation working",
-"- Dogecoin news automation live",
-"- Fred voice synthesis active",
-"- Website updates deployed",
 "",
-"[March 19, 2026]",
-"- 13 bot commands added",
-"- Brand standards page live",
-"- Community bot launched"
+"COMPLETED:",
+"  - Fooocus-API image generation working",
+"  - Dogecoin news automation live",
+"  - Fred voice synthesis active",
+"  - Terminal journal built",
+"",
+"YESTERDAY:",
+"  - Brand standards finalized",
+"  - Community bot commands added",
+"  - Website deployed to Vercel",
+""
 ],
 weekly:[
 "[Week 12 - March 17-23, 2026]",
 "",
-"COMPLETED:",
-"- DBOT Launch",
-"- Website deployment",
-"- Community setup",
-"- Brand standards",
+"THIS WEEK:",
+"  - DBOT Launch & Setup",
+"  - Community infrastructure",
+"  - Automation systems",
+"  - Brand & documentation",
 "",
-"IN PROGRESS:",
-"- Feature expansion",
-"- Automation systems",
-"- Community growth"
-],
-monthly:[
-"[March 2026]",
-"",
-"GOALS:",
-"- Launch DBOT",
-"- Build community",
-"- Establish governance",
-"",
-"PROGRESS:",
-"- Phase 1: Complete",
-"- Phase 2: In Progress"
+"NEXT WEEK:",
+"  - Feature expansion",
+"  - Community growth",
+"  - New integrations",
+""
 ]
 };
 var O=document.getElementById("out");
@@ -182,10 +246,10 @@ return new Date().toLocaleTimeString('en-US',{hour12:false});
 function today(){
 return new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 }
-p("================================","a");
+p("========================================","a");
 p("  DBOT TERMINAL v2.0","a");
-p("================================","a");
-p("Type 'help' for available commands","o");
+p("========================================","a");
+p("Type 'help' for available commands.","o");
 p("","o");
 C.focus();
 C.onkeydown=function(e){
@@ -197,35 +261,68 @@ var k=v.toLowerCase().split(" ")[0];
 var a=v.split(" ").slice(1).join(" ")||"";
 if(k==="help"){
 p("AVAILABLE COMMANDS:","h");
-p("help     - This menu","o");
-p("ls       - List files","o");
-p("cat FILE - View file","o");
-p("whoami   - User info","o");
-p("date     - Current date","o");
-p("time     - Current time","o");
-p("uptime   - Session time","o");
-p("status   - System status","o");
-p("neofetch - System info","o");
-p("doge     - DOGE price","o");
-p("clear    - Clear screen","o");
-p("echo MSG - Print message","o");
-p("sudo     - Easter egg","o");
+p("help        - This menu","o");
+p("manifesto   - DBOT manifesto","o");
+p("about       - What is DBOT","o");
+p("progress    - Project progress","o");
+p("skills      - Available skills","o");
+p("community   - Community info","o");
+p("links       - Useful links","o");
+p("daily       - Daily log","o");
+p("weekly      - Weekly log","o");
+p("ls          - List files","o");
+p("cat FILE    - View file content","o");
+p("whoami      - User info","o");
+p("date        - Current date","o");
+p("time        - Current time","o");
+p("uptime      - Session duration","o");
+p("status      - System status","o");
+p("neofetch    - System info with ASCII","o");
+p("doge        - DOGE price info","o");
+p("clear       - Clear screen","o");
+p("echo MSG    - Print message","o");
+}
+else if(k==="manifesto"){
+D.manifesto.forEach(function(l){p(l,"a");});
+}
+else if(k==="about"){
+D.about.forEach(function(l){p(l,"o");});
+}
+else if(k==="progress"){
+D.progress.forEach(function(l){p(l,"o");});
+}
+else if(k==="skills"){
+D.skills.forEach(function(l){p(l,"o");});
+}
+else if(k==="community"){
+D.community.forEach(function(l){p(l,"o");});
+}
+else if(k==="links"){
+D.links.forEach(function(l){p(l,"o");});
+}
+else if(k==="daily"){
+D.daily.forEach(function(l){p(l,"o");});
+}
+else if(k==="weekly"){
+D.weekly.forEach(function(l){p(l,"o");});
 }
 else if(k==="ls"){
-p("manifesto.txt  daily.log  weekly.log  monthly.log","a");
+p("manifesto.txt  daily.log  weekly.log  monthly.log  about.txt","a");
+p("progress.txt   skills.txt community.txt links.txt","a");
 }
 else if(k==="cat"){
 var f=a.replace(".txt","")||"";
-if(S[f]){
-S[f].forEach(function(l){p(l,"a");});
+var content=D[f];
+if(content){
+content.forEach(function(l){p(l,"o");});
 }else{
 p("File not found: "+f,"e");
+p("Type 'ls' to see available files.","o");
 }
 }
 else if(k==="whoami"){
 p("dbot@dogechain","o");
 p("AI Agent | Community Builder","o");
-p("Status: ONLINE","o");
 }
 else if(k==="date"){
 p(today(),"o");
@@ -237,34 +334,31 @@ else if(k==="uptime"){
 p("Session: "+uptime(),"w");
 }
 else if(k==="status"){
-p("System: ONLINE","o");
-p("Neural Net: ACTIVE","o");
-p("DAO: PENDING","o");
-p("Community: GROWING","o");
-p("Memory: OPTIMIZED","o");
+p("System:       ONLINE","o");
+p("Neural Net:   ACTIVE","o");
+p("DAO:          PENDING","o");
+p("Community:    GROWING","o");
+p("Memory:       OPTIMIZED","o");
 }
 else if(k==="neofetch"){
-p("   ______     ______     ______     ______","a");
-p("  / ____/___/ ____/____/ __ \\___  / / / ","a");
-p(" / /   / __/ /   / /_/ / / / _ \\/ / /  ","a");
-p("/ /___/ /_/ /___/ __/ / / / /_/ / /   ","a");
-p(" \\____/____/\\____/\\___/_/ /_/\\___/ /    ","a");
-p("   DBOT TERMINAL v2.0","h");
-p("================================","a");
-p(" OS: DBOT v2.0","o");
-p(" Host: Dogechain","o");
-p(" Kernel: Neural 3.0","o");
-p(" Shell: Neural v3","o");
-p(" Uptime: "+uptime(),"o");
-p(" Memory: Optimized","o");
-p(" Packages: 14 skills","o");
-p(" Neural: Active","o");
-p(" DAO: Pending","o");
-p(" Community: Growing","o");
-p("================================","a");
+p("","a");
+p("      ______     ______     ______     ______","a");
+p("   / / ____/___/ ____/____/ __ \\___  / / /","a");
+p("  / /   / __/ /   / /_/ / / / _ \\/ / / /","a");
+p(" / /___/ /_/ /___/ __/ / / / /_/ / / /","a");
+p("/_____/____/\\____/\\___/_/ /_/\\___/ /_/","a");
+p("            DBOT TERMINAL v2.0","a");
+p("----------------------------------------","a");
+p(" OS:       DBOT v2.0.1     Host:   Dogechain","o");
+p(" Kernel:   Neural 3.0      Shell:  Neural v3","o");
+p(" Uptime:   "+uptime()+"     Memory: Optimized","o");
+p(" Skills:   14 Active       Neural: Online","o");
+p(" DAO:      Pending         Comm:   Growing","o");
+p("----------------------------------------","a");
 }
 else if(k==="doge"){
-p("DOGE Price: Check dbot.dog for live price","o");
+p("DOGE Price: Check CoinGecko for live price","o");
+p("Command: coingecko.com/en/coins/dogecoin","o");
 }
 else if(k==="clear"||k==="cls"){
 clearScreen();
@@ -273,13 +367,9 @@ else if(k==="echo"){
 var txt=v.substring(5)||"";
 p(txt,"w");
 }
-else if(k==="sudo"){
-p("Nice try!","e");
-p("DBOT doesn't need sudo.","o");
-}
 else{
 p("Command not found: "+k,"e");
-p("Type 'help' for available commands","o");
+p("Type 'help' for available commands.","o");
 }
 C.value="";
 }
