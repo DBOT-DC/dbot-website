@@ -1,183 +1,1146 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<!-- saved from url=(0025)http://192.168.2.49:9006/ -->
+<html lang="en" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$DBOT Tokenomics - Community Owned AI on Dogechain</title>
-    <meta name="description" content="$DBOT Tokenomics - The first community-owned AI agent on Dogechain. Decentralized Intelligence. Community Owned.">
+    <meta name="description" content="The first community-owned AI agent on Dogechain. Decentralized Intelligence. Community Owned.">
     
-    <link rel="canonical" href="https://dbot.dog/tokenomics">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://dbot.dog/">
     
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://dbot.dog/tokenomics">
-    <meta property="og:title" content="$DBOT Tokenomics - Community Owned AI">
-    <meta property="og:description" content="1 Billion supply. 40% community treasury. 3% tax. Fair Launch.">
-    <meta property="og:image" content="https://dbot.dog/images/dbot-token-logo.jpg">
+    <meta property="og:url" content="https://dbot.dog/">
+    <meta property="og:title" content="DBOT - Community Owned AI on Dogechain">
+    <meta property="og:description" content="The first community-owned AI agent on Dogechain. Decentralized Intelligence. Community Owned.">
+    <meta property="og:image" content="https://dbot.dog/images/og-image.png">
+    <meta property="og:image:width" content="1782">
+    <meta property="og:image:height" content="962">
+    <meta property="og:image:alt" content="DBOT - Decentralized Intelligence. Community Owned.">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:site_name" content="DBOT">
+    <meta property="og:locale" content="en_US">
     
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://dbot.dog/tokenomics">
-    <meta name="twitter:title" content="$DBOT Tokenomics - Community Owned AI">
-    <meta name="twitter:description" content="1 Billion supply. 40% community treasury. 3% tax. Fair Launch.">
-    <meta name="twitter:image" content="https://dbot.dog/images/dbot-token-logo.jpg">
+    <meta name="twitter:url" content="https://dbot.dog/">
+    <meta name="twitter:title" content="DBOT - Community Owned AI on Dogechain">
+    <meta name="twitter:description" content="The first community-owned AI agent on Dogechain. Decentralized Intelligence. Community Owned.">
+    <meta name="twitter:image" content="https://dbot.dog/images/og-image.png">
+    <meta name="twitter:image:alt" content="DBOT - Decentralized Intelligence. Community Owned.">
+    <meta name="twitter:site" content="@DBOT_DOG">
+    <meta name="twitter:creator" content="@DBOT_DOG">
     
-    <script src="./web"></script>
-    <link rel="stylesheet" type="text/css" href="./tokenomics-inline.css">
-    <link rel="stylesheet" type="text/css" href="./style.css">
-    <link rel="stylesheet" type="text/css" href="./style(1).css">
-    <link rel="stylesheet" type="text/css" href="./style(2).css">
-    <link rel="stylesheet" type="text/css" href="./style(3).css">
-    <link rel="stylesheet" type="text/css" href="./style(4).css">
-    <link rel="stylesheet" type="text/css" href="./style(5).css">
-    <link rel="stylesheet" type="text/css" href="./style(6).css">
+    <!-- Telegram -->
+    <meta property="telegram:site" content="@DBOTCommunity">
     
+    <!-- Additional SEO -->
+    <meta name="author" content="DBOT">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#8B5CF6">
+    <meta name="msapplication-TileColor" content="#8B5CF6">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="https://dbot.dog/images/og-image.png">
+    
+    <!-- Phosphor Icons -->
+    <script src="./web"></script><link rel="stylesheet" type="text/css" href="./style.css"><link rel="stylesheet" type="text/css" href="./style(1).css"><link rel="stylesheet" type="text/css" href="./style(2).css"><link rel="stylesheet" type="text/css" href="./style(3).css"><link rel="stylesheet" type="text/css" href="./style(4).css"><link rel="stylesheet" type="text/css" href="./style(5).css">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="./css2" rel="stylesheet">
     
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%238B5CF6' width='100' height='100' rx='10'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white' font-family='monospace'>D</text></svg>">
-
-    <style>
-/* Terminal wrapper - ensure max-width */
-        .terminal {
-            max-width: 900px;
-            transform-style: preserve-3d;
-            margin: 0 auto;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background: var(--bg-secondary);
-            border: 1px solid var(--text-dim);
-            box-shadow: 0 0 60px rgba(139,92,246,0.1);
-        }
-        
-        /* body {
-            perspective: 1000px;
-        } */
-        .terminal {
-            perspective: 1000px;
-        }
-        
-
-        /* Tokenomics Custom Styles */
-        .hero-section { text-align: center; padding: 48px 0 32px; }
-        .logo-container { margin-bottom: 24px; }
-        .hero-logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--purple); box-shadow: 0 0 30px rgba(139,92,246,0.4); animation: logoGlow 3s ease-in-out infinite; }
-        @keyframes logoGlow { 0%,100% { box-shadow: 0 0 30px rgba(139,92,246,0.4); } 50% { box-shadow: 0 0 60px rgba(139,92,246,0.6); } }
-        .hero-title { font-family: var(--font-mono); font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 12px; }
-        .hero-title .highlight { color: var(--purple); text-shadow: 0 0 20px rgba(139,92,246,0.5); }
-        .hero-subtitle { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 24px; }
-        .fair-launch-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(34,197,94,0.1); border: 1px solid var(--green); color: var(--green); padding: 8px 16px; border-radius: 50px; font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 8px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-        @media(max-width:800px){ .stats-grid{grid-template-columns:repeat(2,1fr)} }
-        .stat-card { background: var(--bg-tertiary); border: 1px solid var(--text-dim); border-radius: 8px; padding: 20px 16px; text-align: center; transition: all 0.2s; }
-        .stat-card:hover { border-color: var(--purple); transform: translateY(-2px); }
-        .stat-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
-        .stat-value { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 600; }
-        .stat-change { font-family: var(--font-mono); font-size: 0.75rem; margin-top: 4px; }
-        .stat-change.positive { color: var(--green); }
-        .stat-change.negative { color: var(--red); }
-        .tax-bar { background: rgba(186,159,51,0.1); border: 1px solid var(--gold); border-radius: 8px; padding: 16px 24px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 24px; }
-        .tax-item { text-align: center; }
-        .tax-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--gold); text-transform: uppercase; margin-bottom: 4px; }
-        .tax-value { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 600; color: var(--gold); }
-        .cta-container { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
-        .cta-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-family: var(--font-mono); font-weight: 500; font-size: 0.9rem; text-decoration: none; transition: all 0.2s; }
-        .cta-btn.primary { background: var(--purple); color: white; }
-        .cta-btn.primary:hover { background: var(--purple-light); box-shadow: 0 0 20px rgba(139,92,246,0.4); transform: translateY(-2px); }
-        .cta-btn.secondary { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--text-dim); }
-        .cta-btn.secondary:hover { border-color: var(--purple); color: var(--purple); }
-        .content-section { margin-bottom: 48px; }
-        .section-header { font-family: var(--font-mono); font-size: 1rem; color: var(--purple); margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
-        .tokenomics-grid { display: grid; grid-template-columns: 240px 1fr; gap: 32px; align-items: start; margin-bottom: 24px; }
-        @media(max-width:800px){ .tokenomics-grid{grid-template-columns:1fr} }
-        .chart-container { position: relative; }
-        .donut-chart { width: 100%; height: auto; transform: rotate(-90deg); }
-        .donut-segment { fill: none; stroke-width: 26; transition: all 0.3s; cursor: pointer; }
-        .donut-segment:hover { stroke-width: 32; filter: brightness(1.2); }
-        .chart-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
-        .chart-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; }
-        .chart-value { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 700; color: var(--purple); text-shadow: 0 0 20px rgba(139,92,246,0.5); }
-        .chart-tooltip { position: absolute; background: var(--bg-primary); border: 1px solid var(--purple); border-radius: 8px; padding: 10px 14px; font-family: var(--font-mono); font-size: 0.75rem; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 100; white-space: nowrap; }
-        .chart-tooltip.visible { opacity: 1; display: block; }
-        .tooltip-name { color: var(--text-primary); font-weight: 600; margin-bottom: 2px; }
-        .tooltip-percent { color: var(--purple); font-weight: 600; }
-        .tooltip-amount { color: var(--text-muted); font-size: 0.7rem; }
-        .allocation-list { display: flex; flex-direction: column; gap: 8px; }
-        .allocation-card { background: var(--bg-tertiary); border: 1px solid var(--text-dim); border-radius: 6px; padding: 12px 16px; display: grid; grid-template-columns: 8px 1fr auto; gap: 12px; align-items: center; transition: all 0.2s; }
-        .allocation-card:hover { border-color: var(--purple); transform: translateX(4px); }
-        .allocation-color { width: 8px; height: 32px; border-radius: 3px; }
-        .allocation-info h4 { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; margin-bottom: 2px; }
-        .allocation-info span { font-size: 0.75rem; color: var(--text-muted); }
-        .allocation-badge { font-family: var(--font-mono); font-size: 0.7rem; color: var(--cyan); background: rgba(6,182,212,0.1); padding: 3px 8px; border-radius: 50px; }
-        .specs-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
-        @media(max-width:600px){ .specs-row{grid-template-columns:repeat(3,1fr)} }
-        .spec-card { background: var(--bg-tertiary); border: 1px solid var(--text-dim); border-radius: 6px; padding: 14px 10px; text-align: center; }
-        .spec-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
-        .spec-value { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; color: var(--purple-light); }
-        .utility-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-        @media(max-width:800px){ .utility-grid{grid-template-columns:repeat(2,1fr)} }
-        @media(max-width:500px){ .utility-grid{grid-template-columns:1fr} }
-        .utility-card { background: var(--bg-tertiary); border: 1px solid var(--text-dim); border-radius: 8px; padding: 24px 16px; text-align: center; transition: all 0.2s; }
-        .utility-card:hover { border-color: var(--purple); transform: translateY(-4px); }
-        .utility-icon { width: 44px; height: 44px; background: rgba(139,92,246,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; color: var(--purple); font-size: 1.4rem; }
-        .utility-card h4 { font-family: var(--font-mono); font-size: 0.9rem; margin-bottom: 8px; }
-        .utility-card p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; }
-        .roadmap-timeline { position: relative; max-width: 700px; margin: 0 auto; }
-        .roadmap-line { position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: var(--text-dim); }
-        @media(min-width:700px){ .roadmap-line{left:50%;transform:translateX(-50%)} }
-        .phase { position: relative; padding-left: 56px; padding-bottom: 32px; }
-        @media(min-width:700px){ .phase{padding-left:0;padding-right:0} .phase:nth-child(odd){text-align:right;padding-right:calc(50% + 32px)} .phase:nth-child(even){text-align:left;padding-left:calc(50% + 32px)} }
-        .phase-marker { position: absolute; left: 8px; top: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--bg-tertiary); border: 3px solid var(--text-dim); z-index: 1; }
-        @media(min-width:700px){ .phase-marker{left:50%;transform:translateX(-50%)} .phase:nth-child(even) .phase-marker{left:50%} }
-        .phase.current .phase-marker { background: var(--purple); border-color: var(--purple); box-shadow: 0 0 20px rgba(139,92,246,0.4); }
-        .phase-card { background: var(--bg-tertiary); border: 1px solid var(--text-dim); border-radius: 8px; padding: 18px; }
-        .phase.current .phase-card { border-color: var(--purple); }
-        .phase-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
-        .phase-title { font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; }
-        .phase-status { font-family: var(--font-mono); font-size: 0.6rem; padding: 3px 8px; border-radius: 50px; background: rgba(139,92,246,0.2); color: var(--purple); }
-        .phase-status.upcoming { background: rgba(100,116,139,0.2); color: var(--text-muted); }
-        .phase-date { font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan); margin-bottom: 10px; }
-        .phase-items { list-style: none; font-size: 0.8rem; }
-        .phase-items li { padding: 3px 0; display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); color: var(--text-muted); }
-        .steps-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
-        @media(max-width:900px){ .steps-grid{grid-template-columns:repeat(3,1fr)} }
-        @media(max-width:600px){ .steps-grid{grid-template-columns:repeat(2,1fr)} }
-        .step-card { background: var(--bg-tertiary); border: 1px solid var(--text-dim); border-radius: 8px; padding: 24px 14px; text-align: center; position: relative; transition: all 0.2s; }
-        .step-card:hover { border-color: var(--cyan); transform: translateY(-4px); }
-        .step-number { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 24px; height: 24px; background: var(--purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 0.8rem; }
-        .step-icon { font-size: 2rem; color: var(--purple-light); margin-bottom: 12px; }
-        .step-card h4 { font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 6px; }
-        .step-card p { font-size: 0.7rem; color: var(--text-muted); line-height: 1.4; }
-        .faq-list { max-width: 700px; margin: 0 auto; }
-        .faq-item { background: var(--bg-tertiary); border: 1px solid var(--text-dim); border-radius: 6px; margin-bottom: 8px; overflow: hidden; transition: all 0.2s; }
-        .faq-item:hover { border-color: var(--purple); }
-        .faq-question { width: 100%; padding: 14px 18px; background: none; border: none; color: var(--text-primary); font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .faq-question i { color: var(--purple); transition: transform 0.3s; }
-        .faq-item.open .faq-question i { transform: rotate(180deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s; }
-        .faq-item.open .faq-answer { max-height: 300px; }
-        .faq-answer-content { padding: 0 18px 14px; color: var(--text-muted); font-size: 0.85rem; }
-
-</style>
+    <!-- Styles -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="./style(6).css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;&gt;&lt;rect fill=&#39;%238B5CF6&#39; width=&#39;100&#39; height=&#39;100&#39; rx=&#39;10&#39;/&gt;&lt;text x=&#39;50&#39; y=&#39;65&#39; font-size=&#39;50&#39; text-anchor=&#39;middle&#39; fill=&#39;white&#39; font-family=&#39;monospace&#39;&gt;D&lt;/text&gt;&lt;/svg&gt;">
 </head>
 <body>
     <div class="scanlines"></div>
-    <div class="matrix-rain active" id="matrix-rain"></div>
-<div class="terminal">
-    <header class="terminal-header" style="background: transparent;">
-        <div class="terminal-controls">
-            <span class="control close"></span>
-            <span class="control minimize"></span>
-            <span class="control maximize"></span>
-        </div>
-        <div class="terminal-title">DBOT_TOKENOMICS v1.0.0</div>
-        <div class="terminal-status online">
-            <span class="status-dot"></span>
-            <span id="status-text">ONLINE</span>
-        </div>
-    </header>
+    <div class="matrix-rain active" id="matrix-rain"><div class="matrix-column" style="left: 0%; animation-duration: 8.42275s; animation-delay: 0.112407s;">B
+1
+B
+B
+1
+0
+T
+O
+B
+0
+O
+T
+0
+D
+D
+B
+1
+T
+O
+D
+D
+O
+T
+1
+0
+O
+T
+B
+B
+O
+</div><div class="matrix-column" style="left: 2.85714%; animation-duration: 10.2835s; animation-delay: 2.87525s;">T
+0
+T
+D
+D
+O
+T
+0
+T
+D
+B
+B
+1
+0
+D
+O
+T
+O
+1
+B
+T
+0
+T
+B
+B
+T
+1
+D
+D
+O
+</div><div class="matrix-column" style="left: 5.71429%; animation-duration: 12.7964s; animation-delay: 1.73522s;">O
+B
+B
+B
+D
+0
+O
+1
+T
+0
+1
+1
+D
+0
+B
+1
+D
+O
+0
+0
+D
+D
+1
+0
+T
+D
+0
+0
+B
+1
+</div><div class="matrix-column" style="left: 8.57143%; animation-duration: 13.5318s; animation-delay: 2.02308s;">D
+O
+O
+T
+O
+B
+0
+D
+O
+0
+T
+B
+1
+1
+O
+1
+B
+T
+D
+0
+O
+B
+D
+0
+T
+O
+T
+1
+T
+D
+</div><div class="matrix-column" style="left: 11.4286%; animation-duration: 14.8811s; animation-delay: 0.526208s;">D
+O
+1
+T
+0
+0
+B
+0
+D
+1
+1
+O
+0
+0
+D
+O
+D
+1
+O
+B
+0
+1
+T
+1
+B
+B
+B
+D
+0
+1
+</div><div class="matrix-column" style="left: 14.2857%; animation-duration: 10.988s; animation-delay: 2.58953s;">T
+T
+T
+D
+B
+T
+1
+D
+D
+0
+D
+0
+1
+B
+D
+0
+1
+0
+B
+O
+0
+1
+1
+O
+0
+D
+0
+B
+B
+B
+</div><div class="matrix-column" style="left: 17.1429%; animation-duration: 14.411s; animation-delay: 2.78704s;">0
+0
+D
+1
+1
+0
+O
+T
+B
+0
+T
+1
+D
+D
+1
+B
+1
+B
+0
+B
+1
+1
+1
+B
+B
+T
+B
+1
+B
+D
+</div><div class="matrix-column" style="left: 20%; animation-duration: 9.09538s; animation-delay: 0.462176s;">T
+T
+D
+D
+O
+T
+D
+T
+0
+0
+0
+B
+B
+0
+1
+D
+D
+B
+O
+O
+T
+0
+T
+0
+B
+0
+0
+T
+T
+B
+</div><div class="matrix-column" style="left: 22.8571%; animation-duration: 11.0064s; animation-delay: 2.44494s;">O
+0
+B
+1
+B
+D
+O
+0
+0
+0
+0
+O
+1
+T
+1
+0
+0
+1
+B
+1
+1
+B
+1
+D
+O
+T
+D
+T
+1
+0
+</div><div class="matrix-column" style="left: 25.7143%; animation-duration: 17.6532s; animation-delay: 2.54913s;">D
+T
+0
+O
+O
+D
+O
+T
+T
+D
+T
+0
+1
+O
+0
+T
+1
+B
+1
+0
+D
+0
+1
+O
+1
+T
+D
+B
+0
+B
+</div><div class="matrix-column" style="left: 28.5714%; animation-duration: 19.6175s; animation-delay: 0.647551s;">T
+D
+D
+0
+1
+T
+1
+1
+D
+1
+O
+0
+O
+1
+D
+D
+B
+0
+O
+B
+B
+0
+D
+O
+0
+1
+1
+O
+D
+O
+</div><div class="matrix-column" style="left: 31.4286%; animation-duration: 8.63945s; animation-delay: 1.0579s;">B
+T
+O
+T
+T
+B
+D
+B
+1
+D
+B
+1
+1
+O
+D
+1
+B
+0
+B
+0
+B
+1
+D
+0
+O
+D
+T
+0
+0
+1
+</div><div class="matrix-column" style="left: 34.2857%; animation-duration: 13.8483s; animation-delay: 1.92268s;">O
+T
+T
+O
+1
+D
+B
+0
+T
+B
+0
+0
+O
+T
+O
+1
+B
+0
+0
+0
+0
+D
+0
+B
+1
+O
+T
+O
+D
+1
+</div><div class="matrix-column" style="left: 37.1429%; animation-duration: 19.1094s; animation-delay: 0.110782s;">0
+B
+T
+0
+1
+0
+T
+D
+D
+1
+T
+B
+1
+B
+T
+1
+T
+1
+T
+B
+T
+O
+D
+B
+1
+T
+O
+B
+D
+B
+</div><div class="matrix-column" style="left: 40%; animation-duration: 9.08865s; animation-delay: 1.2723s;">1
+1
+D
+O
+0
+B
+B
+1
+B
+B
+0
+B
+0
+0
+0
+0
+1
+B
+1
+T
+0
+1
+1
+1
+D
+T
+B
+1
+D
+B
+</div><div class="matrix-column" style="left: 42.8571%; animation-duration: 13.4728s; animation-delay: 1.52503s;">D
+T
+T
+B
+O
+1
+1
+B
+T
+O
+O
+D
+1
+T
+O
+D
+1
+O
+1
+T
+D
+0
+0
+0
+O
+O
+0
+1
+0
+O
+</div><div class="matrix-column" style="left: 45.7143%; animation-duration: 12.0364s; animation-delay: 1.22441s;">D
+0
+D
+B
+D
+0
+B
+T
+D
+T
+O
+1
+0
+B
+0
+1
+T
+T
+D
+D
+B
+T
+B
+1
+1
+T
+D
+B
+1
+B
+</div><div class="matrix-column" style="left: 48.5714%; animation-duration: 8.46621s; animation-delay: 1.35121s;">D
+B
+O
+1
+T
+D
+B
+1
+0
+1
+T
+1
+O
+0
+D
+O
+D
+O
+O
+0
+1
+0
+0
+B
+T
+B
+D
+D
+T
+D
+</div><div class="matrix-column" style="left: 51.4286%; animation-duration: 14.2631s; animation-delay: 0.354706s;">D
+D
+D
+D
+T
+1
+T
+O
+B
+0
+O
+1
+O
+B
+O
+T
+D
+B
+0
+B
+O
+1
+1
+O
+B
+B
+O
+T
+D
+1
+</div><div class="matrix-column" style="left: 54.2857%; animation-duration: 14.7958s; animation-delay: 0.339539s;">D
+T
+B
+T
+O
+0
+0
+O
+D
+0
+O
+0
+B
+T
+O
+0
+T
+D
+1
+T
+B
+T
+D
+O
+1
+0
+1
+O
+D
+O
+</div><div class="matrix-column" style="left: 57.1429%; animation-duration: 9.46507s; animation-delay: 2.27177s;">T
+O
+T
+0
+B
+B
+1
+D
+T
+1
+B
+O
+0
+B
+T
+1
+0
+D
+D
+B
+D
+B
+1
+T
+T
+B
+1
+0
+1
+O
+</div><div class="matrix-column" style="left: 60%; animation-duration: 12.6142s; animation-delay: 0.401912s;">0
+O
+O
+0
+B
+0
+O
+0
+O
+1
+0
+O
+0
+1
+D
+B
+O
+B
+D
+B
+D
+T
+B
+D
+T
+O
+1
+1
+1
+1
+</div><div class="matrix-column" style="left: 62.8571%; animation-duration: 18.7373s; animation-delay: 2.11778s;">1
+D
+1
+O
+1
+B
+D
+O
+B
+D
+O
+1
+T
+1
+0
+O
+D
+B
+B
+0
+D
+0
+O
+O
+O
+O
+O
+B
+O
+T
+</div><div class="matrix-column" style="left: 65.7143%; animation-duration: 14.7448s; animation-delay: 2.33638s;">D
+O
+O
+O
+T
+D
+T
+B
+D
+1
+0
+B
+O
+D
+O
+D
+B
+D
+B
+D
+D
+0
+1
+0
+0
+O
+1
+T
+T
+O
+</div><div class="matrix-column" style="left: 68.5714%; animation-duration: 17.9748s; animation-delay: 0.555931s;">0
+0
+B
+B
+0
+0
+D
+0
+0
+0
+D
+D
+0
+0
+D
+1
+O
+1
+1
+D
+B
+T
+1
+T
+D
+T
+B
+D
+B
+T
+</div><div class="matrix-column" style="left: 71.4286%; animation-duration: 11.8287s; animation-delay: 1.92441s;">D
+0
+0
+O
+T
+0
+1
+B
+0
+T
+T
+1
+O
+T
+1
+1
+0
+T
+O
+0
+D
+T
+0
+1
+O
+0
+1
+0
+T
+T
+</div><div class="matrix-column" style="left: 74.2857%; animation-duration: 10.3562s; animation-delay: 0.846401s;">O
+B
+D
+B
+O
+0
+0
+O
+T
+B
+O
+1
+O
+1
+1
+1
+D
+O
+1
+0
+1
+1
+B
+B
+1
+0
+T
+T
+O
+0
+</div><div class="matrix-column" style="left: 77.1429%; animation-duration: 12.3813s; animation-delay: 1.76344s;">O
+D
+T
+T
+0
+1
+1
+B
+B
+B
+1
+T
+T
+D
+D
+1
+0
+1
+1
+0
+D
+D
+D
+B
+0
+0
+1
+1
+0
+D
+</div><div class="matrix-column" style="left: 80%; animation-duration: 10.5881s; animation-delay: 1.08648s;">B
+B
+D
+O
+D
+O
+0
+O
+0
+O
+B
+O
+B
+1
+O
+T
+O
+O
+T
+1
+B
+1
+0
+T
+O
+O
+O
+0
+T
+0
+</div><div class="matrix-column" style="left: 82.8571%; animation-duration: 18.8896s; animation-delay: 2.97605s;">D
+B
+1
+T
+1
+0
+T
+0
+T
+T
+0
+B
+1
+1
+0
+O
+T
+0
+B
+T
+B
+1
+1
+B
+1
+0
+0
+0
+O
+1
+</div><div class="matrix-column" style="left: 85.7143%; animation-duration: 15.5251s; animation-delay: 1.55368s;">O
+1
+D
+O
+B
+B
+T
+T
+D
+1
+D
+B
+T
+T
+D
+T
+1
+T
+D
+O
+D
+0
+B
+0
+1
+B
+B
+0
+D
+O
+</div><div class="matrix-column" style="left: 88.5714%; animation-duration: 13.1249s; animation-delay: 1.65021s;">O
+D
+0
+0
+O
+0
+B
+0
+0
+0
+D
+1
+O
+B
+0
+0
+O
+B
+T
+T
+D
+D
+B
+D
+0
+B
+T
+0
+O
+1
+</div><div class="matrix-column" style="left: 91.4286%; animation-duration: 19.9556s; animation-delay: 2.66121s;">O
+0
+D
+0
+1
+1
+B
+B
+T
+B
+O
+1
+D
+B
+B
+O
+T
+1
+T
+T
+1
+1
+T
+T
+O
+T
+O
+D
+O
+D
+</div><div class="matrix-column" style="left: 94.2857%; animation-duration: 11.3419s; animation-delay: 2.927s;">O
+1
+1
+T
+O
+1
+O
+T
+O
+T
+T
+T
+D
+D
+O
+D
+1
+B
+1
+D
+1
+0
+1
+0
+1
+0
+B
+D
+B
+D
+</div><div class="matrix-column" style="left: 97.1429%; animation-duration: 17.6238s; animation-delay: 1.11233s;">0
+1
+O
+0
+O
+D
+0
+1
+D
+B
+B
+0
+1
+T
+D
+T
+B
+O
+T
+1
+O
+B
+D
+1
+1
+0
+O
+0
+O
+D
+</div></div>
     
-    <main class="terminal-body">
+    <div class="terminal">
+        <header class="terminal-header">
+            <div class="terminal-controls">
+                <span class="control close"></span>
+                <span class="control minimize"></span>
+                <span class="control maximize"></span>
+            </div>
+            <div class="terminal-title">DBOT_NEURAL_OS v0.0.1</div>
+            <div class="terminal-status online">
+                <span class="status-dot"></span>
+                <span id="status-text">ONLINE</span>
+            </div>
+        </header>
+        
+        <main class="terminal-body">
+            <!-- Boot Sequence -->
+            <div class="boot-sequence" id="boot-sequence" style="display: block;">
+                <div class="boot-line">&gt; DBOT kernel loading...</div>
+                <div class="boot-line">&gt; neural_network: <span class="muted">[OK]</span></div>
+                <div class="boot-line">&gt; community_protocol: <span class="muted">[OK]</span></div>
+                <div class="boot-line">&gt; governance_module: <span class="muted">[PENDING]</span></div>
+                <div class="boot-line">&gt; establishing connection to Dogechain...</div>
+                <div class="boot-line blink">&gt; _</div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="main-content" id="main-content" style="display: block;">
+
         <!-- TOKENOMICS CONTENT - Same structure as dbot.dog -->
         
         <!-- Hero Section -->
@@ -564,58 +1527,32 @@
         
     </main>
     
-    <footer class="terminal-footer">
-        <div class="footer-left">
-            <span class="footer-item"><i class="ph-bold ph-lock-key"></i> SECURE</span>
-            <span class="footer-item"><i class="ph-bold ph-wifi-high"></i> CONNECTED</span>
-        </div>
-        <div class="footer-center">
-            <span class="footer-item">2026 DBOT. Decentralized Intelligence. Community Owned.</span>
-        </div>
-        <div class="footer-right">
-            <span class="footer-item"><i class="ph-bold ph-cpu"></i> NEURAL_NET: ACTIVE</span>
-        </div>
-    </footer>
+    
+</div>
+        </main>
+</main>
+</div>
+<footer class="terminal-footer">
+            <div class="footer-left">
+                <span class="footer-item"><i class="ph-bold ph-lock-key"></i> SECURE</span>
+                <span class="footer-item"><i class="ph-bold ph-wifi-high"></i> CONNECTED</span>
+            </div>
+            <div class="footer-center">
+                <span class="footer-item">2026 DBOT. Built on Dogechain.</span>
+            </div>
+            <div class="footer-right">
+                <span class="footer-item"><i class="ph-bold ph-cpu"></i> NEURAL_NET: ACTIVE</span>
+            </div>
+        </footer>
     </div>
     
+    <script src="./main.js"></script>
+    
+    <!-- Vercel Speed Insights - must be before </body> -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // FAQ Accordion
-            document.querySelectorAll('.faq-question').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const item = btn.parentElement;
-                    const wasOpen = item.classList.contains('open');
-                    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-                    if (!wasOpen) item.classList.add('open');
-                });
-            });
-            
-            // Donut Chart Tooltip
-            const segments = document.querySelectorAll('.donut-segment');
-            const tooltip = document.getElementById('chartTooltip');
-            const wrapper = document.querySelector('.chart-container');
-            
-            segments.forEach(seg => {
-                seg.addEventListener('mouseenter', () => {
-                    tooltip.querySelector('.tooltip-name').textContent = seg.dataset.name;
-                    tooltip.querySelector('.tooltip-percent').textContent = seg.dataset.percent;
-                    tooltip.querySelector('.tooltip-amount').textContent = seg.dataset.amount + ' DBOT';
-                    tooltip.classList.add('visible');
-                });
-                seg.addEventListener('mousemove', e => {
-                    const rect = wrapper.getBoundingClientRect();
-                    tooltip.style.left = (e.clientX - rect.left + 10) + 'px';
-                    tooltip.style.top = (e.clientY - rect.top - 60) + 'px';
-                });
-                seg.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
-            });
-            
-            // Price simulation
-            setInterval(() => {
-                const el = document.querySelector('[data-price]');
-                if (el) el.textContent = '$' + (0.00001234 + (Math.random() - 0.5) * 0.000001).toFixed(8);
-            }, 30000);
-        });
+        // Speed Insights will be auto-injected by Vercel when enabled in dashboard
+        // No manual script needed - just enable in Vercel Dashboard → Speed Insights
     </script>
-</body>
-</html>
+
+
+</body></html>
