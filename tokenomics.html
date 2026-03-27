@@ -90,11 +90,11 @@
         .section-header { font-family: var(--font-mono); font-size: 1rem; color: var(--purple); margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
         .tokenomics-grid { display: grid; grid-template-columns: 240px 1fr; gap: 32px; align-items: start; margin-bottom: 24px; }
         @media(max-width:800px){ .tokenomics-grid{grid-template-columns:1fr} }
-        .chart-container { position: relative; }
+        .chart-container { position: relative; width: 220px; height: 220px; margin: 0 auto; }
         .donut-chart { width: 100%; height: auto; transform: rotate(-90deg); }
         .donut-segment { fill: none; stroke-width: 26; transition: all 0.3s; cursor: pointer; }
         .donut-segment:hover { stroke-width: 32; filter: brightness(1.2); }
-        .chart-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
+        .chart-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; z-index: 10; background: transparent; }
         .chart-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; }
         .chart-value { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 700; color: var(--purple); text-shadow: 0 0 20px rgba(139,92,246,0.5); }
         .chart-tooltip { position: absolute; background: var(--bg-primary); border: 1px solid var(--purple); border-radius: 8px; padding: 10px 14px; font-family: var(--font-mono); font-size: 0.75rem; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 100; white-space: nowrap; }
