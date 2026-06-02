@@ -25,5 +25,10 @@
         { "key": "X-XSS-Protection", "value": "1; mode=block" }
       ]
     }
+  ],
+  "rewrites": [
+    { "source": "/dogechain-pulse",        "destination": "https://dogechain-pulse.vercel.app" },
+    { "source": "/dogechain-pulse/",       "destination": "https://dogechain-pulse.vercel.app/" },
+    { "source": "/dogechain-pulse/:path*", "destination": "https://dogechain-pulse.vercel.app/:path*" }
   ]
 }
