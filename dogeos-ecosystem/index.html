@@ -73,12 +73,12 @@
   --bg-secondary: #12121c;
   --bg-tertiary: #1a1a26;
   --bg-elevated: #20202e;
-  /* Text */
+  /* Text — bumped dim/fade to meet WCAG AA on tinted dark bg */
   --text-bright: #f8fafc;
   --text-primary: #e2e8f0;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
-  --text-fade: #475569;
+  --text-muted: #cbd5e1;
+  --text-dim: #94a3b8;
+  --text-fade: #7e8b9e;
   /* Borders */
   --border: rgba(255, 255, 255, 0.06);
   --border-strong: rgba(255, 255, 255, 0.12);
@@ -226,7 +226,7 @@ body {
   display: block;
   color: var(--purple-light);
   font-weight: 400;
-  font-size: 0.55em;
+  font-size: 0.62em;
   letter-spacing: -0.02em;
   margin-top: 0.4rem;
 }
@@ -252,13 +252,13 @@ body {
   gap: 2rem;
   flex-wrap: wrap;
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   color: var(--text-dim);
   border-top: 1px solid var(--border);
   padding-top: 1.5rem;
 }
 .hero-meta dt {
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--text-fade);
