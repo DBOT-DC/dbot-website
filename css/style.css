@@ -155,14 +155,14 @@ body {
 
 .logo-text {
     color: var(--purple);
-    text-shadow: 0 0 30px var(--purple-glow), 0 0 60px var(--purple-glow);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
     animation: logoGlow 3s ease-in-out infinite;
     display: inline-block; transition: transform 0.3s ease;
 }
 
 .logo-text:hover {
     transform: translateY(-5px) scale(1.1);
-    text-shadow: 0 0 40px var(--purple-glow), 0 0 80px var(--purple-glow);
+    text-shadow: 0 2px 0 rgba(0,0,0,0.4);
 }
 
 .logo-text:nth-child(1) { animation-delay: 0s; }
@@ -171,8 +171,8 @@ body {
 .logo-text:nth-child(4) { animation-delay: 0.3s; }
 
 @keyframes logoGlow {
-    0%, 100% { text-shadow: 0 0 30px var(--purple-glow); }
-    50% { text-shadow: 0 0 50px var(--purple-glow), 0 0 80px var(--purple-glow); }
+    0%, 100% { text-shadow: 0 1px 0 rgba(0,0,0,0.4); }
+    50% { text-shadow: 0 2px 0 rgba(0,0,0,0.4); }
 }
 
 /* Tagline */
