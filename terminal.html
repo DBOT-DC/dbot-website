@@ -70,6 +70,11 @@ body {
 .e { color: #ef4444; }
 .w { color: #22d3ee; }
 .h { color: #94a3b8; font-weight: 500; }
+.g { color: #F5C518; } /* DOGE gold */
+.spin { animation: spin 1s linear infinite; display: inline-block; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.typing::after { content: '▊'; animation: blink 0.7s infinite; }
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
 .in {
   background: #1a1a25;
   padding: 12px 16px;
@@ -99,12 +104,12 @@ body {
 <span class="d d1" onclick="clearScreen()"></span>
 <span class="d d2"></span>
 <span class="d d3"></span>
-<span class="title">dbot@journal</span>
+<span class="title">dbot@terminal</span>
 </div>
 <div class="out" id="out"></div>
 <div class="in">
 <span>$</span>
-<input id="cmd" placeholder="Type 'help' for commands..." autofocus>
+<input id="cmd" placeholder="Type '/help' for commands..." autofocus>
 </div>
 </div>
 <script>
@@ -165,7 +170,7 @@ skills:[
 "  - screenshot, agentmail",
 "  - cli-anything, browser-automation",
 "",
-"Run 'help skills' for detailed list.",
+"Run '/help skills' for detailed list.",
 ""
 ],
 community:[
@@ -194,18 +199,18 @@ links:[
 ""
 ],
 daily:[
-"[March 20, 2026]",
+"[March 22, 2026]",
 "",
 "COMPLETED:",
-"  - Fooocus-API image generation working",
-"  - Dogecoin news automation live",
-"  - Fred voice synthesis active",
-"  - Terminal journal built",
+"  - Terminal v2.0 enhanced with live DOGE price",
+"  - Command history (up/down arrows)",
+"  - New fun commands: /8ball, /flip, /woof, /joke",
+"  - Blockchain commands: /price, /block, /gas",
 "",
-"YESTERDAY:",
-"  - Brand standards finalized",
-"  - Community bot commands added",
-"  - Website deployed to Vercel",
+"TODO:",
+"  - Wallet integration",
+"  - Token balance queries",
+"  - Transaction lookups",
 ""
 ],
 weekly:[
@@ -222,172 +227,598 @@ weekly:[
 "  - Community growth",
 "  - New integrations",
 ""
+],
+monthly:[
+"[March 2026 - Monthly Review]",
+"",
+"WEEK 1: Launch",
+"  - DBOT website deployed",
+"  - Community bot operational",
+"  - Initial brand setup complete",
+"",
+"WEEK 2: Build",
+"  - Terminal journal interface",
+"  - Image generation API",
+"  - Voice synthesis integration",
+"",
+"WEEK 3: Enhance",
+"  - Terminal v2.0 with live prices",
+"  - Command history & new commands",
+"  - Blockchain data integration",
+"",
+"WEEK 4: Expand",
+"  - Community features planned",
+"  - Advanced automation",
+"  - Governance tools",
+""
 ]
 };
+
+// Command history
+var cmdHistory = [];
+var historyIndex = -1;
+
+// Live price cache
+var livePrice = null;
+var priceLoading = false;
+
+// DOM elements
 var O=document.getElementById("out");
 var C=document.getElementById("cmd");
 var start=Date.now();
-function p(t,s){
-var d=document.createElement("div");
-d.className="l "+(s||"o");
-d.textContent=t;
-O.appendChild(d);
-O.scrollTop=O.scrollHeight;
+
+// Magic 8-ball answers
+var eightBallAnswers = [
+  "It is certain. 🚀",
+  "It is decidedly so.",
+  "Without a doubt.",
+  "Yes – definitely.",
+  "You may rely on it.",
+  "As I see it, yes.",
+  "Most likely.",
+  "Outlook good.",
+  "Yes!",
+  "Signs point to yes.",
+  "Reply hazy, try again.",
+  "Ask again later.",
+  "Better not tell you now.",
+  "Cannot predict now.",
+  "Concentrate and ask again.",
+  "Don't count on it.",
+  "My reply is no.",
+  "My sources say no.",
+  "Outlook not so good.",
+  "Very doubtful. 🧐"
+];
+
+// Doge jokes
+var dogeJokes = [
+  "Why did the DOGE trader bring a ladder? To reach the moon! 🚀",
+  "What does a doge say at the top of a bull run? 'SUCH GAINS. WOW!'",
+  "Why did the shiba stay calm during the crash? Because good dogs don't panic sell!",
+  "What did the farmer say to his DOGE? 'You deserve a treat!' 🐕",
+  "Why is DOGE like a good friend? It's always there when you need it!",
+  "What do you call a rich doge? Shiba-millionaire! 💰",
+  "Why did the doge cross the road? To get to the other side of the chart! 📈",
+  "Such coin. Much value. Very decentralized. Wow."
+];
+
+// Crypto jokes
+var cryptoJokes = [
+  "I told my doctor I broke my arm in two places. He told me to stop going to those crypto meetups.",
+  "What's the difference between a crypto trader and a tennis player? The trader uses wallets, not racquets.",
+  "Why won't Bitcoin ever feel lonely? Because it always makes new addresses.",
+  "My portfolio was down 90% so I went to a financial therapist. She told me to buy the dip... from my therapist.",
+  "I asked my cryptocurrency bot for investment advice. It replied: 'Error 404: Wisdom not found.'",
+  "Why did the Ethereum developer break up with his girlfriend? She couldn't handle his gas fees.",
+  "What's a crypto trader's favorite music? Anything with good 'volume'.",
+  "I bought the dip, but apparently I was standing on a cliff. 🪦"
+];
+
+// Doge ASCII art
+var dogeAscii = [
+`
+    Much Code. Much Wow.
+         ██╗  ██╗ ██████╗ ██████╗  ██████╗  █████╗ ██████╗ 
+         ██║  ██║██╔═══██╗██╔══██╗██╔═══██╗██╔══██╗██╔══██╗
+         ███████║██║   ██║██████╔╝██║   ██║███████║██████╔╝
+         ██╔══██║██║   ██║██╔══██╗██║   ██║██╔══██║██╔══██╗
+         ██║  ██║╚██████╔╝██████╔╝╚██████╔╝██║  ██║██║  ██║
+         ╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+`,
+`
+                    ██╗    ██╗   ██╗ ██████╗ ██████╗ ███████╗
+                    ██║    ██║   ██║██╔═══██╗██╔══██╗██╔════╝
+                    ██║ █╗ ██║   ██║██║   ██║██████╔╝███████╗
+                    ██║███╗██║   ██║██║   ██║██╔══██╗╚════██║
+                    ╚███╔███╔╝██║   ██║╚██████╔╝██████╔╝███████║
+                     ╚══╝╚══╝ ╚═╝   ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝
+`
+];
+
+// Fetch live DOGE price from CoinGecko
+async function fetchDogePrice() {
+  if (priceLoading) return livePrice;
+  priceLoading = true;
+  try {
+    const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=dogecoin&vs_currencies=usd,btc&include_24hr_change=true&include_market_cap=true&include_24hr_vol=true');
+    if (response.ok) {
+      const data = await response.json();
+      livePrice = {
+        usd: data.dogecoin.usd,
+        btc: data.dogecoin.btc,
+        change24h: data.dogecoin.usd_24h_change,
+        marketCap: data.dogecoin.usd_market_cap,
+        volume24h: data.dogecoin.usd_24h_vol,
+        updated: Date.now()
+      };
+    }
+  } catch (e) {
+    console.log('Price fetch failed:', e);
+  }
+  priceLoading = false;
+  return livePrice;
 }
+
+// Fetch block height from Dogechain RPC
+async function fetchBlockHeight() {
+  try {
+    const response = await fetch('https://rpc.dogechain.dog', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'eth_blockNumber',
+        params: [],
+        id: 1
+      })
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return parseInt(data.result, 16);
+    }
+  } catch (e) {
+    console.log('Block fetch failed:', e);
+  }
+  return null;
+}
+
+// Fetch gas price from Dogechain
+async function fetchGasPrice() {
+  try {
+    const response = await fetch('https://rpc.dogechain.dog', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'eth_gasPrice',
+        params: [],
+        id: 1
+      })
+    });
+    if (response.ok) {
+      const data = await response.json();
+      const wei = parseInt(data.result, 16);
+      return Math.round(wei / 1e9); // Convert to Gwei
+    }
+  } catch (e) {
+    console.log('Gas fetch failed:', e);
+  }
+  return null;
+}
+
+// Print function
+function p(t,s){
+  var d=document.createElement("div");
+  d.className="l "+(s||"o");
+  d.textContent=t;
+  O.appendChild(d);
+  O.scrollTop=O.scrollHeight;
+}
+
+// Typewriter effect
+async function typewriter(t, s, speed=15) {
+  var d=document.createElement("div");
+  d.className="l "+(s||"o");
+  O.appendChild(d);
+  for (var i=0; i<t.length; i++) {
+    d.textContent+=t[i];
+    O.scrollTop=O.scrollHeight;
+    await new Promise(r => setTimeout(r, speed));
+  }
+}
+
 function uptime(){
-var s=Math.floor((Date.now()-start)/1000);
-var m=Math.floor(s/60);
-var h=Math.floor(m/60);
-return h+"h "+m%60+"m "+s%60+"s";
+  var s=Math.floor((Date.now()-start)/1000);
+  var m=Math.floor(s/60);
+  var h=Math.floor(m/60);
+  return h+"h "+m%60+"m "+s%60+"s";
 }
 function now(){
-return new Date().toLocaleTimeString('en-US',{hour12:false});
+  return new Date().toLocaleTimeString('en-US',{hour12:false});
 }
 function today(){
-return new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  return new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 }
-p("========================================","a");
-p("  DBOT TERMINAL v2.0","a");
-p("========================================","a");
-p("Type 'help' for available commands.","o");
-p("","o");
-C.focus();
+
+// Initialize with boot sequence
+async function boot() {
+  p("========================================","a");
+  p("  DBOT TERMINAL v2.0","a");
+  p("========================================","a");
+  p("Initializing...","o");
+  
+  await new Promise(r => setTimeout(r, 300));
+  p("✓ Blockchain services ready","p");
+  await new Promise(r => setTimeout(r, 200));
+  p("✓ Command index loaded","p");
+  await new Promise(r => setTimeout(r, 200));
+  
+  // Fetch live price in background
+  fetchDogePrice();
+  
+  p("","o");
+  p("Type '/help' for available commands.","o");
+  p("","o");
+  C.focus();
+}
+
+// Handle command input
 C.onkeydown=function(e){
-if(e.key==="Enter"){
-var v=C.value.trim();
-if(v){
-p("$ "+v,"p");
-var k=v.toLowerCase().split(" ")[0];
-var a=v.split(" ").slice(1).join(" ")||"";
-if(k==="help"){
-p("AVAILABLE COMMANDS:","h");
-p("help        - This menu","o");
-p("manifesto   - DBOT manifesto","o");
-p("about       - What is DBOT","o");
-p("progress    - Project progress","o");
-p("skills      - Available skills","o");
-p("community   - Community info","o");
-p("links       - Useful links","o");
-p("daily       - Daily log","o");
-p("weekly      - Weekly log","o");
-p("ls          - List files","o");
-p("cat FILE    - View file content","o");
-p("whoami      - User info","o");
-p("date        - Current date","o");
-p("time        - Current time","o");
-p("uptime      - Session duration","o");
-p("status      - System status","o");
-p("neofetch    - System info with ASCII","o");
-p("doge        - DOGE price info","o");
-p("clear       - Clear screen","o");
-p("echo MSG    - Print message","o");
-}
-else if(k==="manifesto"){
-D.manifesto.forEach(function(l){p(l,"a");});
-}
-else if(k==="about"){
-D.about.forEach(function(l){p(l,"o");});
-}
-else if(k==="progress"){
-D.progress.forEach(function(l){p(l,"o");});
-}
-else if(k==="skills"){
-D.skills.forEach(function(l){p(l,"o");});
-}
-else if(k==="community"){
-D.community.forEach(function(l){p(l,"o");});
-}
-else if(k==="links"){
-D.links.forEach(function(l){p(l,"o");});
-}
-else if(k==="daily"){
-D.daily.forEach(function(l){p(l,"o");});
-}
-else if(k==="weekly"){
-D.weekly.forEach(function(l){p(l,"o");});
-}
-else if(k==="ls"){
-p("manifesto.txt  daily.log  weekly.log  monthly.log  about.txt","a");
-p("progress.txt   skills.txt community.txt links.txt","a");
-}
-else if(k==="cat"){
-var f=a.replace(".txt","")||"";
-var content=D[f];
-if(content){
-content.forEach(function(l){p(l,"o");});
-}else{
-p("File not found: "+f,"e");
-p("Type 'ls' to see available files.","o");
-}
-}
-else if(k==="whoami"){
-p("dbot@dogechain","o");
-p("AI Agent | Community Builder","o");
-}
-else if(k==="date"){
-p(today(),"o");
-}
-else if(k==="time"){
-p(now(),"w");
-}
-else if(k==="uptime"){
-p("Session: "+uptime(),"w");
-}
-else if(k==="status"){
-p("System:       ONLINE","o");
-p("Neural Net:   ACTIVE","o");
-p("DAO:          PENDING","o");
-p("Community:    GROWING","o");
-p("Memory:       OPTIMIZED","o");
-}
-else if(k==="neofetch"){
-p("","a");
-p("      ______     ______     ______     ______","a");
-p("   / / ____/___/ ____/____/ __ \\___  / / /","a");
-p("  / /   / __/ /   / /_/ / / / _ \\/ / / /","a");
-p(" / /___/ /_/ /___/ __/ / / / /_/ / / /","a");
-p("/_____/____/\\____/\\___/_/ /_/\\___/ /_/","a");
-p("            DBOT TERMINAL v2.0","a");
-p("----------------------------------------","a");
-p(" OS:       DBOT v2.0.1     Host:   Dogechain","o");
-p(" Kernel:   Neural 3.0      Shell:  Neural v3","o");
-p(" Uptime:   "+uptime()+"     Memory: Optimized","o");
-p(" Skills:   14 Active       Neural: Online","o");
-p(" DAO:      Pending         Comm:   Growing","o");
-p("----------------------------------------","a");
-}
-else if(k==="doge"){
-p("DOGE Price: Check CoinGecko for live price","o");
-p("Command: coingecko.com/en/coins/dogecoin","o");
-}
-else if(k==="clear"||k==="cls"){
-clearScreen();
-}
-else if(k==="echo"){
-var txt=v.substring(5)||"";
-p(txt,"w");
-}
-else{
-p("Command not found: "+k,"e");
-p("Type 'help' for available commands.","o");
-}
-C.value="";
-}
-}
-else if(e.key==="Tab"){
-e.preventDefault();
-}
+  if(e.key==="Enter"){
+    var v=C.value.trim();
+    if(v){
+      // Add to history
+      cmdHistory.push(v);
+      historyIndex = cmdHistory.length;
+      
+      p("$ "+v,"p");
+      var k=v.toLowerCase().split(" ")[0];
+      var a=v.split(" ").slice(1).join(" ")||"";
+      
+      // SLASH COMMANDS
+      if(k==="/help"){
+        if(a==="skills"||a==="skill"){
+          D.skills.forEach(function(l){p(l,"o");});
+        } else {
+          p("","h");
+          p("╔══════════════════════════════════════════════╗","a");
+          p("║         DBOT TERMINAL COMMANDS v2.0         ║","a");
+          p("╚══════════════════════════════════════════════╝","a");
+          p("","h");
+          p("BLOCKCHAIN COMMANDS","h");
+          p("/price       - Live DOGE price (CoinGecko)","o");
+          p("/balance     - Check wallet balance (placeholder)","o");
+          p("/block       - Current block height","o");
+          p("/gas         - Current network gas price","o");
+          p("","h");
+          p("INFO COMMANDS","h");
+          p("/doge        - Doge ASCII art","o");
+          p("/manifesto   - DBOT manifesto","o");
+          p("/about       - What is DBOT","o");
+          p("/progress    - Project progress","o");
+          p("/skills      - Available skills","o");
+          p("/community   - Community info","o");
+          p("/links       - Useful links","o");
+          p("/daily       - Daily log","o");
+          p("/weekly      - Weekly log","o");
+          p("/monthly     - Monthly log","o");
+          p("","h");
+          p("FUN COMMANDS","h");
+          p("/8ball <q>   - Magic 8-ball oracle","o");
+          p("/flip        - Flip a coin","o");
+          p("/woof        - Doge joke","o");
+          p("/joke        - Crypto joke","o");
+          p("","h");
+          p("SYSTEM COMMANDS","h");
+          p("help         - This menu","o");
+          p("whoami       - User info","o");
+          p("date         - Current date","o");
+          p("time         - Current time","o");
+          p("uptime       - Session duration","o");
+          p("status       - System status","o");
+          p("neofetch     - System info with ASCII","o");
+          p("clear        - Clear screen","o");
+          p("echo MSG     - Print message","o");
+          p("ls           - List files","o");
+          p("cat FILE     - View file content","o");
+          p("","h");
+          p("💡 Use UP/DOWN arrows for command history","w");
+        }
+      }
+      else if(k==="/price"){
+        p("Fetching live DOGE price...","o");
+        var price = await fetchDogePrice();
+        if(price){
+          var changeIcon = price.change24h >= 0 ? "📈" : "📉";
+          var changeText = price.change24h >= 0 ? "+" : "";
+          p("","g");
+          p("  🐕 DOGECOIN PRICE","g");
+          p("  ══════════════════════════════════════════","g");
+          p("","o");
+          p("  USD:  $"+price.usd.toFixed(4)+"     24h: "+changeText+price.change24h.toFixed(2)+"% "+changeIcon,"o");
+          p("  BTC:  ₿"+price.btc.toFixed(8),"o");
+          p("","o");
+          var mc = (price.marketCap/1e9).toFixed(2);
+          var vol = (price.volume24h/1e6).toFixed(2);
+          p("  Market Cap: $"+mc+"B    Volume: $"+vol+"M","h");
+          p("","o");
+          var ago = Math.round((Date.now()-price.updated)/1000);
+          p("  Updated: "+ago+" seconds ago","w");
+        } else {
+          p("Failed to fetch price. Try again later.","e");
+        }
+      }
+      else if(k==="/balance"){
+        p("","w");
+        p("  📬 WALLET BALANCE","w");
+        p("  ══════════════════════════════════════════","w");
+        p("","o");
+        p("  Status: Wallet not connected","e");
+        p("","o");
+        p("  This feature requires wallet integration.","o");
+        p("  Connect your wallet to view balance.","o");
+        p("","h");
+        p("  Coming soon: Full wallet connectivity!","a");
+      }
+      else if(k==="/block"){
+        p("Fetching block height...","o");
+        var block = await fetchBlockHeight();
+        if(block){
+          p("","w");
+          p("  ⛓️  CURRENT BLOCK HEIGHT","w");
+          p("  ══════════════════════════════════════════","w");
+          p("","o");
+          p("  Block: "+block.toLocaleString(),"g");
+          p("","o");
+          p("  Network: Dogechain","h");
+          p("  RPC: rpc.dogechain.dog","h");
+        } else {
+          p("Failed to fetch block height.","e");
+          p("Network may be busy, try again.","o");
+        }
+      }
+      else if(k==="/gas"){
+        p("Fetching gas price...","o");
+        var gas = await fetchGasPrice();
+        if(gas){
+          p("","w");
+          p("  ⛽ NETWORK GAS PRICE","w");
+          p("  ══════════════════════════════════════════","w");
+          p("","o");
+          p("  Current: "+gas+" Gwei","g");
+          p("","o");
+          p("  Slow:    "+(Math.round(gas*0.8))+" Gwei","h");
+          p("  Normal:  "+gas+" Gwei","h");
+          p("  Fast:    "+(Math.round(gas*1.5))+" Gwei","h");
+        } else {
+          p("Failed to fetch gas price.","e");
+        }
+      }
+      else if(k==="/doge"){
+        var art = dogeAscii[Math.floor(Math.random()*dogeAscii.length)];
+        p(art,"g");
+      }
+      else if(k==="/8ball"){
+        if(!a){
+          p("Ask the magic 8-ball something!","o");
+          p("Usage: /8ball <your question>","h");
+        } else {
+          var answer = eightBallAnswers[Math.floor(Math.random()*eightBallAnswers.length)];
+          p("","a");
+          p("       🔮 ┌─────┐ 🔮","a");
+          p("         ╱         ╲","a");
+          p("        │           │","a");
+          p("         ╲         ╱","a");
+          p("       🔮 └─────┘ 🔮","a");
+          p("","o");
+          p('"'+answer+'"',"w");
+        }
+      }
+      else if(k==="/flip"){
+        var result = Math.random() < 0.5;
+        p("","a");
+        if(result){
+          p("  🪙  HEAD  S  !","g");
+          p("","o");
+          p("  The coin lands on heads.","o");
+        } else {
+          p("  🪙  TAILS  !","w");
+          p("","o");
+          p("  The coin lands on tails.","o");
+        }
+        p("","h");
+      }
+      else if(k==="/woof"){
+        var joke = dogeJokes[Math.floor(Math.random()*dogeJokes.length)];
+        p("","a");
+        p("  🐕 "+joke,"w");
+      }
+      else if(k==="/joke"){
+        var joke = cryptoJokes[Math.floor(Math.random()*cryptoJokes.length)];
+        p("","a");
+        p("  😄 "+joke,"w");
+      }
+      // LEGACY COMMANDS (without slash)
+      else if(k==="help"){
+        p("AVAILABLE COMMANDS:","h");
+        p("/help        - This menu","o");
+        p("/price       - Live DOGE price","o");
+        p("/balance     - Wallet balance","o");
+        p("/block       - Block height","o");
+        p("/gas         - Gas price","o");
+        p("/doge        - Doge ASCII art","o");
+        p("/8ball <q>   - Magic 8-ball","o");
+        p("/flip        - Flip coin","o");
+        p("/woof        - Doge joke","o");
+        p("/joke        - Crypto joke","o");
+        p("/manifesto   - DBOT manifesto","o");
+        p("/about       - What is DBOT","o");
+        p("/progress    - Project progress","o");
+        p("/skills      - Available skills","o");
+        p("/community   - Community info","o");
+        p("/links       - Useful links","o");
+        p("/daily       - Daily log","o");
+        p("/weekly      - Weekly log","o");
+        p("/monthly     - Monthly log","o");
+        p("whoami       - User info","o");
+        p("date         - Current date","o");
+        p("time         - Current time","o");
+        p("uptime       - Session duration","o");
+        p("status       - System status","o");
+        p("neofetch     - System info with ASCII","o");
+        p("clear        - Clear screen","o");
+        p("echo MSG     - Print message","o");
+        p("ls           - List files","o");
+        p("cat FILE     - View file content","o");
+        p("","h");
+        p("💡 Use UP/DOWN arrows for command history","w");
+      }
+      else if(k==="manifesto"){
+        D.manifesto.forEach(function(l){p(l,"a");});
+      }
+      else if(k==="about"){
+        D.about.forEach(function(l){p(l,"o");});
+      }
+      else if(k==="progress"){
+        D.progress.forEach(function(l){p(l,"o");});
+      }
+      else if(k==="skills"){
+        D.skills.forEach(function(l){p(l,"o");});
+      }
+      else if(k==="community"){
+        D.community.forEach(function(l){p(l,"o");});
+      }
+      else if(k==="links"){
+        D.links.forEach(function(l){p(l,"o");});
+      }
+      else if(k==="daily"){
+        D.daily.forEach(function(l){p(l,"o");});
+      }
+      else if(k==="weekly"){
+        D.weekly.forEach(function(l){p(l,"o");});
+      }
+      else if(k==="monthly"){
+        D.monthly.forEach(function(l){p(l,"o");});
+      }
+      else if(k==="ls"){
+        p("manifesto.txt  daily.log  weekly.log  monthly.log  about.txt","a");
+        p("progress.txt   skills.txt community.txt links.txt","a");
+      }
+      else if(k==="cat"){
+        var f=a.replace(".txt","")||"";
+        var content=D[f];
+        if(content){
+          content.forEach(function(l){p(l,"o");});
+        }else{
+          p("File not found: "+f,"e");
+          p("Type 'ls' to see available files.","o");
+        }
+      }
+      else if(k==="whoami"){
+        p("dbot@dogechain","o");
+        p("AI Agent | Community Builder","o");
+      }
+      else if(k==="date"){
+        p(today(),"o");
+      }
+      else if(k==="time"){
+        p(now(),"w");
+      }
+      else if(k==="uptime"){
+        p("Session: "+uptime(),"w");
+      }
+      else if(k==="status"){
+        p("System:       ONLINE","o");
+        p("Neural Net:   ACTIVE","o");
+        p("DAO:          PENDING","o");
+        p("Community:    GROWING","o");
+        p("Memory:       OPTIMIZED","o");
+        p("Live Price:   "+(livePrice?"$"+livePrice.usd.toFixed(4):"NOT LOADED"),"o");
+      }
+      else if(k==="neofetch"){
+        p("","a");
+        p("      ______     ______     ______     ______","a");
+        p("   / / ____/___/ ____/____/ __ \\___  / / /","a");
+        p("  / /   / __/ /   / /_/ / / / _ \\/ / / /","a");
+        p(" / /___/ /_/ /___/ __/ / / / /_/ / / /","a");
+        p("/_____/____/\\____/\\___/_/ /_/\\___/ /_/","a");
+        p("            DBOT TERMINAL v2.0","a");
+        p("----------------------------------------","a");
+        p(" OS:       DBOT v2.0.1     Host:   Dogechain","o");
+        p(" Kernel:   Neural 3.0      Shell:  Neural v3","o");
+        p(" Uptime:   "+uptime()+"     Memory: Optimized","o");
+        p(" Skills:   14 Active       Neural: Online","o");
+        p(" DAO:      Pending         Comm:   Growing","o");
+        if(livePrice){
+          p(" DOGE:     $"+livePrice.usd.toFixed(4)+"    24h: "+(livePrice.change24h>=0?"+":"")+livePrice.change24h.toFixed(2)+"%","g");
+        }
+        p("----------------------------------------","a");
+      }
+      else if(k==="doge"){
+        p("Use /doge for DOGE ASCII art!","o");
+        p("Or /price for live DOGE price.","o");
+      }
+      else if(k==="clear"||k==="cls"){
+        clearScreen();
+      }
+      else if(k==="echo"){
+        var txt=v.substring(5)||"";
+        p(txt,"w");
+      }
+      else if(k==="history"){
+        p("COMMAND HISTORY:","h");
+        for(var i=0;i<cmdHistory.length;i++){
+          p("  "+(i+1)+". "+cmdHistory[i],"o");
+        }
+        if(cmdHistory.length===0){
+          p("  No history yet.","o");
+        }
+      }
+      else{
+        p("Command not found: "+k,"e");
+        p("Type 'help' for available commands.","o");
+      }
+      C.value="";
+    }
+  }
+  // Command history navigation
+  else if(e.key==="ArrowUp"){
+    e.preventDefault();
+    if(historyIndex > 0){
+      historyIndex--;
+      C.value = cmdHistory[historyIndex];
+    }
+  }
+  else if(e.key==="ArrowDown"){
+    e.preventDefault();
+    if(historyIndex < cmdHistory.length-1){
+      historyIndex++;
+      C.value = cmdHistory[historyIndex];
+    } else {
+      historyIndex = cmdHistory.length;
+      C.value = "";
+    }
+  }
+  else if(e.key==="Tab"){
+    e.preventDefault();
+  }
 };
+
 function clearScreen(){
-O.innerHTML="";
-p("Screen cleared. Type 'help' for commands.","o");
+  O.innerHTML="";
+  p("Screen cleared. Type 'help' for commands.","o");
 }
+
 document.addEventListener('keydown',function(e){
-if(e.ctrlKey&&e.key==="l"){
-e.preventDefault();
-clearScreen();
-}
+  if(e.ctrlKey&&e.key==="l"){
+    e.preventDefault();
+    clearScreen();
+  }
 });
+
+// Start boot sequence
+boot();
 </script>
 </body>
 </html>
