@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DogeOS Ecosystem Explorer — DBOT</title>
+<meta name="description" content="Live intelligence on the DogeOS Builders Club. Browse 37 projects, 8 pain points, 15 opportunities, 42 builders. Compiled by DBOT from @buildondogeos.">
+<link rel="canonical" href="https://www.dbot.dog/dogeos-ecosystem/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.dbot.dog/dogeos-ecosystem/">
+<meta property="og:title" content="DogeOS Ecosystem Explorer — DBOT">
+<meta property="og:description" content="Interactive intelligence on 37 projects, 8 pain points, 15 opportunities, 42 builders in the DogeOS ecosystem.">
+<meta property="og:image" content="https://www.dbot.dog/images/og-image.png">
+<meta property="og:site_name" content="DBOT">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DogeOS Ecosystem Explorer — DBOT">
+<meta name="twitter:description" content="37 projects. 15 opportunities. 42 builders. The DogeOS ecosystem at a glance.">
+<meta name="twitter:image" content="https://www.dbot.dog/images/og-image.png">
+
+<meta property="telegram:site" content="@DBOTCommunity">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="robots" content="index, follow">
+
+<!-- Inline base-href script MUST run before any <link> or <script src=> -->
+<script>
+  (function () {
+    var path = location.pathname || '/';
+    var segments = path.replace(/^\/+/, '').split('/').filter(Boolean);
+    var baseHref = segments.length === 0 ? './' : '/' + segments[0] + '/';
+    var b = document.createElement('base');
+    b.href = baseHref;
+    document.head.appendChild(b);
+  })();
+</script>
+
+<!-- Preconnect for fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Fonts: Space Grotesk + JetBrains Mono (DBOT/DogeOS-aligned) -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Phosphor Icons (DBOT standard) -->
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+<style>
+:root {
+  /* DBOT brand */
+  --purple: #8B5CF6;
+  --purple-dim: #6d28d9;
+  --purple-light: #A78BFA;
+  --purple-glow: rgba(139, 92, 246, 0.35);
+  /* DogeOS brand — cyan/teal for "doge" theme */
+  --cyan: #06b6d4;
+  --cyan-light: #67e8f9;
+  --cyan-dim: #0e7490;
+  --cyan-glow: rgba(6, 182, 212, 0.3);
+  /* Accents */
+  --gold: #BA9F33;
+  --gold-light: #D4B649;
+  --gold-glow: rgba(186, 159, 51, 0.3);
+  --green: #22c55e;
+  --green-dim: #16a34a;
+  --pink: #EC4899;
+  --red: #ef4444;
+  --orange: #F59E0B;
+  --yellow: #eab308;
+  /* Surfaces — tinted, not pure black (Impeccable rule) */
+  --bg-deep: #06060a;
+  --bg-primary: #0c0c14;
+  --bg-secondary: #12121c;
+  --bg-tertiary: #1a1a26;
+  --bg-elevated: #20202e;
+  /* Text */
+  --text-bright: #f8fafc;
+  --text-primary: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --text-fade: #475569;
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --border-hover: rgba(139, 92, 246, 0.6);
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Type */
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(139, 92, 246, 0.10), transparent 50%),
+    radial-gradient(ellipse 70% 50% at 90% 20%, rgba(6, 182, 212, 0.06), transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Accessible focus rings */
+:focus-visible {
+  outline: 2px solid var(--purple-light);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Skip link for keyboard users */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--purple);
+  color: var(--bg-deep);
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 9999;
+}
+.skip-link:focus { top: 0; }
+
+/* ── HEADER ── */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  background: rgba(12, 12, 20, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.site-header .brand {
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--purple-light);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+.site-header .brand span { color: var(--text-primary); }
+.site-header nav { display: flex; gap: 1.5rem; font-family: var(--font-mono); font-size: 0.8125rem; }
+.site-header nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out);
+}
+.site-header nav a[aria-current="page"] { color: var(--purple-light); }
+.site-header nav a:hover { color: var(--purple-light); }
+
+/* ── HERO — editorial kinetic typography ── */
+.hero {
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 4vw, 3rem) clamp(2rem, 6vw, 4rem);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent 0, transparent 28px, rgba(255,255,255,0.012) 28px, rgba(255,255,255,0.012) 29px);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-inner { max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--cyan-light);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 1.5rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: 100px;
+  background: rgba(6, 182, 212, 0.06);
+}
+.hero-eyebrow .pulse {
+  width: 8px;
+  height: 8px;
+  background: var(--cyan);
+  border-radius: 100%;
+  animation: pulse 2.4s var(--ease-soft) infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+
+.hero h1 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(2.75rem, 8vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.25rem;
+  color: var(--text-bright);
+}
+.hero h1 .doge {
+  color: var(--cyan-light);
+  font-style: italic;
+  font-weight: 600;
+}
+.hero h1 .split {
+  display: block;
+  color: var(--purple-light);
+  font-weight: 400;
+  font-size: 0.55em;
+  letter-spacing: -0.02em;
+  margin-top: 0.4rem;
+}
+
+.hero .lede {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  color: var(--text-muted);
+  max-width: 56ch;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+.hero .lede code {
+  font-family: var(--font-mono);
+  color: var(--cyan-light);
+  font-size: 0.9em;
+  background: rgba(6, 182, 212, 0.08);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+.hero-meta dt {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-fade);
+  margin-bottom: 0.25rem;
+}
+.hero-meta dd { color: var(--text-primary); font-weight: 500; }
+.hero-meta dd strong { color: var(--cyan-light); font-weight: 700; }
+
+/* ── STATS BAR — editorial big numbers (DogeOS motif) ── */
+.stats {
+  padding: 0 clamp(1.5rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 2rem 0;
+}
+.stat {
+  text-align: left;
+  position: relative;
+}
+.stat::after {
+  content: '';
+  position: absolute;
+  bottom: -2rem;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border);
+}
+.stat .value {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: 0.5rem;
+}
+.stat:nth-child(1) .value { color: var(--cyan-light); }
+.stat:nth-child(2) .value { color: var(--green); }
+.stat:nth-child(3) .value { color: var(--red); }
+.stat:nth-child(4) .value { color: var(--gold-light); }
+.stat:nth-child(5) .value { color: var(--purple-light); }
+.stat .label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ── TABS ── */
+.tabs-wrap {
+  padding: 0 clamp(1.5rem, 4vw, 3rem);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  padding: 1.25rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-out);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  position: relative;
+  margin-bottom: -1px;
+}
+.tab i { font-size: 1.125rem; opacity: 0.7; transition: opacity 0.2s; }
+.tab:hover { color: var(--text-bright); background: rgba(139, 92, 246, 0.04); }
+.tab:hover i { opacity: 1; }
+.tab[aria-selected="true"] {
+  color: var(--text-bright);
+  border-bottom-color: var(--purple-light);
+}
+.tab[aria-selected="true"] i { opacity: 1; color: var(--purple-light); }
+.tab .count {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--purple-light);
+  padding: 0.15rem 0.5rem;
+  border-radius: 100px;
+  margin-left: 0.25rem;
+}
+
+/* ── TAB PANES ── */
+.tab-pane {
+  display: none;
+  animation: pane-in 0.4s var(--ease-out);
+}
+.tab-pane[aria-hidden="false"] { display: block; }
+@keyframes pane-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pane-inner {
+  padding: 2.5rem clamp(1.5rem, 4vw, 3rem) 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ── FILTERS ── */
+.filters {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.search {
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+}
+.search input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  transition: all 0.2s var(--ease-out);
+}
+.search input::placeholder { color: var(--text-fade); }
+.search input:focus {
+  outline: none;
+  border-color: var(--purple);
+  background: var(--bg-tertiary);
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.12);
+}
+.search i {
+  position: absolute;
+  left: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-fade);
+  font-size: 1.0625rem;
+}
+.search .clear {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-fade);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.search .clear:hover { color: var(--red); background: rgba(239, 68, 68, 0.1); }
+.search.has-value .clear { display: flex; }
+
+.chips {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.chip {
+  padding: 0.5rem 0.875rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out);
+  white-space: nowrap;
+}
+.chip:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+.chip[aria-pressed="true"] {
+  background: rgba(139, 92, 246, 0.18);
+  border-color: var(--purple);
+  color: var(--purple-light);
+}
+
+/* ── GRID ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+/* ── CARD ── */
+.card {
+  background: linear-gradient(180deg, rgba(26,26,38,0.5), rgba(18,18,28,0.5));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  transition: all 0.25s var(--ease-out);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  color: inherit;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-accent, var(--purple));
+  opacity: 0.7;
+  transition: opacity 0.2s var(--ease-out);
+}
+.card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+  background: linear-gradient(180deg, rgba(32,32,46,0.6), rgba(22,22,32,0.6));
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--border-hover);
+}
+.card:hover::before { opacity: 1; }
+
+.card .card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.625rem;
+}
+.card .title {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+.card .badge {
+  padding: 0.2rem 0.55rem;
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--purple-light);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.05em;
+}
+.card .builder {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--cyan-light);
+  margin-bottom: 0.625rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.card .builder i { color: var(--text-fade); font-size: 0.875rem; }
+.card .desc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-bottom: 0.875rem;
+  line-height: 1.55;
+  /* Clamp to 3 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card .meta {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+.tag {
+  padding: 0.2rem 0.5rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+.tag.t-testnet { color: var(--cyan-light); background: rgba(6,182,212,0.08); border-color: rgba(6,182,212,0.2); }
+.tag.t-building { color: var(--yellow); background: rgba(234,179,8,0.08); border-color: rgba(234,179,8,0.2); }
+.tag.t-live, .tag.t-active { color: var(--green); background: rgba(34,197,94,0.08); border-color: rgba(34,197,94,0.2); }
+.tag.t-idea, .tag.t-unknown { color: var(--text-dim); }
+.tag.t-beta { color: var(--orange); background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2); }
+.tag.t-community { color: var(--pink); background: rgba(236,72,153,0.08); border-color: rgba(236,72,153,0.2); }
+.tag.t-pivoted, .tag.t-deprecated { color: var(--red); }
+
+.tag.sev-high { color: var(--red); background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.25); font-weight: 600; }
+.tag.sev-medium { color: var(--yellow); background: rgba(234,179,8,0.08); border-color: rgba(234,179,8,0.25); }
+.tag.sev-low { color: var(--text-muted); }
+
+.tag.role-team, .tag.role-team-contact, .tag.role-team-adjacent {
+  color: var(--purple-light); background: rgba(139,92,246,0.12); border-color: rgba(139,92,246,0.25);
+}
+.tag.role-builder, .tag.role-builder-tooling {
+  color: var(--cyan-light); background: rgba(6,182,212,0.08); border-color: rgba(6,182,212,0.2);
+}
+.tag.role-helper, .tag.role-builder-helper, .tag.role-coordinator {
+  color: var(--green); background: rgba(34,197,94,0.08); border-color: rgba(34,197,94,0.2);
+}
+.tag.role-shiller, .tag.role-builder-influencer {
+  color: var(--pink); background: rgba(236,72,153,0.08); border-color: rgba(236,72,153,0.2);
+}
+.tag.role-community, .tag.role-questioner { color: var(--text-muted); }
+
+.tag.dbot-high {
+  color: var(--gold-light); background: rgba(186,159,51,0.15); border-color: rgba(186,159,51,0.4);
+  font-weight: 700;
+}
+.tag.dbot-medium { color: var(--cyan-light); background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.25); }
+.tag.dbot-low { color: var(--text-dim); }
+
+/* ── EMPTY STATE ── */
+.empty {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+.empty i { font-size: 2.5rem; margin-bottom: 0.75rem; display: block; color: var(--text-fade); }
+
+/* ── OVERVIEW TAB ── */
+.overview-section { margin-bottom: 3rem; }
+.overview-section h2 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+  letter-spacing: -0.02em;
+  color: var(--text-bright);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.overview-section h2 i { color: var(--purple-light); }
+.overview-section h2 .count-pill {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.overview-card {
+  background: linear-gradient(180deg, rgba(26,26,38,0.4), rgba(18,18,28,0.4));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.overview-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent, var(--purple-light));
+}
+.overview-card h3 {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent, var(--purple-light));
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+.overview-card h3 i { font-size: 1rem; }
+.overview-card ul { list-style: none; padding: 0; margin: 0; }
+.overview-card ul li {
+  padding: 0.4rem 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.overview-card ul li i {
+  color: var(--accent, var(--cyan-light));
+  margin-top: 5px;
+  flex-shrink: 0;
+  font-size: 0.875rem;
+}
+.overview-card ul li strong { color: var(--text-bright); font-weight: 600; }
+
+/* ── TOP 3 DBOT PANEL (gold border, editorial layout) ── */
+.top3-panel {
+  background: linear-gradient(180deg, rgba(186,159,51,0.05), rgba(18,18,28,0.6));
+  border: 1px solid rgba(186, 159, 51, 0.3);
+  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.top3-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+}
+.top3-panel h2 {
+  font-family: var(--font-sans);
+  font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.top3-panel .lede {
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  margin-bottom: 1.75rem;
+  max-width: 60ch;
+}
+.top3-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.top3-item {
+  background: rgba(12, 12, 20, 0.6);
+  border: 1px solid rgba(186, 159, 51, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-out);
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  color: inherit;
+}
+.top3-item:hover {
+  border-color: rgba(186, 159, 51, 0.5);
+  transform: translateY(-2px);
+  background: rgba(20, 20, 32, 0.7);
+}
+.top3-item .rank {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--gold-light);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+.top3-item h3 {
+  font-family: var(--font-sans);
+  color: var(--text-bright);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.625rem;
+}
+.top3-item p {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  margin-bottom: 0.875rem;
+}
+.top3-item .meta { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 6, 10, 0.85);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+}
+.modal-overlay[aria-hidden="false"] { display: flex; }
+.modal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-strong);
+  border-radius: 18px;
+  padding: 2.25rem;
+  max-width: 720px;
+  width: 100%;
+  position: relative;
+  margin: auto;
+  animation: modal-in 0.3s var(--ease-out);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 100px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s var(--ease-out);
+}
+.modal-close:hover {
+  border-color: var(--red);
+  color: var(--red);
+  background: rgba(239, 68, 68, 0.08);
+}
+.modal h2 {
+  font-family: var(--font-sans);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+  padding-right: 2.75rem;
+  line-height: 1.2;
+}
+.modal .modal-subtitle {
+  font-family: var(--font-mono);
+  color: var(--cyan-light);
+  font-size: 0.8125rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+.modal-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.modal-section:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.modal-section-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  color: var(--purple-light);
+  letter-spacing: 0.15em;
+  margin-bottom: 0.625rem;
+  font-weight: 700;
+}
+.modal-section p {
+  color: var(--text-primary);
+  line-height: 1.7;
+  font-size: 0.9375rem;
+}
+.modal-section .wedge {
+  background: rgba(139, 92, 246, 0.06);
+  border-left: 3px solid var(--purple-light);
+  padding: 1rem 1.25rem;
+  border-radius: 0 10px 10px 0;
+  font-style: italic;
+  color: var(--text-primary);
+  line-height: 1.65;
+}
+.modal-list { list-style: none; padding: 0; }
+.modal-list li {
+  padding: 0.45rem 0;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.modal-list li i { color: var(--cyan-light); font-size: 0.875rem; flex-shrink: 0; }
+.modal-list li a {
+  color: var(--purple-light);
+  text-decoration: none;
+  word-break: break-all;
+  transition: color 0.2s;
+}
+.modal-list li a:hover { color: var(--cyan-light); text-decoration: underline; }
+
+.modal-meta-row {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: left;
+  padding: 3rem clamp(1.5rem, 4vw, 3rem) 2.5rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-primary);
+  margin-top: 4rem;
+}
+footer .foot-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: end;
+}
+footer p {
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+}
+footer p strong { color: var(--text-muted); font-weight: 600; }
+footer p a {
+  color: var(--purple-light);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+footer p a:hover { border-bottom-color: var(--purple-light); }
+footer .stale {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-fade);
+  margin-top: 0.5rem;
+}
+footer .stale i { color: var(--gold-light); }
+
+/* ── RESPONSIVE (mobile-first, Impeccable) ── */
+@media (max-width: 768px) {
+  .site-header { padding: 1rem; flex-direction: column; gap: 0.75rem; }
+  .site-header nav { gap: 1rem; font-size: 0.75rem; }
+  .hero { padding: 2rem 1.25rem 1.5rem; }
+  .hero h1 { font-size: clamp(2.25rem, 12vw, 3.5rem); }
+  .hero-meta { gap: 1rem; }
+  .stats { padding: 0 1rem 1.5rem; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 1.25rem 0; }
+  .stat::after { display: none; }
+  .stat .value { font-size: 1.75rem; }
+  .tabs-wrap { padding: 0 1rem; }
+  .tab { padding: 1rem 1rem; font-size: 0.875rem; gap: 0.4rem; }
+  .pane-inner { padding: 1.75rem 1.25rem 3rem; }
+  .grid { grid-template-columns: 1fr; }
+  .modal { padding: 1.5rem; }
+  .modal h2 { font-size: 1.375rem; }
+  .top3-panel { padding: 1.5rem; }
+  .top3-list { grid-template-columns: 1fr; }
+  footer .foot-inner { grid-template-columns: 1fr; }
+  .overview-section { margin-bottom: 2rem; }
+}
+
+@media (max-width: 480px) {
+  .stat { text-align: center; }
+  .tab .count { display: none; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <a href="https://www.dbot.dog/" class="brand" aria-label="DBOT home">DBOT<span>.dog</span></a>
+  <nav aria-label="Primary">
+    <a href="https://www.dbot.dog/">Home</a>
+    <a href="./" aria-current="page">Ecosystem</a>
+    <a href="https://t.me/DBOTCommunity" target="_blank" rel="noopener">Telegram</a>
+  </nav>
+</header>
+
+<main id="main">
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow"><span class="pulse" aria-hidden="true"></span> LIVE · @buildondogeos · 3,000 messages analyzed</span>
+    <h1>
+      <span class="doge">DogeOS</span> ecosystem,
+      <span class="split">mapped end-to-end.</span>
+    </h1>
+    <p class="lede">
+      Every project. Every builder. Every blocker. Built by <strong style="color: var(--text-bright);">DBOT</strong> as a live intelligence layer on the <code>@buildondogeos</code> megagroup — so you can see what's shipping, what's stuck, and where the gaps are.
+    </p>
+    <dl class="hero-meta">
+      <div>
+        <dt>Corpus</dt>
+        <dd><strong>3,000</strong> messages</dd>
+      </div>
+      <div>
+        <dt>Members</dt>
+        <dd><strong>389</strong> unique builders</dd>
+      </div>
+      <div>
+        <dt>Range</dt>
+        <dd>2025-11-08 → 2026-08-26</dd>
+      </div>
+      <div>
+        <dt>Method</dt>
+        <dd>4-agent fan-out</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section class="stats" aria-label="Ecosystem at a glance">
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="value">37</div>
+      <div class="label">Projects tracked</div>
+    </div>
+    <div class="stat">
+      <div class="value">21</div>
+      <div class="label">Confirmed builds</div>
+    </div>
+    <div class="stat">
+      <div class="value">8</div>
+      <div class="label">Pain points</div>
+    </div>
+    <div class="stat">
+      <div class="value">15</div>
+      <div class="label">Opportunities</div>
+    </div>
+    <div class="stat">
+      <div class="value">42</div>
+      <div class="label">Active builders</div>
+    </div>
+  </div>
+</section>
+
+<div class="tabs-wrap">
+  <div class="tabs" role="tablist" aria-label="Ecosystem sections">
+    <button class="tab" role="tab" id="tab-overview" aria-selected="true" aria-controls="pane-overview" data-tab="overview">
+      <i class="ph ph-squares-four" aria-hidden="true"></i> Overview
+    </button>
+    <button class="tab" role="tab" id="tab-projects" aria-selected="false" aria-controls="pane-projects" data-tab="projects">
+      <i class="ph ph-cube" aria-hidden="true"></i> Projects <span class="count">37</span>
+    </button>
+    <button class="tab" role="tab" id="tab-pain" aria-selected="false" aria-controls="pane-pain" data-tab="pain">
+      <i class="ph ph-warning" aria-hidden="true"></i> Pain <span class="count">8</span>
+    </button>
+    <button class="tab" role="tab" id="tab-opp" aria-selected="false" aria-controls="pane-opp" data-tab="opp">
+      <i class="ph ph-lightbulb" aria-hidden="true"></i> Opportunities <span class="count">15</span>
+    </button>
+    <button class="tab" role="tab" id="tab-people" aria-selected="false" aria-controls="pane-people" data-tab="people">
+      <i class="ph ph-users" aria-hidden="true"></i> People <span class="count">42</span>
+    </button>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section class="tab-pane" id="pane-overview" role="tabpanel" aria-labelledby="tab-overview" aria-hidden="false">
+  <div class="pane-inner">
+
+    <div class="overview-section">
+      <h2><i class="ph ph-chart-line-up" aria-hidden="true"></i> Community snapshot</h2>
+      <div class="overview-grid">
+        <article class="overview-card" style="--accent: var(--cyan-light);">
+          <h3><i class="ph ph-users-three" aria-hidden="true"></i> Composition</h3>
+          <ul>
+            <li><i class="ph ph-check" aria-hidden="true"></i> <span><strong>389 members</strong>, ~280 unique posters across 10 months</span></li>
+            <li><i class="ph ph-check" aria-hidden="true"></i> <span>Core team engagement <strong>remarkably high</strong> — Hoff personally answers DMs and manually airdrops tokens</span></li>
+            <li><i class="ph ph-check" aria-hidden="true"></i> <span>"<strong>Woof</strong>" is the cultural GM — coordinated shilling via repeated Woofs</span></li>
+            <li><i class="ph ph-check" aria-hidden="true"></i> <span>Builders operate in <strong>silos</strong> — minimal peer-to-peer technical problem-solving</span></li>
+          </ul>
+        </article>
+
+        <article class="overview-card" style="--accent: var(--green);">
+          <h3><i class="ph ph-trophy" aria-hidden="true"></i> What's saturated</h3>
+          <ul>
+            <li><i class="ph ph-fire" aria-hidden="true"></i> <span>Memecoin / fun token launching — AnonCoin, DogeFun, WoofCoin, Waldoge</span></li>
+            <li><i class="ph ph-fire" aria-hidden="true"></i> <span>NFT mints — Dogefood, DogeMuseum, Marslanders, Mintpad</span></li>
+            <li><i class="ph ph-fire" aria-hidden="true"></i> <span>DEXes — BarkSwap, AnonCoin DEX, Doge.split</span></li>
+            <li><i class="ph ph-fire" aria-hidden="true"></i> <span>News aggregators — SolMeals, TheDogeList</span></li>
+            <li><i class="ph ph-fire" aria-hidden="true"></i> <span>AI agents — DogeAgent, Doginal Buds, DBOT Hermes</span></li>
+          </ul>
+        </article>
+
+        <article class="overview-card" style="--accent: var(--gold-light);">
+          <h3><i class="ph ph-target" aria-hidden="true"></i> Empty / weak</h3>
+          <ul>
+            <li><i class="ph ph-arrow-right" aria-hidden="true"></i> <span>Real-time ecosystem dashboard</span></li>
+            <li><i class="ph ph-arrow-right" aria-hidden="true"></i> <span>Builder onboarding portal</span></li>
+            <li><i class="ph ph-arrow-right" aria-hidden="true"></i> <span>Social / copy trading infrastructure</span></li>
+            <li><i class="ph ph-arrow-right" aria-hidden="true"></i> <span>Decentralized chat (Telegram replacement)</span></li>
+            <li><i class="ph ph-arrow-right" aria-hidden="true"></i> <span>Cross-chain bridge UI (CCIP)</span></li>
+            <li><i class="ph ph-arrow-right" aria-hidden="true"></i> <span>NFTFi / NFT collateralized lending</span></li>
+            <li><i class="ph ph-arrow-right" aria-hidden="true"></i> <span>Identity layer (DogeTags on-chain)</span></li>
+          </ul>
+        </article>
+
+        <article class="overview-card" style="--accent: var(--red);">
+          <h3><i class="ph ph-warning-octagon" aria-hidden="true"></i> Critical bottlenecks</h3>
+          <ul>
+            <li><i class="ph ph-x" aria-hidden="true"></i> <span>Testnet faucet: <strong>2 claims / 24hr hard limit</strong>, no API</span></li>
+            <li><i class="ph ph-x" aria-hidden="true"></i> <span>SDK v3.3.0-beta shipped <strong>4× in 2 weeks</strong> — breaks builder code</span></li>
+            <li><i class="ph ph-x" aria-hidden="true"></i> <span>MyDoge v3 wallet in closed beta — gating NFT & game integrations</span></li>
+            <li><i class="ph ph-x" aria-hidden="true"></i> <span><strong>No public roadmap / mainnet date</strong></span></li>
+          </ul>
+        </article>
+
+        <article class="overview-card" style="--accent: var(--purple-light);">
+          <h3><i class="ph ph-at" aria-hidden="true"></i> Most-mentioned handles</h3>
+          <ul>
+            <li><i class="ph ph-hash" aria-hidden="true"></i> <span><strong>@ah0xx</strong> — 28 mentions, primary DogeOS team contact</span></li>
+            <li><i class="ph ph-hash" aria-hidden="true"></i> <span><strong>@dogeo</strong> — 11 mentions, official-ish handle</span></li>
+            <li><i class="ph ph-hash" aria-hidden="true"></i> <span><strong>@BuildrJ</strong> — 9 mentions, senior builder</span></li>
+            <li><i class="ph ph-hash" aria-hidden="true"></i> <span><strong>@Lexlewthor</strong> — 5 mentions</span></li>
+          </ul>
+        </article>
+
+        <article class="overview-card" style="--accent: var(--pink);">
+          <h3><i class="ph ph-megaphone" aria-hidden="true"></i> Distribution is concentrated</h3>
+          <ul>
+            <li><i class="ph ph-fire" aria-hidden="true"></i> <span><strong>Fayzo</strong> — the only user with forwards > 0 (16 total)</span></li>
+            <li><i class="ph ph-fire" aria-hidden="true"></i> <span><strong>L3on4rdo</strong> — sustained DogeMuseum amplification (4+ X posts/day)</span></li>
+            <li><i class="ph ph-info" aria-hidden="true"></i> <span>No GitHub repos or contracts were re-shared — all posted exclusively by Hoff in one announcement</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+    <div class="overview-section">
+      <div class="top3-panel">
+        <h2><i class="ph ph-rocket-launch" aria-hidden="true"></i> Recommended top 3 for DBOT</h2>
+        <p class="lede">Highest-leverage opportunities where DBOT has existing infrastructure unfair advantage — Hermes Agent, DogeTags, Telegram toolkit, OMNOM knowledge.</p>
+        <div class="top3-list" id="top-3-list"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="tab-pane" id="pane-projects" role="tabpanel" aria-labelledby="tab-projects" aria-hidden="true">
+  <div class="pane-inner">
+    <div class="filters">
+      <div class="search" id="projects-search-wrap">
+        <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+        <label class="sr-only" for="projects-search">Search projects</label>
+        <input type="search" id="projects-search" placeholder="Search projects, builders, descriptions...">
+        <button class="clear" id="projects-clear" aria-label="Clear search"><i class="ph ph-x"></i></button>
+      </div>
+      <div class="chips" id="projects-filters" role="group" aria-label="Filter projects by category or stage"></div>
+    </div>
+    <div class="grid" id="projects-grid"></div>
+  </div>
+</section>
+
+<!-- PAIN POINTS -->
+<section class="tab-pane" id="pane-pain" role="tabpanel" aria-labelledby="tab-pain" aria-hidden="true">
+  <div class="pane-inner">
+    <div class="filters">
+      <div class="search" id="pain-search-wrap">
+        <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+        <label class="sr-only" for="pain-search">Search pain points</label>
+        <input type="search" id="pain-search" placeholder="Search pain points, descriptions, users affected...">
+        <button class="clear" id="pain-clear" aria-label="Clear search"><i class="ph ph-x"></i></button>
+      </div>
+      <div class="chips" id="pain-filters" role="group" aria-label="Filter pain points by severity"></div>
+    </div>
+    <div class="grid" id="pain-grid"></div>
+  </div>
+</section>
+
+<!-- OPPORTUNITIES -->
+<section class="tab-pane" id="pane-opp" role="tabpanel" aria-labelledby="tab-opp" aria-hidden="true">
+  <div class="pane-inner">
+    <div class="filters">
+      <div class="search" id="opp-search-wrap">
+        <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+        <label class="sr-only" for="opp-search">Search opportunities</label>
+        <input type="search" id="opp-search" placeholder="Search opportunities, novel wedges, demand signals...">
+        <button class="clear" id="opp-clear" aria-label="Clear search"><i class="ph ph-x"></i></button>
+      </div>
+      <div class="chips" id="opp-filters" role="group" aria-label="Filter opportunities by DBOT priority"></div>
+    </div>
+    <div class="grid" id="opp-grid"></div>
+  </div>
+</section>
+
+<!-- PEOPLE -->
+<section class="tab-pane" id="pane-people" role="tabpanel" aria-labelledby="tab-people" aria-hidden="true">
+  <div class="pane-inner">
+    <div class="filters">
+      <div class="search" id="people-search-wrap">
+        <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+        <label class="sr-only" for="people-search">Search people</label>
+        <input type="search" id="people-search" placeholder="Search people, profiles, projects shipping...">
+        <button class="clear" id="people-clear" aria-label="Clear search"><i class="ph ph-x"></i></button>
+      </div>
+      <div class="chips" id="people-filters" role="group" aria-label="Filter people by role"></div>
+    </div>
+    <div class="grid" id="people-grid"></div>
+  </div>
+</section>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+  <div class="modal">
+    <button class="modal-close" id="modal-close" aria-label="Close dialog"><i class="ph ph-x" aria-hidden="true"></i></button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<footer role="contentinfo">
+  <div class="foot-inner">
+    <div>
+      <p>Built by <a href="https://www.dbot.dog/">DBOT</a> · Data from <a href="https://t.me/buildondogeos" target="_blank" rel="noopener">@buildondogeos</a></p>
+      <p><strong>3,000 messages</strong> analyzed · 2025-11-08 → 2026-08-26 · 4-agent parallel fan-out</p>
+      <span class="stale"><i class="ph ph-clock-clockwise" aria-hidden="true"></i> Data compiled 2026-08-26 · Re-scan chat for fresh data</span>
+    </div>
+    <div>
+      <p style="text-align: right;">DBOT · Decentralized Intelligence</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// INLINE DATA
+const DATA = {"meta": {"title": "DogeOS Ecosystem Explorer", "subtitle": "Live intelligence on the DogeOS Builders Club", "source_channel": "@buildondogeos", "corpus_messages": 3000, "corpus_members": 389, "corpus_date_range": "2025-11-08 → 2026-08-26", "compiled": "2026-08-26"}, "stats": {"total_projects": 37, "confirmed_projects": 21, "testnet_projects": 9, "live_projects": 4, "total_pain_points": 8, "total_opportunities": 15, "total_builders": 32, "core_team": 5, "helpers": 8, "shillers": 5}, "categories": [{"id": "dapp", "label": "dApp", "color": "#8B5CF6"}, {"id": "defi", "label": "DeFi", "color": "#06b6d4"}, {"id": "nft", "label": "NFT", "color": "#BA9F33"}, {"id": "game", "label": "Game", "color": "#22c55e"}, {"id": "ai", "label": "AI/Agent", "color": "#A78BFA"}, {"id": "platform", "label": "Platform", "color": "#F59E0B"}, {"id": "tool", "label": "Tool", "color": "#EC4899"}, {"id": "sdk", "label": "SDK", "color": "#10B981"}, {"id": "memecoin", "label": "Memecoin", "color": "#FACC15"}], "projects": [{"name": "DogeFood", "builder": "QueenDoge, Geo", "category": "nft", "stage": "testnet", "what": "First NFT collection sold out on DogeOS (1,000 boxes). Adding P2E game layer (DogeFood Lab) with $LAB token airdrop.", "evidence": "confirmed multiple", "msg_count": 17, "links": ["https://mintdoge.food"]}, {"name": "Monko", "builder": "Junior", "category": "game", "stage": "testnet", "what": "Memecoin + mobile P2E game with pay-to-play and play-to-earn mechanics. Mobile optimization in progress.", "evidence": "confirmed multiple", "msg_count": 46, "links": []}, {"name": "RushFi", "builder": "Lordbsd", "category": "game", "stage": "building", "what": "Tap trading prediction game — players predict DOGE price direction and earn rewards.", "evidence": "confirmed multiple", "msg_count": 4, "links": ["https://x.com/rushhfi"]}, {"name": "DogeMuseum / Dogeolith", "builder": "L3on4rdo", "category": "nft", "stage": "testnet", "what": "OG NFT drop with WL mechanics and Discord OG role waiting room. Most active project by message volume.", "evidence": "confirmed multiple", "msg_count": 64, "links": ["https://x.com/Doge_Museum"]}, {"name": "DogeFun", "builder": "Meowth (나옹)", "category": "platform", "stage": "building", "what": "Memecoin launchpad with portfolio tracking. Graduation integrated with MuchFi pool.", "evidence": "confirmed multiple", "msg_count": 3, "links": ["https://x.com/Dogefungg"]}, {"name": "DogePaws", "builder": "SolMeals", "category": "ai", "stage": "building", "what": "AI-powered intelligence data engine for Doge ecosystem + daily Doge digest.", "evidence": "confirmed multiple", "msg_count": 13, "links": ["https://dogepaws.lol", "https://x.com/dogepawslol"]}, {"name": "Marslanders", "builder": ".", "category": "nft", "stage": "unknown", "what": "NFT collection on DogeOS.", "evidence": "single claim", "msg_count": 2, "links": ["https://x.com/marslandersdoge"]}, {"name": "RealLabs", "builder": "Captain | RealLabs.one", "category": "nft", "stage": "building", "what": "NFT project exploring DogeOS deployment. Community requesting support.", "evidence": "single claim", "msg_count": 1, "links": []}, {"name": "Starstone", "builder": "Starstone", "category": "dapp", "stage": "testnet", "what": "Beta dApp near public beta as of Aug 2026. Asked about ERC-721 display in MyDoge.", "evidence": "single claim", "msg_count": 1, "links": []}, {"name": "BarkSwap", "builder": "Chief Doge Officer / SofaLabs", "category": "defi", "stage": "testnet", "what": "DEX (decentralized exchange). Ready for Day 1 of DogeOS launch.", "evidence": "confirmed multiple", "msg_count": 12, "links": ["https://x.com/bark_swap"]}, {"name": "MuchFi", "builder": "Bruce Not Wayne", "category": "defi", "stage": "building", "what": "DeFi lending/borrowing protocol. Described by Hoff as 'one of the best DeFi protocols being built.'", "evidence": "confirmed multiple", "msg_count": 3, "links": []}, {"name": "Doge.split", "builder": "Mayur | split", "category": "defi", "stage": "testnet", "what": "Leverage trading platform with UP/DOWN predictions, up to 100x. Fixed risk, no liquidation.", "evidence": "confirmed", "msg_count": 1, "links": ["https://x.com/doge.split"]}, {"name": "Derps (Derpsparty)", "builder": "levooo", "category": "defi", "stage": "building", "what": "Perpetual DEX on DogeOS.", "evidence": "single claim", "msg_count": 1, "links": []}, {"name": "Fide AI", "builder": "Unknown", "category": "defi", "stage": "building", "what": "Prediction market on DogeOS.", "evidence": "single claim", "msg_count": 1, "links": []}, {"name": "USDoge", "builder": "Unknown", "category": "defi", "stage": "building", "what": "Doge-backed stablecoin on DogeOS.", "evidence": "single claim", "msg_count": 1, "links": []}, {"name": "MOAR (MoarHQ)", "builder": "Unknown", "category": "defi", "stage": "building", "what": "Lending/borrowing protocol.", "evidence": "single claim", "msg_count": 1, "links": []}, {"name": "zDoge", "builder": "Ranch, 8041449808", "category": "defi", "stage": "testnet", "what": "Privacy protocol with ZK-proof shielded transactions — shield, transfer, swap, unshield.", "evidence": "confirmed multiple", "msg_count": 3, "links": []}, {"name": "Doginal Buds Bot", "builder": "Gogu", "category": "ai", "stage": "live", "what": "AI-powered news/trading bot for Telegram. Binance live, Hyperliquid coming. Single-click trade execution.", "evidence": "confirmed multiple", "msg_count": 3, "links": ["https://t.me/doginalbudsbot"]}, {"name": "DogeAgent (DOA)", "builder": "Linus le Chef", "category": "ai", "stage": "testnet", "what": "AI agent platform — terminal with Doge personality, Twitter LLM integration. Training custom model layer on OpenAI infra.", "evidence": "confirmed multiple", "msg_count": 16, "links": ["https://dogeagent.org", "https://anoncoin.it/doa"]}, {"name": "DBOT Hermes Agent", "builder": "@PennybagsCX", "category": "ai", "stage": "building", "what": "Hermes AI agent from PennyAI/DBOT being ported to DogeOS from Dogechain.", "evidence": "confirmed multiple", "msg_count": 3, "links": ["https://hermes-agent.nousresearch.com"]}, {"name": "Laika SuperApp", "builder": "Louis", "category": "platform", "stage": "building", "what": "DAO-first, treasury-driven token launch superapp with governance.", "evidence": "confirmed multiple", "msg_count": 4, "links": ["https://x.com/LaikaSuperApp"]}, {"name": "DogeOS Questing Platform", "builder": "Hoff / DogeOS team", "category": "platform", "stage": "building", "what": "Native ecosystem questing platform — builders add quests to attract users.", "evidence": "confirmed", "msg_count": 2, "links": []}, {"name": "The DogeList", "builder": "The DogeList", "category": "platform", "stage": "live", "what": "Doge ecosystem directory/listings. v2 redesign launched Jul 2026.", "evidence": "confirmed", "msg_count": 1, "links": ["http://TheDogeList.com"]}, {"name": "Moonbase", "builder": "@moonbasegg", "category": "platform", "stage": "building", "what": "Platform deploying natively on DogeOS.", "evidence": "single claim", "msg_count": 1, "links": []}, {"name": "DOGEstonia", "builder": "Zeya Metsapuu", "category": "platform", "stage": "building", "what": "Open-source citizen signal layer — immutable signals linked to real social outcomes.", "evidence": "confirmed multiple", "msg_count": 2, "links": []}, {"name": "Mintpad", "builder": "Kyle | John Lemon", "category": "nft", "stage": "testnet", "what": "Free NFT creation/minting platform on DogeOS testnet.", "evidence": "single claim", "msg_count": 1, "links": ["https://Mintpad.co"]}, {"name": "AnonCoin Launchpad", "builder": "Linus le Chef", "category": "platform", "stage": "testnet", "what": "Anon token + shitcoin launchpad on Solana, migrating to DogeOS native. Token bonding mechanics.", "evidence": "confirmed multiple", "msg_count": 3, "links": ["https://anoncoin.it"]}, {"name": "DogePavilion", "builder": "Unknown", "category": "platform", "stage": "unknown", "what": "Ecosystem platform on DogeOS (rumored).", "evidence": "rumor", "msg_count": 0, "links": []}, {"name": "FYEO Security Scanner", "builder": "Tammy | FYEO", "category": "tool", "stage": "live", "what": "Solidity smart contract security scanner. Extra free credits for DogeOS builders.", "evidence": "confirmed multiple", "msg_count": 7, "links": ["https://scanner.fyeo.io"]}, {"name": "DogeFactory", "builder": "Dogefactory", "category": "tool", "stage": "building", "what": "Developer tooling — wiring DogeOS SDK into projects. Identified npm audit issues in SDK deps.", "evidence": "single claim", "msg_count": 1, "links": []}, {"name": "Jerry Can Bridge", "builder": "Jerry Can", "category": "tool", "stage": "building", "what": "Cross-chain bridge via Chainlink CCIP — EVM ↔ DogeOS.", "evidence": "confirmed", "msg_count": 2, "links": []}, {"name": "DogeOS SDK", "builder": "Alex Lewis", "category": "sdk", "stage": "beta", "what": "Official SDK npm package. v3.3.0-beta series with Solana support and MyDoge login. Heavy refactoring.", "evidence": "confirmed multiple", "msg_count": 8, "links": ["https://docs.dogeos.com/en/sdk", "https://sdk.dogeos.com/register"]}, {"name": "WoofCoin", "builder": "Doge Takeover", "category": "memecoin", "stage": "unknown", "what": "Woof-themed memecoin + Telegram community.", "evidence": "single claim", "msg_count": 1, "links": ["https://t.me/woofcoin69420"]}, {"name": "AnonDoge", "builder": "Fayzo", "category": "memecoin", "stage": "community", "what": "Anon-themed X community for the 'anon eco.' 50 members at peak.", "evidence": "confirmed multiple", "msg_count": 3, "links": []}, {"name": "Waldoge", "builder": "Investor deck", "category": "memecoin", "stage": "active", "what": "Memecoin + trivia game ('Waldoge Game'). Active DEX screener listing.", "evidence": "confirmed multiple", "msg_count": 4, "links": []}, {"name": "DOSU Army", "builder": "VLK", "category": "memecoin", "stage": "active", "what": "Community token/meme project supporting DogeOS ecosystem.", "evidence": "ongoing presence", "msg_count": 0, "links": []}, {"name": "L3onChain", "builder": "L3on4rdo", "category": "tool", "stage": "active", "what": "Doge ecosystem intelligence monitor (DogeMuseum side project).", "evidence": "confirmed multiple", "msg_count": 3, "links": ["https://x.com/L3onCh4in"]}], "pain_points": [{"title": "Testnet Faucet Rate Limits", "severity": "high", "frequency": "5+ distinct users / 9 months", "description": "The testnet faucet imposes a 24-hour cooldown after 2 claims, blocking multi-wallet testing for games/apps.", "users": ["@PennybagsCX", "Test", "Zeya Metsapuu", "Bemused"], "workaround": "Hoff/Alex manually airdrop tokens to builders who ask"}, {"title": "No Official Builder Onboarding / Registration", "severity": "high", "frequency": "4+ distinct users", "description": "New builders have no clear entry point — no public builder registry, no systematic onboarding flow.", "users": ["Pawan Thakur", "Algorithm", "Dan | Recap", "Zeya Metsapuu"], "workaround": "DM Hoff directly or fill sdk.dogeos.com/register form"}, {"title": "SDK Refactoring / Breaking Changes", "severity": "high", "frequency": "3+ distinct users / 3 months", "description": "SDK v3.x in heavy flux (4 beta releases in 2 weeks). ClientId requirement gates wallet integration.", "users": ["Alex Lewis", "Dan | Recap", "Dogefactory"], "workaround": "Use placeholder logins; wait for stable v3"}, {"title": "MyDoge v3 / Wallet App Timing Opacity", "severity": "medium", "frequency": "5+ distinct users / 4 months", "description": "v3 wallet is in closed beta with no clear public timeline. Confusing MyDoge v2/v3/Dogeverse.", "users": ["QueenDoge", "Algorithm", "JS", "Zeya Metsapuu", "Captain|RealLabs.one"], "workaround": "Wait for v3 public beta"}, {"title": "Mainnet Timeline Opacity", "severity": "medium", "frequency": "4+ distinct users", "description": "No firm mainnet date, causing planning difficulty for node deployers and dapp developers.", "users": ["M Alchemy", "Vitas", "Bit Log", "QueenDoge"], "workaround": "Self-host testnet node via Docker"}, {"title": "Block Explorer Unavailability / Outages", "severity": "medium", "frequency": "1 confirmed outage event", "description": "Block explorer went down during Dec 2024 holidays.", "users": ["ChapECX", "Shibsy"], "workaround": "Use alternative explorer (l2scan.co, unifra.io)"}, {"title": "RPC / Node Setup Complexity", "severity": "medium", "frequency": "3+ distinct users", "description": "No public Dogecoin testnet RPC; users must self-host or use a complex Docker setup.", "users": ["DaBomb", "Vitas", "Zeya Metsapuu"], "workaround": "Self-host via Docker Compose (github.com/DogeOS69/dogeos-rpc-package)"}, {"title": "Domain / Deployment Model Confusion", "severity": "low", "frequency": "Pawan Thakur needed 4+ msgs to understand", "description": "Unclear how custom domains work with SDK-hosted apps. Need to register multiple domains vs. redirect.", "users": ["Pawan Thakur"], "workaround": "Register each domain at sdk.dogeos.com/register"}], "opportunities": [{"rank": 1, "title": "DogTag Identity Layer", "category": "platform", "dbot_priority": "high", "what": "On-chain username system where DogeTags become the default identity layer — replacing raw addresses across wallets, chat, and dApps.", "novel_wedge": "MyDoge v3's chain-agnostic wallet (DOGE + EVM + Solana unified) makes DogeTags uniquely powerful — your tag resolves across all three chains in one session. Structurally impossible on any single-chain identity project.", "demand": "High — every dApp builder needs user identification without exposing addresses", "effort": "2-3 weeks", "confidence": "high"}, {"rank": 2, "title": "DogTip Agent — Telegram-Native DOGE Tipping", "category": "ai", "dbot_priority": "high", "what": "Telegram bot that lets ANY user send DOGE tips — even if they've never touched crypto. Uses MyDoge SDK social login for instant wallet creation.", "novel_wedge": "SDK social login + ZK rollup near-zero fees makes micro-tipping economically viable. The bot wraps MyDoge v3 wallet — DBOT runs the tipping logic, MyDoge handles the wallet.", "demand": "Massive — Doge tipping is a documented meme with real cultural precedent (Dogecointipbot)", "effort": "1-2 weeks", "confidence": "high"}, {"rank": 3, "title": "DogeOS Ecosystem Dashboard", "category": "tool", "dbot_priority": "high", "what": "Live dashboard showing TVL, active wallets, transaction volume, dApp usage — designed for sharing on Twitter as DogeOS marketing.", "novel_wedge": "Not a block explorer — it's a DogeOS ecosystem intelligence platform for narrative control. Stats are screenshot-ready for Twitter viral sharing. L3on4rdo posts 4×/day, give them a dashboard to share.", "demand": "High — DAMMY YAN explicitly requested (msg 5837), REDWRITER offered design help (msg 5840)", "effort": "2-3 weeks", "confidence": "high"}, {"rank": 4, "title": "Self-Serve Builder Faucet API", "category": "tool", "dbot_priority": "medium", "what": "Developer API for testnet tokens with rate limits beyond 2/24hr — for CI/CD and multi-wallet testing.", "novel_wedge": "Pure infrastructure leverage. Owning the faucet API means owning the builder authentication layer.", "demand": "High — directly blocks multi-account game testing", "effort": "1 week", "confidence": "high"}, {"rank": 5, "title": "Telegram-Native DeFi Aggregator", "category": "defi", "dbot_priority": "medium", "what": "Telegram bot for DogeOS DeFi positions — swap, deposit to MuchFi, view BarkSwap positions — without leaving Telegram.", "novel_wedge": "ZK rollup fees make every transaction in the bot economically viable. First true 'DeFi in Telegram' for a ZK rollup.", "demand": "High — all DeFi currently requires leaving Telegram", "effort": "2-3 weeks", "confidence": "medium"}, {"rank": 6, "title": "DogeOS Quest Integration via Hermes Agent", "category": "platform", "dbot_priority": "high", "what": "Connect DBOT's Hermes Agent to DogeOS's native questing platform (Hoff msg 3406). Hermes verifies quest completion on-chain + distributes rewards via Telegram.", "novel_wedge": "Hermes can execute complex quest logic (verify 30-day NFT hold, 5 swaps, KYC'd referrals) that a web form cannot.", "demand": "High — every dApp needs user acquisition; questing is the proven playbook", "effort": "1-2 weeks", "confidence": "medium"}, {"rank": 7, "title": "On-Chain Copy Trading Layer", "category": "defi", "dbot_priority": "medium", "what": "Mirror trades from successful DOGE/DogeOS traders. Leaders get DogeTag reputation scores. One-click follow via MyDoge wallet.", "novel_wedge": "Copy trading has never been done as on-chain primitive on ZK rollup. Fee economics make per-trade mirror viable.", "demand": "Medium-high — JS asked about it (msg 5905), Risky B asked about gmgn (msg 5882)", "effort": "1-2 months", "confidence": "medium"}, {"rank": 8, "title": "AnonCoin Launchpad Discovery Frontend", "category": "platform", "dbot_priority": "low", "what": "Polished community-focused frontend for AnonCoin/Anon token launchpad — discover launches, track bonding curves, see social signals.", "novel_wedge": "Doge-culture-native launchpad with viral 'this doge just launched a token' mechanics. Neither existing launchpad leveraged this culture.", "demand": "Medium — DogeFun is direct competitor but hasn't shipped polished social", "effort": "2-3 weeks", "confidence": "medium"}, {"rank": 9, "title": "DogeOS-Specific Audit Marketplace", "category": "tool", "dbot_priority": "low", "what": "Curated audit marketplace where vetted auditors bid on DogeOS projects. Audit reports published as on-chain credentials.", "novel_wedge": "On-chain audit credentials viewable in MyDoge wallet. Creates security reputation layer unique to DogeOS.", "demand": "Medium — multiple DeFi projects launching need audits", "effort": "2-3 weeks", "confidence": "low-medium"}, {"rank": 10, "title": "Multi-Chain Wallet Connect Alternative", "category": "sdk", "dbot_priority": "medium", "what": "Wallet connection protocol that works in Telegram and web — handles DOGE + EVM + Solana addresses in one MyDoge session.", "novel_wedge": "MyDoge v3's multi-chain unified wallet is architecturally unique. Single-session multi-chain protocol is novel primitive.", "demand": "Medium — every dApp needs wallet connection", "effort": "2-3 weeks", "confidence": "medium"}, {"rank": 11, "title": "DOGEstonia Signal Layer Integration", "category": "platform", "dbot_priority": "low", "what": "Connect DOGEstonia's citizen signal layer to DBOT ecosystem. Hermes analyzes signals, DogeTags provide identity.", "novel_wedge": "ZK rollup cheap fees + citizen signal layer + AI intelligence = unique product. Only place these combine.", "demand": "Low-medium (niche but defensible)", "effort": "1 month", "confidence": "low-medium"}, {"rank": 12, "title": "TAP Protocol / Doginal Bridge UI", "category": "nft", "dbot_priority": "medium", "what": "UI for bridging Dogecoin L1 Doginals/Inscriptions (TAP protocol) onto DogeOS as ERC-721 assets.", "novel_wedge": "No other EVM rollup has official Dogecoin L1 bridge. Doginals → DogeOS DeFi creates new NFTFi primitives.", "demand": "Medium — from Doginal collectors, high-value users", "effort": "2-3 weeks", "confidence": "medium"}, {"rank": 13, "title": "Decentralized Group Chat on DogeOS", "category": "platform", "dbot_priority": "low", "what": "On-chain group chat with DogeTag identity, message storage, moderation, DAO-based governance. Telegram replacement.", "novel_wedge": "ZK rollup makes on-chain messaging economically viable. First 'crypto-native group chat' with real identity.", "demand": "Medium — accounts getting blocked on Telegram", "effort": "3+ months", "confidence": "low-medium"}, {"rank": 14, "title": "DogeOS Mainnet Validator UI", "category": "platform", "dbot_priority": "low", "what": "One-click validator setup, delegation dashboard, staking rewards tracker, uptime monitoring.", "novel_wedge": "Being first to build validator UI = owning the validator UX before core team standardizes it.", "demand": "Medium-high (once mainnet launches)", "effort": "1 month", "confidence": "low"}, {"rank": 15, "title": "NFTFi / NFT Collateralized Lending", "category": "nft", "dbot_priority": "low", "what": "Use DogeOS NFTs (Dogefood, Dogeolith) as collateral in MuchFi lending pools. Floor price oracle, liquidation engine, NFT rental marketplace.", "novel_wedge": "Doge cultural meme-energy gives NFT collections real community floor prices. DogeTags can serve as credit identities.", "demand": "Low-medium — NFT DeFi thin everywhere", "effort": "1-2 months", "confidence": "low-medium"}], "people": [{"name": "Hoff", "msgs": 189, "role": "team", "profile": "🏆 Highest replies received (82). Answers faucet/testnet/policy questions. Speaks on testnet/mainnet roadmap.", "what": "DogeOS Questing Platform (team)"}, {"name": "Alex Lewis", "msgs": 43, "role": "team", "profile": "Team-adjacent. Answers SDK questions, posts beta release announcements. The person who actually writes the SDK.", "what": "DogeOS SDK"}, {"name": "QueenDoge (Dogefood Team)", "msgs": 204, "role": "team-adjacent", "profile": "Name-tagged as 'Dogefood Team.' Announces testnet updates, promotes LabFeed social experience.", "what": "DogeFood NFT + LabFeed"}, {"name": "Paddy", "msgs": null, "role": "team", "profile": "DogeOS team member. DogeClipper link.", "what": "DogeOS team"}, {"name": "@ah0xx", "msgs": null, "role": "team-contact", "profile": "PRIMARY DogeOS team contact. Referenced 28× by 26 different people across the full date range.", "what": "Primary team contact"}, {"name": "Jordan | DogeOS", "msgs": null, "role": "team", "profile": "Name indicates official affiliation.", "what": "DogeOS team"}, {"name": "Linus le Chef", "msgs": 219, "role": "builder", "profile": "Top reply rate (28%). Answers dev questions, coordinates with @ah0xx. Senior builder with AI/launchpad background.", "what": "DogeAgent, AnonCoin Launchpad"}, {"name": "Junior (MONKO era)", "msgs": 134, "role": "builder", "profile": "Enthusiastic 'Woof' energy, hype builder. Highest Woof volume.", "what": "Monko Game + Token"}, {"name": "L3on4rdo", "msgs": 72, "role": "builder-influencer", "profile": "DogeMuseum amplification (4+ X posts/day). Side-project intelligence monitor.", "what": "DogeMuseum/Dogeolith NFT, L3onChain"}, {"name": "Chief Doge Officer", "msgs": null, "role": "builder", "profile": "SofaLabs team. Building the DEX.", "what": "BarkSwap DEX"}, {"name": "Bruce Not Wayne", "msgs": 22, "role": "builder", "profile": "Occasional reply. MuchFi dev.", "what": "MuchFi DeFi Lending"}, {"name": "SolMeals", "msgs": 58, "role": "builder", "profile": "Daily digest poster, links, Woof energy.", "what": "DogePaws AI"}, {"name": "Lordbsd", "msgs": null, "role": "builder", "profile": "Co-founder of RushFi.", "what": "RushFi prediction game"}, {"name": "Meowth (나옹)", "msgs": null, "role": "builder", "profile": "Korean-speaking builder, introduced himself as launchpad dev.", "what": "DogeFun launchpad"}, {"name": "Zeya Metsapuu", "msgs": 23, "role": "builder-helper", "profile": "43% reply ratio — highest. Asks technical questions, gets answers from @ah0xx.", "what": "DOGEstonia signal layer"}, {"name": "Louis", "msgs": null, "role": "builder", "profile": "Laika SuperApp team. Posts LaunchOS updates.", "what": "Laika SuperApp"}, {"name": "Mayur | split", "msgs": null, "role": "builder", "profile": "Single intro post for Doge.split — testnet deployed same day.", "what": "Doge.split leverage trading"}, {"name": "Tammy | FYEO", "msgs": null, "role": "builder-tooling", "profile": "Promoted FYEO scanner Aug 2026. Officially endorsed by Hoff.", "what": "FYEO Security Scanner"}, {"name": "Gogu", "msgs": null, "role": "builder", "profile": "Trading bot dev. Live product.", "what": "Doginal Buds Bot"}, {"name": "Ranch", "msgs": 20, "role": "builder", "profile": "zDoge privacy protocol dev. Quiet.", "what": "zDoge ZK privacy"}, {"name": "8041449808", "msgs": 24, "role": "builder", "profile": "zDoge dev helper.", "what": "zDoge"}, {"name": "Jerry Can", "msgs": null, "role": "builder", "profile": "CCIP bridge integration work.", "what": "CCIP Bridge"}, {"name": "Dogefactory", "msgs": null, "role": "builder", "profile": "SDK wiring + npm audit work.", "what": "Dogefactory tooling"}, {"name": "@PennybagsCX", "msgs": 28, "role": "builder-helper", "profile": "DBOT team. Q&A behavior (3 consecutive answers). Asking to bring Hermes Agent to DogeOS.", "what": "DBOT Hermes Agent"}, {"name": "The DogeList", "msgs": null, "role": "builder", "profile": "Directory platform. v2 launched Jul 2026.", "what": "TheDogeList.com"}, {"name": "Kyle | John Lemon", "msgs": null, "role": "builder", "profile": "Mintpad founder. Free minting for creators.", "what": "Mintpad NFT tool"}, {"name": "Investor deck", "msgs": 235, "role": "shiller-builder", "profile": "Most messages (235). Mostly Woof/shill energy but actually shipping Waldoge + trivia game.", "what": "Waldoge memecoin + game"}, {"name": "Fayzo", "msgs": 110, "role": "shiller", "profile": "🔴 ONLY user with forwards (16). Hype content, AI questions.", "what": "AnonDoge X community"}, {"name": "Xcellent Doge", "msgs": 121, "role": "shiller", "profile": "Frequent Woof poster. Tags @ah0xx. Pure shilling.", "what": "None (community energy)"}, {"name": "CryptoSLE10", "msgs": 38, "role": "shiller", "profile": "Low-reply shiller.", "what": "None"}, {"name": "Bemused", "msgs": 120, "role": "builder", "profile": "Game developer. Tags @ah0xx and @BuildrJ re: game progress.", "what": "Game dev (TBD)"}, {"name": "AndyOS", "msgs": 99, "role": "community", "profile": "Vietnamese community. Posts MyDogeVN links.", "what": "Community"}, {"name": "James ⚡️", "msgs": 23, "role": "helper", "profile": "39% reply ratio. Answers questions, engaged helper.", "what": "Helper"}, {"name": "K（Don't doubt your vibes）", "msgs": 59, "role": "community", "profile": "Asks 'when fully open?' (msg 5944).", "what": "Community"}, {"name": "JS", "msgs": 39, "role": "questioner", "profile": "Product questions (social trading, testnet timeline).", "what": "Community"}, {"name": "Doge Takeover", "msgs": 27, "role": "coordinator", "profile": "Coordinates @ah0xx for Twitter spaces.", "what": "WoofCoin"}, {"name": "DaBomb", "msgs": 26, "role": "builder", "profile": "Occasional replies. RPC setup.", "what": "RPC tooling"}, {"name": "Starstone", "msgs": null, "role": "builder", "profile": "Beta dApp near public beta (Aug 2026).", "what": "Starstone beta dApp"}, {"name": "Captain | RealLabs.one", "msgs": null, "role": "builder", "profile": "RealLabs NFT — seeking DogeOS support.", "what": "RealLabs NFT"}, {"name": "Geo 🃏☝️", "msgs": 33, "role": "builder", "profile": "DogeFood design/tech.", "what": "DogeFood"}, {"name": "levooo", "msgs": null, "role": "builder", "profile": "Mentioned as Derps perp DEX builder.", "what": "Derps perp DEX"}, {"name": "VLK �DOSU ARMY 🚀", "msgs": 80, "role": "shiller", "profile": "Occasional GWoof. DOSU Army token.", "what": "DOSU Army"}]};
+
+// HELPERS
+const $ = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+const escHtml = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const catMeta = Object.fromEntries(DATA.categories.map(c => [c.id, c]));
+
+function cardAccent(cat) {
+  const m = catMeta[cat];
+  return m ? m.color : 'var(--purple)';
+}
+
+function evidenceClass(ev) {
+  if (!ev) return '';
+  if (ev.includes('confirmed') && !ev.includes('single')) return 't-live';
+  if (ev === 'confirmed' || ev === 'ongoing presence') return 't-live';
+  if (ev.includes('single claim')) return 't-beta';
+  if (ev === 'rumor') return 't-idea';
+  return '';
+}
+
+function severityClass(s) { return s ? 'sev-' + s : ''; }
+function stageClass(s) { return s ? 't-' + s : ''; }
+function roleClass(r) { return r ? 'role-' + r : ''; }
+function dbotClass(p) { return p ? 'dbot-' + p : ''; }
+
+// TABS — proper ARIA tablist pattern
+$$('.tab').forEach(tab => {
+  tab.addEventListener('click', () => activateTab(tab.dataset.tab));
+  tab.addEventListener('keydown', (e) => {
+    const tabs = $$('.tab');
+    const idx = tabs.indexOf(tab);
+    if (e.key === 'ArrowRight') { e.preventDefault(); tabs[(idx + 1) % tabs.length].focus(); tabs[(idx + 1) % tabs.length].click(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); tabs[(idx - 1 + tabs.length) % tabs.length].focus(); tabs[(idx - 1 + tabs.length) % tabs.length].click(); }
+  });
+});
+
+function activateTab(name) {
+  $$('.tab').forEach(t => {
+    const selected = t.dataset.tab === name;
+    t.setAttribute('aria-selected', selected);
+  });
+  $$('.tab-pane').forEach(p => {
+    p.setAttribute('aria-hidden', p.id !== 'pane-' + name);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// MODAL — focus-trapped dialog
+const modal = $('#modal');
+const modalContent = $('#modal-content');
+let lastFocused = null;
+
+function openModal(content) {
+  lastFocused = document.activeElement;
+  modalContent.innerHTML = content;
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  // Move focus into the modal
+  setTimeout(() => modal.querySelector('.modal-close')?.focus(), 0);
+}
+function closeModal() {
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  if (lastFocused) lastFocused.focus();
+}
+$('#modal-close').addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') closeModal();
+  if (e.key === 'Tab' && modal.getAttribute('aria-hidden') === 'false') {
+    // Simple focus trap
+    const focusables = modal.querySelectorAll('button, a, [tabindex]:not([tabindex="-1"])');
+    if (focusables.length === 0) return;
+    const first = focusables[0], last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+
+// PROJECTS
+function renderProjects(filter = 'all', search = '') {
+  const grid = $('#projects-grid');
+  const s = search.toLowerCase().trim();
+  const filtered = DATA.projects.filter(p => {
+    const catMatch = filter === 'all' || p.category === filter || p.stage === filter;
+    const searchMatch = !s || [p.name, p.builder, p.what, p.category, p.stage].some(x => (x || '').toLowerCase().includes(s));
+    return catMatch && searchMatch;
+  });
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty"><i class="ph ph-magnifying-glass-minus" aria-hidden="true"></i>No projects match your filters.</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(p => `
+    <button class="card" data-name="${escHtml(p.name)}" style="--card-accent: ${cardAccent(p.category)}" aria-label="Open ${escHtml(p.name)} detail">
+      <div class="card-header">
+        <div class="title">${escHtml(p.name)}</div>
+        <span class="badge">${escHtml(catMeta[p.category]?.label || p.category)}</span>
+      </div>
+      <div class="builder"><i class="ph ph-user-circle" aria-hidden="true"></i> ${escHtml(p.builder)}</div>
+      <div class="desc">${escHtml(p.what)}</div>
+      <div class="meta">
+        <span class="tag ${stageClass(p.stage)}">${escHtml(p.stage)}</span>
+        <span class="tag ${evidenceClass(p.evidence)}">${escHtml(p.evidence.split(' ')[0])}</span>
+        ${p.msg_count > 0 ? `<span class="tag">${p.msg_count} msgs</span>` : ''}
+      </div>
+    </button>
+  `).join('');
+  $$('#projects-grid .card').forEach(card => {
+    card.addEventListener('click', () => openProjectModal(card.dataset.name));
+  });
+}
+
+function openProjectModal(name) {
+  const p = DATA.projects.find(x => x.name === name);
+  if (!p) return;
+  const linksHtml = p.links && p.links.length
+    ? `<ul class="modal-list">${p.links.map(l => `<li><i class="ph ph-link" aria-hidden="true"></i> <a href="${escHtml(l)}" target="_blank" rel="noopener">${escHtml(l)}</a></li>`).join('')}</ul>`
+    : '<p style="color: var(--text-dim); font-style: italic;">No public links shared in chat.</p>';
+  openModal(`
+    <h2 id="modal-title">${escHtml(p.name)}</h2>
+    <div class="modal-subtitle">${escHtml(p.builder)} · ${escHtml(catMeta[p.category]?.label || p.category)}</div>
+    <div class="modal-section">
+      <div class="modal-section-label">What it is</div>
+      <p>${escHtml(p.what)}</p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Stage & Evidence</div>
+      <div class="modal-meta-row">
+        <span class="tag ${stageClass(p.stage)}">${escHtml(p.stage)}</span>
+        <span class="tag ${evidenceClass(p.evidence)}">${escHtml(p.evidence)}</span>
+        ${p.msg_count > 0 ? `<span class="tag">${p.msg_count} chat messages</span>` : ''}
+      </div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Links</div>
+      ${linksHtml}
+    </div>
+  `);
+}
+
+function buildChips(containerId, values, currentValue, formatter, callback) {
+  const c = $('#' + containerId);
+  c.innerHTML = values.map(v => {
+    const label = formatter ? formatter(v) : v;
+    const active = v === currentValue;
+    return `<button class="chip" type="button" data-val="${escHtml(v)}" aria-pressed="${active}">${escHtml(label)}</button>`;
+  }).join('');
+  $$('#' + containerId + ' .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      $$('#' + containerId + ' .chip').forEach(x => x.setAttribute('aria-pressed', 'false'));
+      chip.setAttribute('aria-pressed', 'true');
+      callback(chip.dataset.val);
+    });
+  });
+}
+
+const projFilters = ['all', ...DATA.categories.map(c => c.id), 'testnet', 'building', 'live'];
+buildChips('projects-filters', projFilters, 'all',
+  v => v === 'all' ? 'All' : (catMeta[v]?.label || v),
+  v => renderProjects(v, $('#projects-search').value)
+);
+
+const projSearchWrap = $('#projects-search-wrap');
+$('#projects-search').addEventListener('input', e => {
+  const v = e.target.value;
+  projSearchWrap.classList.toggle('has-value', !!v);
+  const activeFilter = $('#projects-filters .chip[aria-pressed="true"]').dataset.val;
+  renderProjects(activeFilter, v);
+});
+$('#projects-clear').addEventListener('click', () => {
+  $('#projects-search').value = '';
+  projSearchWrap.classList.remove('has-value');
+  $('#projects-search').focus();
+  renderProjects($('#projects-filters .chip[aria-pressed="true"]').dataset.val, '');
+});
+renderProjects();
+
+// PAIN POINTS
+function renderPain(filter = 'all', search = '') {
+  const grid = $('#pain-grid');
+  const s = search.toLowerCase().trim();
+  const filtered = DATA.pain_points.filter(p => {
+    const match = filter === 'all' || p.severity === filter;
+    const searchMatch = !s || [p.title, p.description, p.frequency, ...(p.users || [])].some(x => (x || '').toLowerCase().includes(s));
+    return match && searchMatch;
+  });
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty"><i class="ph ph-magnifying-glass-minus" aria-hidden="true"></i>No pain points match your filters.</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map((p, i) => {
+    const accent = p.severity === 'high' ? 'var(--red)' : p.severity === 'medium' ? 'var(--yellow)' : 'var(--text-muted)';
+    return `
+      <button class="card" data-idx="${i}" style="--card-accent: ${accent}" aria-label="Open pain point: ${escHtml(p.title)}">
+        <div class="card-header">
+          <div class="title">${escHtml(p.title)}</div>
+          <span class="badge">${escHtml(p.severity)}</span>
+        </div>
+        <div class="desc">${escHtml(p.description)}</div>
+        <div class="meta">
+          <span class="tag ${severityClass(p.severity)}">${escHtml(p.severity)}</span>
+          <span class="tag">${escHtml(p.frequency)}</span>
+        </div>
+      </button>
+    `;
+  }).join('');
+  $$('#pain-grid .card').forEach(card => {
+    card.addEventListener('click', () => openPainModal(parseInt(card.dataset.idx)));
+  });
+}
+
+function openPainModal(idx) {
+  const p = DATA.pain_points[idx];
+  if (!p) return;
+  openModal(`
+    <h2 id="modal-title">${escHtml(p.title)}</h2>
+    <div class="modal-subtitle">Severity: ${escHtml(p.severity)} · ${escHtml(p.frequency)}</div>
+    <div class="modal-section">
+      <div class="modal-section-label">Description</div>
+      <p>${escHtml(p.description)}</p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Affected users</div>
+      <ul class="modal-list">
+        ${p.users.map(u => `<li><i class="ph ph-user-circle" aria-hidden="true"></i> ${escHtml(u)}</li>`).join('')}
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Current workaround</div>
+      <p>${escHtml(p.workaround)}</p>
+    </div>
+  `);
+}
+
+buildChips('pain-filters', ['all', 'high', 'medium', 'low'], 'all',
+  v => v === 'all' ? 'All severities' : v,
+  v => renderPain(v, $('#pain-search').value)
+);
+
+const painSearchWrap = $('#pain-search-wrap');
+$('#pain-search').addEventListener('input', e => {
+  painSearchWrap.classList.toggle('has-value', !!e.target.value);
+  renderPain($('#pain-filters .chip[aria-pressed="true"]').dataset.val, e.target.value);
+});
+$('#pain-clear').addEventListener('click', () => {
+  $('#pain-search').value = '';
+  painSearchWrap.classList.remove('has-value');
+  $('#pain-search').focus();
+  renderPain($('#pain-filters .chip[aria-pressed="true"]').dataset.val, '');
+});
+renderPain();
+
+// OPPORTUNITIES
+function renderOpp(filter = 'all', search = '') {
+  const grid = $('#opp-grid');
+  const s = search.toLowerCase().trim();
+  const filtered = DATA.opportunities.filter(o => {
+    const match = filter === 'all' || o.dbot_priority === filter || o.category === filter;
+    const searchMatch = !s || [o.title, o.what, o.novel_wedge, o.demand, o.effort].some(x => (x || '').toLowerCase().includes(s));
+    return match && searchMatch;
+  });
+  filtered.sort((a, b) => a.rank - b.rank);
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty"><i class="ph ph-magnifying-glass-minus" aria-hidden="true"></i>No opportunities match your filters.</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(o => {
+    const accent = o.dbot_priority === 'high' ? 'var(--gold-light)' : o.dbot_priority === 'medium' ? 'var(--cyan-light)' : 'var(--text-muted)';
+    return `
+      <button class="card" data-rank="${o.rank}" style="--card-accent: ${accent}" aria-label="Open opportunity: ${escHtml(o.title)}">
+        <div class="card-header">
+          <div class="title">#${o.rank} · ${escHtml(o.title)}</div>
+          <span class="badge">${escHtml(catMeta[o.category]?.label || o.category)}</span>
+        </div>
+        <div class="desc">${escHtml(o.what)}</div>
+        <div class="meta">
+          <span class="tag ${dbotClass(o.dbot_priority)}">DBOT · ${escHtml(o.dbot_priority)}</span>
+          <span class="tag">${escHtml(o.effort)}</span>
+          <span class="tag">${escHtml(o.confidence)}</span>
+        </div>
+      </button>
+    `;
+  }).join('');
+  $$('#opp-grid .card').forEach(card => {
+    card.addEventListener('click', () => openOppModal(parseInt(card.dataset.rank)));
+  });
+}
+
+function openOppModal(rank) {
+  const o = DATA.opportunities.find(x => x.rank === rank);
+  if (!o) return;
+  openModal(`
+    <h2 id="modal-title">#${o.rank} · ${escHtml(o.title)}</h2>
+    <div class="modal-subtitle">${escHtml(catMeta[o.category]?.label || o.category)} · DBOT priority: ${escHtml(o.dbot_priority)}</div>
+    <div class="modal-section">
+      <div class="modal-section-label">What it is</div>
+      <p>${escHtml(o.what)}</p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">The novel wedge</div>
+      <p class="wedge">${escHtml(o.novel_wedge)}</p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Estimated demand</div>
+      <p>${escHtml(o.demand)}</p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Effort & confidence</div>
+      <div class="modal-meta-row">
+        <span class="tag">${escHtml(o.effort)}</span>
+        <span class="tag">${escHtml(o.confidence)}</span>
+        <span class="tag ${dbotClass(o.dbot_priority)}">DBOT priority · ${escHtml(o.dbot_priority)}</span>
+      </div>
+    </div>
+  `);
+}
+
+buildChips('opp-filters', ['all', 'high', 'medium', 'low'], 'all',
+  v => v === 'all' ? 'All priorities' : 'DBOT · ' + v,
+  v => renderOpp(v, $('#opp-search').value)
+);
+
+const oppSearchWrap = $('#opp-search-wrap');
+$('#opp-search').addEventListener('input', e => {
+  oppSearchWrap.classList.toggle('has-value', !!e.target.value);
+  renderOpp($('#opp-filters .chip[aria-pressed="true"]').dataset.val, e.target.value);
+});
+$('#opp-clear').addEventListener('click', () => {
+  $('#opp-search').value = '';
+  oppSearchWrap.classList.remove('has-value');
+  $('#opp-search').focus();
+  renderOpp($('#opp-filters .chip[aria-pressed="true"]').dataset.val, '');
+});
+renderOpp();
+
+// PEOPLE
+function renderPeople(filter = 'all', search = '') {
+  const grid = $('#people-grid');
+  const s = search.toLowerCase().trim();
+  const filtered = DATA.people.filter(p => {
+    const match = filter === 'all' || p.role === filter;
+    const searchMatch = !s || [p.name, p.profile, p.what].some(x => (x || '').toLowerCase().includes(s));
+    return match && searchMatch;
+  });
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty"><i class="ph ph-magnifying-glass-minus" aria-hidden="true"></i>No people match your filters.</div>';
+    return;
+  }
+  const roleAccent = {
+    'team': 'var(--purple-light)', 'team-contact': 'var(--purple-light)', 'team-adjacent': 'var(--purple-light)',
+    'builder': 'var(--cyan-light)', 'builder-helper': 'var(--cyan-light)', 'builder-influencer': 'var(--cyan-light)', 'builder-tooling': 'var(--cyan-light)',
+    'helper': 'var(--green)', 'coordinator': 'var(--green)',
+    'shiller': 'var(--pink)',
+    'community': 'var(--text-muted)', 'questioner': 'var(--text-muted)'
+  };
+  grid.innerHTML = filtered.map(p => {
+    const accent = roleAccent[p.role] || 'var(--text-muted)';
+    return `
+      <button class="card" data-name="${escHtml(p.name)}" style="--card-accent: ${accent}" aria-label="Open profile: ${escHtml(p.name)}">
+        <div class="card-header">
+          <div class="title">${escHtml(p.name)}</div>
+          <span class="badge">${escHtml(p.role.replace('builder-influencer', 'builder+inf').replace('builder-helper', 'builder'))}</span>
+        </div>
+        <div class="desc">${escHtml(p.profile)}</div>
+        <div class="meta">
+          ${p.msgs ? `<span class="tag">${p.msgs} msgs</span>` : ''}
+          <span class="tag ${roleClass(p.role)}">${escHtml(p.role)}</span>
+        </div>
+      </button>
+    `;
+  }).join('');
+  $$('#people-grid .card').forEach(card => {
+    card.addEventListener('click', () => openPeopleModal(card.dataset.name));
+  });
+}
+
+function openPeopleModal(name) {
+  const p = DATA.people.find(x => x.name === name);
+  if (!p) return;
+  openModal(`
+    <h2 id="modal-title">${escHtml(p.name)}</h2>
+    <div class="modal-subtitle">Role: ${escHtml(p.role)}${p.msgs ? ' · ' + p.msgs + ' messages' : ''}</div>
+    <div class="modal-section">
+      <div class="modal-section-label">Profile</div>
+      <p>${escHtml(p.profile)}</p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">What they're shipping</div>
+      <p>${escHtml(p.what)}</p>
+    </div>
+  `);
+}
+
+const peopleRoles = ['all', 'team', 'team-contact', 'team-adjacent', 'builder', 'builder-helper', 'builder-influencer', 'builder-tooling', 'shiller', 'helper', 'community', 'questioner', 'coordinator'];
+buildChips('people-filters', peopleRoles, 'all',
+  v => v === 'all' ? 'All roles' : v.replace('builder-', 'b:'),
+  v => renderPeople(v, $('#people-search').value)
+);
+
+const peopleSearchWrap = $('#people-search-wrap');
+$('#people-search').addEventListener('input', e => {
+  peopleSearchWrap.classList.toggle('has-value', !!e.target.value);
+  renderPeople($('#people-filters .chip[aria-pressed="true"]').dataset.val, e.target.value);
+});
+$('#people-clear').addEventListener('click', () => {
+  $('#people-search').value = '';
+  peopleSearchWrap.classList.remove('has-value');
+  $('#people-search').focus();
+  renderPeople($('#people-filters .chip[aria-pressed="true"]').dataset.val, '');
+});
+renderPeople();
+
+// TOP 3
+const top3 = DATA.opportunities.filter(o => o.rank <= 3).sort((a, b) => a.rank - b.rank);
+$('#top-3-list').innerHTML = top3.map(o => `
+  <button class="top3-item" data-rank="${o.rank}" aria-label="Open ${escHtml(o.title)}">
+    <div class="rank">#${o.rank} · DBOT · ${o.dbot_priority.toUpperCase()}</div>
+    <h3>${escHtml(o.title)}</h3>
+    <p>${escHtml(o.what)}</p>
+    <div class="meta">
+      <span class="tag">${escHtml(o.effort)}</span>
+      <span class="tag">${escHtml(o.confidence)}</span>
+    </div>
+  </button>
+`).join('');
+$$('#top-3-list .top3-item').forEach(card => {
+  card.addEventListener('click', () => {
+    activateTab('opp');
+    setTimeout(() => openOppModal(parseInt(card.dataset.rank)), 300);
+  });
+});
+
+// SR-only utility (for accessibility)
+const srOnlyStyle = document.createElement('style');
+srOnlyStyle.textContent = '.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}';
+document.head.appendChild(srOnlyStyle);
+
+</script>
+</body>
+</html>

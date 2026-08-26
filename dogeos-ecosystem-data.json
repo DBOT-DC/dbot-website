@@ -1,0 +1,1046 @@
+{
+  "meta": {
+    "title": "DogeOS Ecosystem Explorer",
+    "subtitle": "Live intelligence on the DogeOS Builders Club",
+    "source_channel": "@buildondogeos",
+    "corpus_messages": 3000,
+    "corpus_members": 389,
+    "corpus_date_range": "2025-11-08 → 2026-08-26",
+    "compiled": "2026-08-26"
+  },
+  "stats": {
+    "total_projects": 37,
+    "confirmed_projects": 21,
+    "testnet_projects": 9,
+    "live_projects": 4,
+    "total_pain_points": 8,
+    "total_opportunities": 15,
+    "total_builders": 32,
+    "core_team": 5,
+    "helpers": 8,
+    "shillers": 5
+  },
+  "categories": [
+    {
+      "id": "dapp",
+      "label": "dApp",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "defi",
+      "label": "DeFi",
+      "color": "#06b6d4"
+    },
+    {
+      "id": "nft",
+      "label": "NFT",
+      "color": "#BA9F33"
+    },
+    {
+      "id": "game",
+      "label": "Game",
+      "color": "#22c55e"
+    },
+    {
+      "id": "ai",
+      "label": "AI/Agent",
+      "color": "#A78BFA"
+    },
+    {
+      "id": "platform",
+      "label": "Platform",
+      "color": "#F59E0B"
+    },
+    {
+      "id": "tool",
+      "label": "Tool",
+      "color": "#EC4899"
+    },
+    {
+      "id": "sdk",
+      "label": "SDK",
+      "color": "#10B981"
+    },
+    {
+      "id": "memecoin",
+      "label": "Memecoin",
+      "color": "#FACC15"
+    }
+  ],
+  "projects": [
+    {
+      "name": "DogeFood",
+      "builder": "QueenDoge, Geo",
+      "category": "nft",
+      "stage": "testnet",
+      "what": "First NFT collection sold out on DogeOS (1,000 boxes). Adding P2E game layer (DogeFood Lab) with $LAB token airdrop.",
+      "evidence": "confirmed multiple",
+      "msg_count": 17,
+      "links": [
+        "https://mintdoge.food"
+      ]
+    },
+    {
+      "name": "Monko",
+      "builder": "Junior",
+      "category": "game",
+      "stage": "testnet",
+      "what": "Memecoin + mobile P2E game with pay-to-play and play-to-earn mechanics. Mobile optimization in progress.",
+      "evidence": "confirmed multiple",
+      "msg_count": 46,
+      "links": []
+    },
+    {
+      "name": "RushFi",
+      "builder": "Lordbsd",
+      "category": "game",
+      "stage": "building",
+      "what": "Tap trading prediction game — players predict DOGE price direction and earn rewards.",
+      "evidence": "confirmed multiple",
+      "msg_count": 4,
+      "links": [
+        "https://x.com/rushhfi"
+      ]
+    },
+    {
+      "name": "DogeMuseum / Dogeolith",
+      "builder": "L3on4rdo",
+      "category": "nft",
+      "stage": "testnet",
+      "what": "OG NFT drop with WL mechanics and Discord OG role waiting room. Most active project by message volume.",
+      "evidence": "confirmed multiple",
+      "msg_count": 64,
+      "links": [
+        "https://x.com/Doge_Museum"
+      ]
+    },
+    {
+      "name": "DogeFun",
+      "builder": "Meowth (나옹)",
+      "category": "platform",
+      "stage": "building",
+      "what": "Memecoin launchpad with portfolio tracking. Graduation integrated with MuchFi pool.",
+      "evidence": "confirmed multiple",
+      "msg_count": 3,
+      "links": [
+        "https://x.com/Dogefungg"
+      ]
+    },
+    {
+      "name": "DogePaws",
+      "builder": "SolMeals",
+      "category": "ai",
+      "stage": "building",
+      "what": "AI-powered intelligence data engine for Doge ecosystem + daily Doge digest.",
+      "evidence": "confirmed multiple",
+      "msg_count": 13,
+      "links": [
+        "https://dogepaws.lol",
+        "https://x.com/dogepawslol"
+      ]
+    },
+    {
+      "name": "Marslanders",
+      "builder": ".",
+      "category": "nft",
+      "stage": "unknown",
+      "what": "NFT collection on DogeOS.",
+      "evidence": "single claim",
+      "msg_count": 2,
+      "links": [
+        "https://x.com/marslandersdoge"
+      ]
+    },
+    {
+      "name": "RealLabs",
+      "builder": "Captain | RealLabs.one",
+      "category": "nft",
+      "stage": "building",
+      "what": "NFT project exploring DogeOS deployment. Community requesting support.",
+      "evidence": "single claim",
+      "msg_count": 1,
+      "links": []
+    },
+    {
+      "name": "Starstone",
+      "builder": "Starstone",
+      "category": "dapp",
+      "stage": "testnet",
+      "what": "Beta dApp near public beta as of Aug 2026. Asked about ERC-721 display in MyDoge.",
+      "evidence": "single claim",
+      "msg_count": 1,
+      "links": []
+    },
+    {
+      "name": "BarkSwap",
+      "builder": "Chief Doge Officer / SofaLabs",
+      "category": "defi",
+      "stage": "testnet",
+      "what": "DEX (decentralized exchange). Ready for Day 1 of DogeOS launch.",
+      "evidence": "confirmed multiple",
+      "msg_count": 12,
+      "links": [
+        "https://x.com/bark_swap"
+      ]
+    },
+    {
+      "name": "MuchFi",
+      "builder": "Bruce Not Wayne",
+      "category": "defi",
+      "stage": "building",
+      "what": "DeFi lending/borrowing protocol. Described by Hoff as 'one of the best DeFi protocols being built.'",
+      "evidence": "confirmed multiple",
+      "msg_count": 3,
+      "links": []
+    },
+    {
+      "name": "Doge.split",
+      "builder": "Mayur | split",
+      "category": "defi",
+      "stage": "testnet",
+      "what": "Leverage trading platform with UP/DOWN predictions, up to 100x. Fixed risk, no liquidation.",
+      "evidence": "confirmed",
+      "msg_count": 1,
+      "links": [
+        "https://x.com/doge.split"
+      ]
+    },
+    {
+      "name": "Derps (Derpsparty)",
+      "builder": "levooo",
+      "category": "defi",
+      "stage": "building",
+      "what": "Perpetual DEX on DogeOS.",
+      "evidence": "single claim",
+      "msg_count": 1,
+      "links": []
+    },
+    {
+      "name": "Fide AI",
+      "builder": "Unknown",
+      "category": "defi",
+      "stage": "building",
+      "what": "Prediction market on DogeOS.",
+      "evidence": "single claim",
+      "msg_count": 1,
+      "links": []
+    },
+    {
+      "name": "USDoge",
+      "builder": "Unknown",
+      "category": "defi",
+      "stage": "building",
+      "what": "Doge-backed stablecoin on DogeOS.",
+      "evidence": "single claim",
+      "msg_count": 1,
+      "links": []
+    },
+    {
+      "name": "MOAR (MoarHQ)",
+      "builder": "Unknown",
+      "category": "defi",
+      "stage": "building",
+      "what": "Lending/borrowing protocol.",
+      "evidence": "single claim",
+      "msg_count": 1,
+      "links": []
+    },
+    {
+      "name": "zDoge",
+      "builder": "Ranch, 8041449808",
+      "category": "defi",
+      "stage": "testnet",
+      "what": "Privacy protocol with ZK-proof shielded transactions — shield, transfer, swap, unshield.",
+      "evidence": "confirmed multiple",
+      "msg_count": 3,
+      "links": []
+    },
+    {
+      "name": "Doginal Buds Bot",
+      "builder": "Gogu",
+      "category": "ai",
+      "stage": "live",
+      "what": "AI-powered news/trading bot for Telegram. Binance live, Hyperliquid coming. Single-click trade execution.",
+      "evidence": "confirmed multiple",
+      "msg_count": 3,
+      "links": [
+        "https://t.me/doginalbudsbot"
+      ]
+    },
+    {
+      "name": "DogeAgent (DOA)",
+      "builder": "Linus le Chef",
+      "category": "ai",
+      "stage": "testnet",
+      "what": "AI agent platform — terminal with Doge personality, Twitter LLM integration. Training custom model layer on OpenAI infra.",
+      "evidence": "confirmed multiple",
+      "msg_count": 16,
+      "links": [
+        "https://dogeagent.org",
+        "https://anoncoin.it/doa"
+      ]
+    },
+    {
+      "name": "DBOT Hermes Agent",
+      "builder": "@PennybagsCX",
+      "category": "ai",
+      "stage": "building",
+      "what": "Hermes AI agent from PennyAI/DBOT being ported to DogeOS from Dogechain.",
+      "evidence": "confirmed multiple",
+      "msg_count": 3,
+      "links": [
+        "https://hermes-agent.nousresearch.com"
+      ]
+    },
+    {
+      "name": "Laika SuperApp",
+      "builder": "Louis",
+      "category": "platform",
+      "stage": "building",
+      "what": "DAO-first, treasury-driven token launch superapp with governance.",
+      "evidence": "confirmed multiple",
+      "msg_count": 4,
+      "links": [
+        "https://x.com/LaikaSuperApp"
+      ]
+    },
+    {
+      "name": "DogeOS Questing Platform",
+      "builder": "Hoff / DogeOS team",
+      "category": "platform",
+      "stage": "building",
+      "what": "Native ecosystem questing platform — builders add quests to attract users.",
+      "evidence": "confirmed",
+      "msg_count": 2,
+      "links": []
+    },
+    {
+      "name": "The DogeList",
+      "builder": "The DogeList",
+      "category": "platform",
+      "stage": "live",
+      "what": "Doge ecosystem directory/listings. v2 redesign launched Jul 2026.",
+      "evidence": "confirmed",
+      "msg_count": 1,
+      "links": [
+        "http://TheDogeList.com"
+      ]
+    },
+    {
+      "name": "Moonbase",
+      "builder": "@moonbasegg",
+      "category": "platform",
+      "stage": "building",
+      "what": "Platform deploying natively on DogeOS.",
+      "evidence": "single claim",
+      "msg_count": 1,
+      "links": []
+    },
+    {
+      "name": "DOGEstonia",
+      "builder": "Zeya Metsapuu",
+      "category": "platform",
+      "stage": "building",
+      "what": "Open-source citizen signal layer — immutable signals linked to real social outcomes.",
+      "evidence": "confirmed multiple",
+      "msg_count": 2,
+      "links": []
+    },
+    {
+      "name": "Mintpad",
+      "builder": "Kyle | John Lemon",
+      "category": "nft",
+      "stage": "testnet",
+      "what": "Free NFT creation/minting platform on DogeOS testnet.",
+      "evidence": "single claim",
+      "msg_count": 1,
+      "links": [
+        "https://Mintpad.co"
+      ]
+    },
+    {
+      "name": "AnonCoin Launchpad",
+      "builder": "Linus le Chef",
+      "category": "platform",
+      "stage": "testnet",
+      "what": "Anon token + shitcoin launchpad on Solana, migrating to DogeOS native. Token bonding mechanics.",
+      "evidence": "confirmed multiple",
+      "msg_count": 3,
+      "links": [
+        "https://anoncoin.it"
+      ]
+    },
+    {
+      "name": "DogePavilion",
+      "builder": "Unknown",
+      "category": "platform",
+      "stage": "unknown",
+      "what": "Ecosystem platform on DogeOS (rumored).",
+      "evidence": "rumor",
+      "msg_count": 0,
+      "links": []
+    },
+    {
+      "name": "FYEO Security Scanner",
+      "builder": "Tammy | FYEO",
+      "category": "tool",
+      "stage": "live",
+      "what": "Solidity smart contract security scanner. Extra free credits for DogeOS builders.",
+      "evidence": "confirmed multiple",
+      "msg_count": 7,
+      "links": [
+        "https://scanner.fyeo.io"
+      ]
+    },
+    {
+      "name": "DogeFactory",
+      "builder": "Dogefactory",
+      "category": "tool",
+      "stage": "building",
+      "what": "Developer tooling — wiring DogeOS SDK into projects. Identified npm audit issues in SDK deps.",
+      "evidence": "single claim",
+      "msg_count": 1,
+      "links": []
+    },
+    {
+      "name": "Jerry Can Bridge",
+      "builder": "Jerry Can",
+      "category": "tool",
+      "stage": "building",
+      "what": "Cross-chain bridge via Chainlink CCIP — EVM ↔ DogeOS.",
+      "evidence": "confirmed",
+      "msg_count": 2,
+      "links": []
+    },
+    {
+      "name": "DogeOS SDK",
+      "builder": "Alex Lewis",
+      "category": "sdk",
+      "stage": "beta",
+      "what": "Official SDK npm package. v3.3.0-beta series with Solana support and MyDoge login. Heavy refactoring.",
+      "evidence": "confirmed multiple",
+      "msg_count": 8,
+      "links": [
+        "https://docs.dogeos.com/en/sdk",
+        "https://sdk.dogeos.com/register"
+      ]
+    },
+    {
+      "name": "WoofCoin",
+      "builder": "Doge Takeover",
+      "category": "memecoin",
+      "stage": "unknown",
+      "what": "Woof-themed memecoin + Telegram community.",
+      "evidence": "single claim",
+      "msg_count": 1,
+      "links": [
+        "https://t.me/woofcoin69420"
+      ]
+    },
+    {
+      "name": "AnonDoge",
+      "builder": "Fayzo",
+      "category": "memecoin",
+      "stage": "community",
+      "what": "Anon-themed X community for the 'anon eco.' 50 members at peak.",
+      "evidence": "confirmed multiple",
+      "msg_count": 3,
+      "links": []
+    },
+    {
+      "name": "Waldoge",
+      "builder": "Investor deck",
+      "category": "memecoin",
+      "stage": "active",
+      "what": "Memecoin + trivia game ('Waldoge Game'). Active DEX screener listing.",
+      "evidence": "confirmed multiple",
+      "msg_count": 4,
+      "links": []
+    },
+    {
+      "name": "DOSU Army",
+      "builder": "VLK",
+      "category": "memecoin",
+      "stage": "active",
+      "what": "Community token/meme project supporting DogeOS ecosystem.",
+      "evidence": "ongoing presence",
+      "msg_count": 0,
+      "links": []
+    },
+    {
+      "name": "L3onChain",
+      "builder": "L3on4rdo",
+      "category": "tool",
+      "stage": "active",
+      "what": "Doge ecosystem intelligence monitor (DogeMuseum side project).",
+      "evidence": "confirmed multiple",
+      "msg_count": 3,
+      "links": [
+        "https://x.com/L3onCh4in"
+      ]
+    }
+  ],
+  "pain_points": [
+    {
+      "title": "Testnet Faucet Rate Limits",
+      "severity": "high",
+      "frequency": "5+ distinct users / 9 months",
+      "description": "The testnet faucet imposes a 24-hour cooldown after 2 claims, blocking multi-wallet testing for games/apps.",
+      "users": [
+        "@PennybagsCX",
+        "Test",
+        "Zeya Metsapuu",
+        "Bemused"
+      ],
+      "workaround": "Hoff/Alex manually airdrop tokens to builders who ask"
+    },
+    {
+      "title": "No Official Builder Onboarding / Registration",
+      "severity": "high",
+      "frequency": "4+ distinct users",
+      "description": "New builders have no clear entry point — no public builder registry, no systematic onboarding flow.",
+      "users": [
+        "Pawan Thakur",
+        "Algorithm",
+        "Dan | Recap",
+        "Zeya Metsapuu"
+      ],
+      "workaround": "DM Hoff directly or fill sdk.dogeos.com/register form"
+    },
+    {
+      "title": "SDK Refactoring / Breaking Changes",
+      "severity": "high",
+      "frequency": "3+ distinct users / 3 months",
+      "description": "SDK v3.x in heavy flux (4 beta releases in 2 weeks). ClientId requirement gates wallet integration.",
+      "users": [
+        "Alex Lewis",
+        "Dan | Recap",
+        "Dogefactory"
+      ],
+      "workaround": "Use placeholder logins; wait for stable v3"
+    },
+    {
+      "title": "MyDoge v3 / Wallet App Timing Opacity",
+      "severity": "medium",
+      "frequency": "5+ distinct users / 4 months",
+      "description": "v3 wallet is in closed beta with no clear public timeline. Confusing MyDoge v2/v3/Dogeverse.",
+      "users": [
+        "QueenDoge",
+        "Algorithm",
+        "JS",
+        "Zeya Metsapuu",
+        "Captain|RealLabs.one"
+      ],
+      "workaround": "Wait for v3 public beta"
+    },
+    {
+      "title": "Mainnet Timeline Opacity",
+      "severity": "medium",
+      "frequency": "4+ distinct users",
+      "description": "No firm mainnet date, causing planning difficulty for node deployers and dapp developers.",
+      "users": [
+        "M Alchemy",
+        "Vitas",
+        "Bit Log",
+        "QueenDoge"
+      ],
+      "workaround": "Self-host testnet node via Docker"
+    },
+    {
+      "title": "Block Explorer Unavailability / Outages",
+      "severity": "medium",
+      "frequency": "1 confirmed outage event",
+      "description": "Block explorer went down during Dec 2024 holidays.",
+      "users": [
+        "ChapECX",
+        "Shibsy"
+      ],
+      "workaround": "Use alternative explorer (l2scan.co, unifra.io)"
+    },
+    {
+      "title": "RPC / Node Setup Complexity",
+      "severity": "medium",
+      "frequency": "3+ distinct users",
+      "description": "No public Dogecoin testnet RPC; users must self-host or use a complex Docker setup.",
+      "users": [
+        "DaBomb",
+        "Vitas",
+        "Zeya Metsapuu"
+      ],
+      "workaround": "Self-host via Docker Compose (github.com/DogeOS69/dogeos-rpc-package)"
+    },
+    {
+      "title": "Domain / Deployment Model Confusion",
+      "severity": "low",
+      "frequency": "Pawan Thakur needed 4+ msgs to understand",
+      "description": "Unclear how custom domains work with SDK-hosted apps. Need to register multiple domains vs. redirect.",
+      "users": [
+        "Pawan Thakur"
+      ],
+      "workaround": "Register each domain at sdk.dogeos.com/register"
+    }
+  ],
+  "opportunities": [
+    {
+      "rank": 1,
+      "title": "DogTag Identity Layer",
+      "category": "platform",
+      "dbot_priority": "high",
+      "what": "On-chain username system where DogeTags become the default identity layer — replacing raw addresses across wallets, chat, and dApps.",
+      "novel_wedge": "MyDoge v3's chain-agnostic wallet (DOGE + EVM + Solana unified) makes DogeTags uniquely powerful — your tag resolves across all three chains in one session. Structurally impossible on any single-chain identity project.",
+      "demand": "High — every dApp builder needs user identification without exposing addresses",
+      "effort": "2-3 weeks",
+      "confidence": "high"
+    },
+    {
+      "rank": 2,
+      "title": "DogTip Agent — Telegram-Native DOGE Tipping",
+      "category": "ai",
+      "dbot_priority": "high",
+      "what": "Telegram bot that lets ANY user send DOGE tips — even if they've never touched crypto. Uses MyDoge SDK social login for instant wallet creation.",
+      "novel_wedge": "SDK social login + ZK rollup near-zero fees makes micro-tipping economically viable. The bot wraps MyDoge v3 wallet — DBOT runs the tipping logic, MyDoge handles the wallet.",
+      "demand": "Massive — Doge tipping is a documented meme with real cultural precedent (Dogecointipbot)",
+      "effort": "1-2 weeks",
+      "confidence": "high"
+    },
+    {
+      "rank": 3,
+      "title": "DogeOS Ecosystem Dashboard",
+      "category": "tool",
+      "dbot_priority": "high",
+      "what": "Live dashboard showing TVL, active wallets, transaction volume, dApp usage — designed for sharing on Twitter as DogeOS marketing.",
+      "novel_wedge": "Not a block explorer — it's a DogeOS ecosystem intelligence platform for narrative control. Stats are screenshot-ready for Twitter viral sharing. L3on4rdo posts 4×/day, give them a dashboard to share.",
+      "demand": "High — DAMMY YAN explicitly requested (msg 5837), REDWRITER offered design help (msg 5840)",
+      "effort": "2-3 weeks",
+      "confidence": "high"
+    },
+    {
+      "rank": 4,
+      "title": "Self-Serve Builder Faucet API",
+      "category": "tool",
+      "dbot_priority": "medium",
+      "what": "Developer API for testnet tokens with rate limits beyond 2/24hr — for CI/CD and multi-wallet testing.",
+      "novel_wedge": "Pure infrastructure leverage. Owning the faucet API means owning the builder authentication layer.",
+      "demand": "High — directly blocks multi-account game testing",
+      "effort": "1 week",
+      "confidence": "high"
+    },
+    {
+      "rank": 5,
+      "title": "Telegram-Native DeFi Aggregator",
+      "category": "defi",
+      "dbot_priority": "medium",
+      "what": "Telegram bot for DogeOS DeFi positions — swap, deposit to MuchFi, view BarkSwap positions — without leaving Telegram.",
+      "novel_wedge": "ZK rollup fees make every transaction in the bot economically viable. First true 'DeFi in Telegram' for a ZK rollup.",
+      "demand": "High — all DeFi currently requires leaving Telegram",
+      "effort": "2-3 weeks",
+      "confidence": "medium"
+    },
+    {
+      "rank": 6,
+      "title": "DogeOS Quest Integration via Hermes Agent",
+      "category": "platform",
+      "dbot_priority": "high",
+      "what": "Connect DBOT's Hermes Agent to DogeOS's native questing platform (Hoff msg 3406). Hermes verifies quest completion on-chain + distributes rewards via Telegram.",
+      "novel_wedge": "Hermes can execute complex quest logic (verify 30-day NFT hold, 5 swaps, KYC'd referrals) that a web form cannot.",
+      "demand": "High — every dApp needs user acquisition; questing is the proven playbook",
+      "effort": "1-2 weeks",
+      "confidence": "medium"
+    },
+    {
+      "rank": 7,
+      "title": "On-Chain Copy Trading Layer",
+      "category": "defi",
+      "dbot_priority": "medium",
+      "what": "Mirror trades from successful DOGE/DogeOS traders. Leaders get DogeTag reputation scores. One-click follow via MyDoge wallet.",
+      "novel_wedge": "Copy trading has never been done as on-chain primitive on ZK rollup. Fee economics make per-trade mirror viable.",
+      "demand": "Medium-high — JS asked about it (msg 5905), Risky B asked about gmgn (msg 5882)",
+      "effort": "1-2 months",
+      "confidence": "medium"
+    },
+    {
+      "rank": 8,
+      "title": "AnonCoin Launchpad Discovery Frontend",
+      "category": "platform",
+      "dbot_priority": "low",
+      "what": "Polished community-focused frontend for AnonCoin/Anon token launchpad — discover launches, track bonding curves, see social signals.",
+      "novel_wedge": "Doge-culture-native launchpad with viral 'this doge just launched a token' mechanics. Neither existing launchpad leveraged this culture.",
+      "demand": "Medium — DogeFun is direct competitor but hasn't shipped polished social",
+      "effort": "2-3 weeks",
+      "confidence": "medium"
+    },
+    {
+      "rank": 9,
+      "title": "DogeOS-Specific Audit Marketplace",
+      "category": "tool",
+      "dbot_priority": "low",
+      "what": "Curated audit marketplace where vetted auditors bid on DogeOS projects. Audit reports published as on-chain credentials.",
+      "novel_wedge": "On-chain audit credentials viewable in MyDoge wallet. Creates security reputation layer unique to DogeOS.",
+      "demand": "Medium — multiple DeFi projects launching need audits",
+      "effort": "2-3 weeks",
+      "confidence": "low-medium"
+    },
+    {
+      "rank": 10,
+      "title": "Multi-Chain Wallet Connect Alternative",
+      "category": "sdk",
+      "dbot_priority": "medium",
+      "what": "Wallet connection protocol that works in Telegram and web — handles DOGE + EVM + Solana addresses in one MyDoge session.",
+      "novel_wedge": "MyDoge v3's multi-chain unified wallet is architecturally unique. Single-session multi-chain protocol is novel primitive.",
+      "demand": "Medium — every dApp needs wallet connection",
+      "effort": "2-3 weeks",
+      "confidence": "medium"
+    },
+    {
+      "rank": 11,
+      "title": "DOGEstonia Signal Layer Integration",
+      "category": "platform",
+      "dbot_priority": "low",
+      "what": "Connect DOGEstonia's citizen signal layer to DBOT ecosystem. Hermes analyzes signals, DogeTags provide identity.",
+      "novel_wedge": "ZK rollup cheap fees + citizen signal layer + AI intelligence = unique product. Only place these combine.",
+      "demand": "Low-medium (niche but defensible)",
+      "effort": "1 month",
+      "confidence": "low-medium"
+    },
+    {
+      "rank": 12,
+      "title": "TAP Protocol / Doginal Bridge UI",
+      "category": "nft",
+      "dbot_priority": "medium",
+      "what": "UI for bridging Dogecoin L1 Doginals/Inscriptions (TAP protocol) onto DogeOS as ERC-721 assets.",
+      "novel_wedge": "No other EVM rollup has official Dogecoin L1 bridge. Doginals → DogeOS DeFi creates new NFTFi primitives.",
+      "demand": "Medium — from Doginal collectors, high-value users",
+      "effort": "2-3 weeks",
+      "confidence": "medium"
+    },
+    {
+      "rank": 13,
+      "title": "Decentralized Group Chat on DogeOS",
+      "category": "platform",
+      "dbot_priority": "low",
+      "what": "On-chain group chat with DogeTag identity, message storage, moderation, DAO-based governance. Telegram replacement.",
+      "novel_wedge": "ZK rollup makes on-chain messaging economically viable. First 'crypto-native group chat' with real identity.",
+      "demand": "Medium — accounts getting blocked on Telegram",
+      "effort": "3+ months",
+      "confidence": "low-medium"
+    },
+    {
+      "rank": 14,
+      "title": "DogeOS Mainnet Validator UI",
+      "category": "platform",
+      "dbot_priority": "low",
+      "what": "One-click validator setup, delegation dashboard, staking rewards tracker, uptime monitoring.",
+      "novel_wedge": "Being first to build validator UI = owning the validator UX before core team standardizes it.",
+      "demand": "Medium-high (once mainnet launches)",
+      "effort": "1 month",
+      "confidence": "low"
+    },
+    {
+      "rank": 15,
+      "title": "NFTFi / NFT Collateralized Lending",
+      "category": "nft",
+      "dbot_priority": "low",
+      "what": "Use DogeOS NFTs (Dogefood, Dogeolith) as collateral in MuchFi lending pools. Floor price oracle, liquidation engine, NFT rental marketplace.",
+      "novel_wedge": "Doge cultural meme-energy gives NFT collections real community floor prices. DogeTags can serve as credit identities.",
+      "demand": "Low-medium — NFT DeFi thin everywhere",
+      "effort": "1-2 months",
+      "confidence": "low-medium"
+    }
+  ],
+  "people": [
+    {
+      "name": "Hoff",
+      "msgs": 189,
+      "role": "team",
+      "profile": "🏆 Highest replies received (82). Answers faucet/testnet/policy questions. Speaks on testnet/mainnet roadmap.",
+      "what": "DogeOS Questing Platform (team)"
+    },
+    {
+      "name": "Alex Lewis",
+      "msgs": 43,
+      "role": "team",
+      "profile": "Team-adjacent. Answers SDK questions, posts beta release announcements. The person who actually writes the SDK.",
+      "what": "DogeOS SDK"
+    },
+    {
+      "name": "QueenDoge (Dogefood Team)",
+      "msgs": 204,
+      "role": "team-adjacent",
+      "profile": "Name-tagged as 'Dogefood Team.' Announces testnet updates, promotes LabFeed social experience.",
+      "what": "DogeFood NFT + LabFeed"
+    },
+    {
+      "name": "Paddy",
+      "msgs": null,
+      "role": "team",
+      "profile": "DogeOS team member. DogeClipper link.",
+      "what": "DogeOS team"
+    },
+    {
+      "name": "@ah0xx",
+      "msgs": null,
+      "role": "team-contact",
+      "profile": "PRIMARY DogeOS team contact. Referenced 28× by 26 different people across the full date range.",
+      "what": "Primary team contact"
+    },
+    {
+      "name": "Jordan | DogeOS",
+      "msgs": null,
+      "role": "team",
+      "profile": "Name indicates official affiliation.",
+      "what": "DogeOS team"
+    },
+    {
+      "name": "Linus le Chef",
+      "msgs": 219,
+      "role": "builder",
+      "profile": "Top reply rate (28%). Answers dev questions, coordinates with @ah0xx. Senior builder with AI/launchpad background.",
+      "what": "DogeAgent, AnonCoin Launchpad"
+    },
+    {
+      "name": "Junior (MONKO era)",
+      "msgs": 134,
+      "role": "builder",
+      "profile": "Enthusiastic 'Woof' energy, hype builder. Highest Woof volume.",
+      "what": "Monko Game + Token"
+    },
+    {
+      "name": "L3on4rdo",
+      "msgs": 72,
+      "role": "builder-influencer",
+      "profile": "DogeMuseum amplification (4+ X posts/day). Side-project intelligence monitor.",
+      "what": "DogeMuseum/Dogeolith NFT, L3onChain"
+    },
+    {
+      "name": "Chief Doge Officer",
+      "msgs": null,
+      "role": "builder",
+      "profile": "SofaLabs team. Building the DEX.",
+      "what": "BarkSwap DEX"
+    },
+    {
+      "name": "Bruce Not Wayne",
+      "msgs": 22,
+      "role": "builder",
+      "profile": "Occasional reply. MuchFi dev.",
+      "what": "MuchFi DeFi Lending"
+    },
+    {
+      "name": "SolMeals",
+      "msgs": 58,
+      "role": "builder",
+      "profile": "Daily digest poster, links, Woof energy.",
+      "what": "DogePaws AI"
+    },
+    {
+      "name": "Lordbsd",
+      "msgs": null,
+      "role": "builder",
+      "profile": "Co-founder of RushFi.",
+      "what": "RushFi prediction game"
+    },
+    {
+      "name": "Meowth (나옹)",
+      "msgs": null,
+      "role": "builder",
+      "profile": "Korean-speaking builder, introduced himself as launchpad dev.",
+      "what": "DogeFun launchpad"
+    },
+    {
+      "name": "Zeya Metsapuu",
+      "msgs": 23,
+      "role": "builder-helper",
+      "profile": "43% reply ratio — highest. Asks technical questions, gets answers from @ah0xx.",
+      "what": "DOGEstonia signal layer"
+    },
+    {
+      "name": "Louis",
+      "msgs": null,
+      "role": "builder",
+      "profile": "Laika SuperApp team. Posts LaunchOS updates.",
+      "what": "Laika SuperApp"
+    },
+    {
+      "name": "Mayur | split",
+      "msgs": null,
+      "role": "builder",
+      "profile": "Single intro post for Doge.split — testnet deployed same day.",
+      "what": "Doge.split leverage trading"
+    },
+    {
+      "name": "Tammy | FYEO",
+      "msgs": null,
+      "role": "builder-tooling",
+      "profile": "Promoted FYEO scanner Aug 2026. Officially endorsed by Hoff.",
+      "what": "FYEO Security Scanner"
+    },
+    {
+      "name": "Gogu",
+      "msgs": null,
+      "role": "builder",
+      "profile": "Trading bot dev. Live product.",
+      "what": "Doginal Buds Bot"
+    },
+    {
+      "name": "Ranch",
+      "msgs": 20,
+      "role": "builder",
+      "profile": "zDoge privacy protocol dev. Quiet.",
+      "what": "zDoge ZK privacy"
+    },
+    {
+      "name": "8041449808",
+      "msgs": 24,
+      "role": "builder",
+      "profile": "zDoge dev helper.",
+      "what": "zDoge"
+    },
+    {
+      "name": "Jerry Can",
+      "msgs": null,
+      "role": "builder",
+      "profile": "CCIP bridge integration work.",
+      "what": "CCIP Bridge"
+    },
+    {
+      "name": "Dogefactory",
+      "msgs": null,
+      "role": "builder",
+      "profile": "SDK wiring + npm audit work.",
+      "what": "Dogefactory tooling"
+    },
+    {
+      "name": "@PennybagsCX",
+      "msgs": 28,
+      "role": "builder-helper",
+      "profile": "DBOT team. Q&A behavior (3 consecutive answers). Asking to bring Hermes Agent to DogeOS.",
+      "what": "DBOT Hermes Agent"
+    },
+    {
+      "name": "The DogeList",
+      "msgs": null,
+      "role": "builder",
+      "profile": "Directory platform. v2 launched Jul 2026.",
+      "what": "TheDogeList.com"
+    },
+    {
+      "name": "Kyle | John Lemon",
+      "msgs": null,
+      "role": "builder",
+      "profile": "Mintpad founder. Free minting for creators.",
+      "what": "Mintpad NFT tool"
+    },
+    {
+      "name": "Investor deck",
+      "msgs": 235,
+      "role": "shiller-builder",
+      "profile": "Most messages (235). Mostly Woof/shill energy but actually shipping Waldoge + trivia game.",
+      "what": "Waldoge memecoin + game"
+    },
+    {
+      "name": "Fayzo",
+      "msgs": 110,
+      "role": "shiller",
+      "profile": "🔴 ONLY user with forwards (16). Hype content, AI questions.",
+      "what": "AnonDoge X community"
+    },
+    {
+      "name": "Xcellent Doge",
+      "msgs": 121,
+      "role": "shiller",
+      "profile": "Frequent Woof poster. Tags @ah0xx. Pure shilling.",
+      "what": "None (community energy)"
+    },
+    {
+      "name": "CryptoSLE10",
+      "msgs": 38,
+      "role": "shiller",
+      "profile": "Low-reply shiller.",
+      "what": "None"
+    },
+    {
+      "name": "Bemused",
+      "msgs": 120,
+      "role": "builder",
+      "profile": "Game developer. Tags @ah0xx and @BuildrJ re: game progress.",
+      "what": "Game dev (TBD)"
+    },
+    {
+      "name": "AndyOS",
+      "msgs": 99,
+      "role": "community",
+      "profile": "Vietnamese community. Posts MyDogeVN links.",
+      "what": "Community"
+    },
+    {
+      "name": "James ⚡️",
+      "msgs": 23,
+      "role": "helper",
+      "profile": "39% reply ratio. Answers questions, engaged helper.",
+      "what": "Helper"
+    },
+    {
+      "name": "K（Don't doubt your vibes）",
+      "msgs": 59,
+      "role": "community",
+      "profile": "Asks 'when fully open?' (msg 5944).",
+      "what": "Community"
+    },
+    {
+      "name": "JS",
+      "msgs": 39,
+      "role": "questioner",
+      "profile": "Product questions (social trading, testnet timeline).",
+      "what": "Community"
+    },
+    {
+      "name": "Doge Takeover",
+      "msgs": 27,
+      "role": "coordinator",
+      "profile": "Coordinates @ah0xx for Twitter spaces.",
+      "what": "WoofCoin"
+    },
+    {
+      "name": "DaBomb",
+      "msgs": 26,
+      "role": "builder",
+      "profile": "Occasional replies. RPC setup.",
+      "what": "RPC tooling"
+    },
+    {
+      "name": "Starstone",
+      "msgs": null,
+      "role": "builder",
+      "profile": "Beta dApp near public beta (Aug 2026).",
+      "what": "Starstone beta dApp"
+    },
+    {
+      "name": "Captain | RealLabs.one",
+      "msgs": null,
+      "role": "builder",
+      "profile": "RealLabs NFT — seeking DogeOS support.",
+      "what": "RealLabs NFT"
+    },
+    {
+      "name": "Geo 🃏☝️",
+      "msgs": 33,
+      "role": "builder",
+      "profile": "DogeFood design/tech.",
+      "what": "DogeFood"
+    },
+    {
+      "name": "levooo",
+      "msgs": null,
+      "role": "builder",
+      "profile": "Mentioned as Derps perp DEX builder.",
+      "what": "Derps perp DEX"
+    },
+    {
+      "name": "VLK �DOSU ARMY 🚀",
+      "msgs": 80,
+      "role": "shiller",
+      "profile": "Occasional GWoof. DOSU Army token.",
+      "what": "DOSU Army"
+    }
+  ]
+}
