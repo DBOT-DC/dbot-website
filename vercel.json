@@ -30,6 +30,9 @@
     { "source": "/dogechain-pulse",       "destination": "https://dogechain-pulse.vercel.app" },
     { "source": "/dogechain-pulse/",      "destination": "https://dogechain-pulse.vercel.app/" },
     { "source": "/dogechain-pulse/:path*", "destination": "https://dogechain-pulse.vercel.app/:path*" },
-    { "source": "/dogeos-ecosystem",      "destination": "/dogeos-ecosystem/index.html" }
+    { "source": "/dogeos-ecosystem",      "destination": "/dogeos-ecosystem/index.html" },
+    { "source": "/dogeos-dashboard",      "destination": "/dogeos-dashboard/index.html" },
+    { "source": "/dogeos-dashboard/",     "destination": "/dogeos-dashboard/index.html" },
+    { "source": "/dogeos-dashboard/:path*", "destination": "/dogeos-dashboard/:path*" }
   ]
 }
