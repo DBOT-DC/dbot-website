@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DogeOS Dashboard — DBOT</title>
+  <meta name="description" content="Live on-chain dashboard for DogeOS. Real-time stats, block ticker, transaction feed, top tokens, verified contracts, and ecosystem health.">
+
+  <!-- Inline base-href: must run before any <link> or <script src=> -->
+  <script>
+    (function () {
+      var path = location.pathname || '/';
+      var segments = path.replace(/^\/+/, '').split('/').filter(Boolean);
+      var baseHref = segments.length === 0 ? './' : '/' + segments[0] + '/';
+      var b = document.createElement('base');
+      b.href = baseHref;
+      document.head.appendChild(b);
+    })();
+  </script>
+
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Fonts: Space Grotesk + JetBrains Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons -->
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web">
+
+  <!-- Brand tokens -->
+  <link rel="stylesheet" href="tokens.css">
+
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ── Focus ── */
+    :focus-visible {
+      outline: 2px solid var(--purple-light);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 0;
+      background: var(--purple);
+      color: var(--bg);
+      padding: 0.75rem 1.25rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      text-decoration: none;
+      z-index: 9999;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ─────────────────────────────────────────────────────────────
+       HEADER
+       ───────────────────────────────────────────────────────────── */
+    .dash-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      background: rgba(14, 14, 22, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      gap: 1rem;
+    }
+
+    .dash-header .brand {
+      font-family: var(--font-mono);
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--purple-light);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .dash-header .brand span { color: var(--text-primary); }
+
+    .dash-header nav {
+      display: flex;
+      gap: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+    }
+    .dash-header nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s var(--ease-out);
+    }
+    .dash-header nav a:hover { color: var(--purple-light); }
+    .dash-header nav a[aria-current="page"] { color: var(--purple-light); }
+
+    /* ── Live-status pill ── */
+    .chain-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.85rem;
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      border-radius: 100px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-healthy {
+      background: var(--green);
+      animation: pulse-dot 2.4s var(--ease-soft) infinite;
+    }
+    .status-degraded {
+      background: var(--gold);
+      animation: pulse-dot 2.4s var(--ease-soft) infinite;
+    }
+    .status-down {
+      background: var(--red);
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       MAIN
+       ───────────────────────────────────────────────────────────── */
+    .dash-main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 4vw, 3rem) 4rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       HERO BAND
+       ───────────────────────────────────────────────────────────── */
+    .hero-band {
+      padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 6vw, 4rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-band::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent 0, transparent 28px, rgba(255,255,255,0.012) 28px, rgba(255,255,255,0.012) 29px);
+      pointer-events: none;
+    }
+
+    .hero-band-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-band h1 {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.25rem;
+      color: var(--text-bright);
+    }
+
+    .hero-band h1 .accent {
+      color: var(--purple-light);
+      font-weight: 400;
+      font-size: 0.6em;
+      letter-spacing: -0.02em;
+      display: block;
+      margin-top: 0.4rem;
+    }
+
+    .hero-band .subtitle {
+      font-size: clamp(1rem, 1.5vw, 1.125rem);
+      color: var(--text-muted);
+      max-width: 56ch;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: STATS HERO (4 large number tiles)
+       ───────────────────────────────────────────────────────────── */
+    #slot-stats-hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 0;
+    }
+
+    .stat-tile { position: relative; }
+    .stat-tile::after {
+      content: '';
+      position: absolute;
+      bottom: -2rem;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border);
+    }
+    .stat-tile .value {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.5rem;
+    }
+    .stat-tile .label {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .stat-tile:nth-child(1) .value { color: var(--cyan); }
+    .stat-tile:nth-child(2) .value { color: var(--green); }
+    .stat-tile:nth-child(3) .value { color: var(--red); }
+    .stat-tile:nth-child(4) .value { color: var(--gold); }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: BLOCK TICKER (horizontal scroll)
+       ───────────────────────────────────────────────────────────── */
+    #slot-block-ticker {
+      margin: 3rem 0;
+    }
+    .section-heading {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-heading i { color: var(--purple-light); font-size: 1rem; }
+
+    .ticker-scroll {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.5rem;
+    }
+    .ticker-scroll::-webkit-scrollbar { display: none; }
+
+    .block-chip {
+      flex-shrink: 0;
+      padding: 0.75rem 1.25rem;
+      background: var(--bg-elev-1);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .block-chip .block-num { color: var(--text-bright); font-weight: 500; }
+    .block-chip .block-meta { color: var(--text-dim); font-size: 0.6875rem; }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: TRANSACTION FEED (vertical list)
+       ───────────────────────────────────────────────────────────── */
+    #slot-txn-feed { margin: 3rem 0; }
+
+    .txn-list { display: flex; flex-direction: column; gap: 0; }
+    .txn-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.875rem 0;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+    }
+    .txn-row:last-child { border-bottom: none; }
+    .txn-hash { color: var(--text-muted); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .txn-from { color: var(--cyan); }
+    .txn-to { color: var(--purple-light); }
+    .txn-amount { color: var(--text-bright); font-weight: 500; }
+    .txn-fee { color: var(--text-dim); font-size: 0.6875rem; }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: TOP TOKENS
+       ───────────────────────────────────────────────────────────── */
+    #slot-tokens { margin: 3rem 0; }
+
+    .rank-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+    }
+    .rank-table th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      color: var(--text-dim);
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border-bottom: 1px solid var(--border);
+    }
+    .rank-table td {
+      padding: 0.875rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .rank-table tr:last-child td { border-bottom: none; }
+    .rank-table .rank { color: var(--text-dim); width: 2rem; }
+    .rank-table .token-name { color: var(--text-bright); font-weight: 500; }
+    .rank-table .token-holders { color: var(--cyan); }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: TOP CONTRACTS
+       ───────────────────────────────────────────────────────────── */
+    #slot-contracts { margin: 3rem 0; }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: PROJECTS
+       ───────────────────────────────────────────────────────────── */
+    #slot-projects { margin: 3rem 0; }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: CHAIN HEALTH
+       ───────────────────────────────────────────────────────────── */
+    #slot-chain-health { margin: 3rem 0; }
+
+    .health-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .health-card {
+      padding: 1.25rem;
+      background: var(--bg-elev-1);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .health-card .hc-label {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.5rem;
+    }
+    .health-card .hc-value {
+      font-family: var(--font-sans);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      letter-spacing: -0.03em;
+    }
+    .health-card .hc-sub {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--text-dim);
+      margin-top: 0.25rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       FOOTER
+       ───────────────────────────────────────────────────────────── */
+    .dash-footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem clamp(1.5rem, 4vw, 3rem);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 2rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dash-footer a {
+      color: var(--purple-light);
+      text-decoration: none;
+    }
+    .dash-footer a:hover { text-decoration: underline; }
+    .dash-footer .dbot-credit { color: var(--text-fade); }
+
+    /* ─────────────────────────────────────────────────────────────
+       RESPONSIVE
+       ───────────────────────────────────────────────────────────── */
+    @media (max-width: 767px) {
+      .dash-header {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .dash-header nav {
+        gap: 1rem;
+        font-size: 0.75rem;
+      }
+      .chain-status {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero-band h1 {
+        font-size: clamp(2rem, 10vw, 3rem);
+      }
+
+      #slot-stats-hero {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+      }
+
+      .dash-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ -->
+  <header class="dash-header">
+    <a href="../" class="brand">DBOT<span>/</span></a>
+
+    <nav>
+      <a href="../">Home</a>
+      <a href="../dogeos-ecosystem/">Ecosystem</a>
+      <a href="./" aria-current="page">Dashboard</a>
+    </nav>
+
+    <div class="chain-status">
+      <span class="status-dot status-healthy"></span>
+      <span class="status-label">Chain: <span id="current-block">—</span> (<span id="block-age">—</span>s)</span>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MAIN
+       ═══════════════════════════════════════════════════════════ -->
+  <main class="dash-main" id="main-content">
+
+    <!-- ── HERO BAND ── -->
+    <section class="hero-band" aria-label="Hero">
+      <div class="hero-band-inner">
+        <h1>
+          DogeOS, on-chain.
+          <span class="accent">Live ecosystem intelligence.</span>
+        </h1>
+        <p class="subtitle">
+          Real-time stats, verified contracts, transaction flows, and ecosystem health —
+          compiled from on-chain data. Updated every block.
+        </p>
+
+        <!-- SLOT: stats-hero (4 large number tiles) -->
+        <div id="slot-stats-hero" aria-label="Key statistics"></div>
+      </div>
+    </section>
+
+    <!-- SLOT: block-ticker (horizontal scrolling latest blocks) -->
+    <section id="slot-block-ticker" aria-label="Latest blocks">
+      <p class="section-heading">
+        <i class="ph ph-cube"></i>
+        Latest Blocks
+      </p>
+      <div class="ticker-scroll" aria-live="polite"></div>
+    </section>
+
+    <!-- SLOT: txn-feed (vertical latest transactions) -->
+    <section id="slot-txn-feed" aria-label="Transaction feed">
+      <p class="section-heading">
+        <i class="ph ph-arrows-left-right"></i>
+        Transaction Feed
+      </p>
+      <div class="txn-list" aria-live="polite"></div>
+    </section>
+
+    <!-- SLOT: tokens (Top 10 ERC-20 by holders) -->
+    <section id="slot-tokens" aria-label="Top tokens by holder count">
+      <p class="section-heading">
+        <i class="ph ph-coins"></i>
+        Top 10 ERC-20 Tokens by Holders
+      </p>
+      <table class="rank-table" aria-label="Top tokens">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Token</th>
+            <th>Holders</th>
+            <th>Transfers (24h)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- SLOT: contracts (Top 10 verified contracts) -->
+    <section id="slot-contracts" aria-label="Top verified contracts">
+      <p class="section-heading">
+        <i class="ph ph-file-code"></i>
+        Top 10 Verified Contracts
+      </p>
+      <div></div>
+    </section>
+
+    <!-- SLOT: projects (37 known projects cross-referenced with on-chain data) -->
+    <section id="slot-projects" aria-label="Known ecosystem projects">
+      <p class="section-heading">
+        <i class="ph ph-folders"></i>
+        37 Known Projects — On-Chain Status
+      </p>
+      <div></div>
+    </section>
+
+    <!-- SLOT: chain-health (current block height, gas, utilization) -->
+    <section id="slot-chain-health" aria-label="Chain health">
+      <p class="section-heading">
+        <i class="ph ph-heartbeat"></i>
+        Chain Health
+      </p>
+      <div class="health-grid" aria-live="polite">
+        <div class="health-card">
+          <p class="hc-label">Block Height</p>
+          <p class="hc-value" id="health-block">—</p>
+          <p class="hc-sub" id="health-block-time">—</p>
+        </div>
+        <div class="health-card">
+          <p class="hc-label">Gas Price</p>
+          <p class="hc-value" id="health-gas">—</p>
+          <p class="hc-sub">gwei</p>
+        </div>
+        <div class="health-card">
+          <p class="hc-label">Block Util</p>
+          <p class="hc-value" id="health-util">—</p>
+          <p class="hc-sub">% of gas limit</p>
+        </div>
+        <div class="health-card">
+          <p class="hc-label">Avg Block Time</p>
+          <p class="hc-value" id="health-btime">—</p>
+          <p class="hc-sub">seconds</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════ -->
+  <footer class="dash-footer">
+    <p class="footer-updated">
+      Last updated: <span id="footer-timestamp">—</span>
+    </p>
+    <p class="footer-source">
+      Chain data via <a href="https://api.dogeos.xyz" target="_blank" rel="noopener">api.dogeos.xyz</a>
+    </p>
+    <p class="dbot-credit">
+      Built by <a href="https://dbot.dog" target="_blank" rel="noopener">DBOT</a>
+    </p>
+  </footer>
+
+</body>
+</html>

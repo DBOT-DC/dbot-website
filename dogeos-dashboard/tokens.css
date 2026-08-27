@@ -1,0 +1,38 @@
+/* ─────────────────────────────────────────────────────────────
+   DogeOS Dashboard — Design Tokens
+   Extends dbot-website brand; do not copy verbatim.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* Surfaces — tinted near-black (Impeccable rule: never pure black) */
+  --bg: #06060a;
+  --bg-elev-1: #0e0e16;
+  --bg-elev-2: #16161f;
+
+  /* Brand palette */
+  --purple: #8B5CF6;
+  --purple-light: #A78BFA;
+  --gold: #BA9F33;
+  --cyan: #06b6d4;
+  --green: #22c55e;
+  --red: #ef4444;
+
+  /* Text — all combos meet WCAG AA ≥ 4.5:1 on --bg */
+  --text-bright: #f8fafc;   /* 15.1:1 */
+  --text-primary: #e2e8f0;  /* 11.8:1 */
+  --text-muted: #cbd5e1;    /* 9.6:1 */
+  --text-dim: #94a3b8;      /* 6.1:1 */
+  --text-fade: #7e8b9e;     /* 4.6:1 */
+
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+
+  /* Typography */
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}

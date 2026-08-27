@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DogeOS Dashboard — Component Test</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-tertiary: #1a1a25;
+      --purple: #8B5CF6;
+      --purple-dim: #6d28d9;
+      --purple-glow: rgba(139, 92, 246, 0.4);
+      --purple-light: #A78BFA;
+      --cyan: #06b6d4;
+      --green: #22c55e;
+      --green-glow: rgba(34, 197, 94, 0.4);
+      --red: #ef4444;
+      --yellow: #eab308;
+      --gold: #BA9F33;
+      --text-primary: #e2e8f0;
+      --text-muted: #cbd5e1;
+      --text-dim: #94a3b8;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-sans: 'Space Grotesk', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      padding: 2rem;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+    .panel { margin-bottom: 2rem; }
+    .panel-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      padding-left: 0.25rem;
+    }
+
+    /* Mobile (375px) simulated via .viewport class */
+    @media (max-width: 480px) {
+      body { padding: 1rem; }
+      .panel-label::after { content: ' [375px]'; color: var(--purple); }
+    }
+    @media (min-width: 1200px) {
+      .panel-label::after { content: ' [1440px+]'; color: var(--cyan); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="font-family:var(--font-mono);font-size:1.5rem;color:var(--purple);margin-bottom:2rem;">
+    DogeOS Dashboard — Component Test
+  </h1>
+
+  <div class="panel">
+    <div class="panel-label" id="lbl-stats-hero">1. Stats Hero</div>
+    <div id="slot-stats-hero"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-label">2. Block Ticker</div>
+    <div id="slot-block-ticker"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-label">3. Transaction Feed</div>
+    <div id="slot-txn-feed"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-label">4. Tokens Leaderboard</div>
+    <div id="slot-tokens"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-label">5. Contracts Table</div>
+    <div id="slot-contracts"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-label">6. Projects Grid</div>
+    <div id="slot-projects"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-label">7. Chain Health</div>
+    <div id="slot-chain-health"></div>
+  </div>
+
+  <script type="module">
+    import { mountApp, renderStatsHero, renderBlockTicker, renderTxnFeed, renderTokensLeaderboard, renderContractsTable, renderProjectsGrid, renderChainHealth } from './components.js';
+
+    // ── Mock Data ─────────────────────────────────────────────────────────────
+
+    const mockStats = {
+      total_transactions: 128475832,
+      total_addresses: 3472910,
+      total_blocks: 8947291,
+      average_block_time: 3.2,
+      tx_delta: 1247,
+      addr_delta: 389,
+      last_block_age: 3,
+    };
+
+    const mockBlocks = [
+      { height: 8947291, hash: '0x7a8b3c4d5e6f9012345678901234567890abcdef', miner: '0x1234567890abcdef1234567890abcdef12345678', gas_used: 12450000, age_seconds: 3 },
+      { height: 8947290, hash: '0xabcdef1234567890abcdef1234567890abcdef12', miner: '0xabcdef1234567890abcdef1234567890abcdef1234', gas_used: 11230000, age_seconds: 9 },
+      { height: 8947289, hash: '0x9876543210fedcba9876543210fedcba98765432', miner: '0x9876543210fedcba9876543210fedcba98765432', gas_used: 9870000, age_seconds: 18 },
+      { height: 8947288, hash: '0xfedcba9876543210fedcba9876543210fedcba98', miner: '0xfedcba9876543210fedcba9876543210fedcba98', gas_used: 14560000, age_seconds: 24 },
+      { height: 8947287, hash: '0x1111222233334444555566667777888899990000', miner: '0x1111222233334444555566667777888899990000', gas_used: 8900000, age_seconds: 31 },
+    ];
+
+    const mockTxns = [
+      { hash: '0xd8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a', from: '0x1111111111111111111111111111111111111111', to: '0x2222222222222222222222222222222222222222', value: '5000000000000000000', age_seconds: 5 },
+      { hash: '0xa1b2c3d4e5f607182938475665738291011aabbcc', from: '0x3333333333333333333333333333333333333333', to: '0x4444444444444444444444444444444444444444', value: '1200000000000000000', age_seconds: 18 },
+      { hash: '0xffeeddccbbaa9988776655443322110099887766', from: '0x5555555555555555555555555555555555555555', to: '0x6666666666666666666666666666666666666666', value: '35000000000000000000', age_seconds: 47 },
+      { hash: '0x11223344556677889900aabbccddeeff00112233', from: '0x7777777777777777777777777777777777777777', to: '0x8888888888888888888888888888888888888888', value: '780000000000000000', age_seconds: 95 },
+      { hash: '0xabcdefabcdefabcdefabcdefabcdefabcdefabcd', from: '0x9999999999999999999999999999999999999999', to: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', value: '2100000000000000000', age_seconds: 210 },
+      { hash: '0x9999aaaa8888cccc7777dddd6666eeee5555ffff', from: '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', to: '0xcccccccccccccccccccccccccccccccccccccccc', value: '940000000000000000', age_seconds: 380 },
+    ];
+
+    const mockTokens = [
+      { name: 'DogeOS Token', symbol: 'DBOT', decimals: 18, total_supply: '1000000000000000000000000000', holders: 28473, transfers_count: 198472, address: '0x1234567890abcdef1234567890abcdef12345678' },
+      { name: 'Wrapped Dogecoin', symbol: 'WDOGE', decimals: 18, total_supply: '50000000000000000000000000000', holders: 18934, transfers_count: 847291, address: '0xabcdef1234567890abcdef1234567890abcdef12' },
+      { name: 'DogeFood NFT', symbol: 'DFOOD', decimals: 0, total_supply: '1000', holders: 842, transfers_count: 3847, address: '0x9876543210fedcba9876543210fedcba98765432' },
+      { name: 'DogePup', symbol: 'DPUP', decimals: 9, total_supply: '1000000000000', holders: 7241, transfers_count: 21389, address: '0xfedcba9876543210fedcba9876543210fedcba98' },
+      { name: 'Monko Coin', symbol: 'MONKO', decimals: 18, total_supply: '100000000000000000000000000', holders: 5120, transfers_count: 9823, address: '0x1111222233334444555566667777888899990000' },
+      { name: 'RushFi Token', symbol: 'RUSH', decimals: 18, total_supply: '50000000000000000000000000', holders: 3847, transfers_count: 6742, address: '0xaabbccddeeff0011223344556677889900aabbcc' },
+      { name: 'PAW Protocol', symbol: 'PAW', decimals: 18, total_supply: '1000000000000000000000000000', holders: 2983, transfers_count: 5021, address: '0x9988776655443322110099887766554433221100' },
+      { name: 'DogeSwap LP', symbol: 'DGLP', decimals: 18, total_supply: '10000000000000000000000000', holders: 2198, transfers_count: 3892, address: '0x11223344556677889900aabbccddeeff00112233' },
+      { name: 'Bone Doge', symbol: 'BONE', decimals: 18, total_supply: '100000000000000000000000000', holders: 1847, transfers_count: 2938, address: '0x223344556677889900aabbccddeeff0011223344' },
+      { name: 'Shiba Doge', symbol: 'SDOGE', decimals: 18, total_supply: '1000000000000000000000000000', holders: 1203, transfers_count: 2109, address: '0x3344556677889900aabbccddeeff001122334455' },
+      { name: 'Extra Token', symbol: 'EXTRA', decimals: 18, total_supply: '1000000000000000000000000', holders: 892, transfers_count: 1203, address: '0x44556677889900aabbccddeeff00112233445566' },
+    ];
+
+    const mockContracts = [
+      { name: 'DogeOS Core', address: '0x1234567890abcdef1234567890abcdef12345678', type: 'Core', transactions_count: 489273, last_seen: 3 },
+      { name: 'Multi-Sig Wallet', address: '0xabcdef1234567890abcdef1234567890abcdef12', type: 'Wallet', transactions_count: 234891, last_seen: 47 },
+      { name: 'DBOT Token', address: '0x9876543210fedcba9876543210fedcba98765432', type: 'ERC-20', transactions_count: 198472, last_seen: 18 },
+      { name: 'NFT Marketplace', address: '0xfedcba9876543210fedcba9876543210fedcba98', type: 'ERC-721', transactions_count: 89472, last_seen: 95 },
+      { name: 'Swap Router', address: '0x1111222233334444555566667777888899990000', type: 'UniswapV2', transactions_count: 67382, last_seen: 210 },
+      { name: 'Staking Pool', address: '0xaabbccddeeff0011223344556677889900aabbcc', type: 'Staking', transactions_count: 45892, last_seen: 380 },
+      { name: 'Price Oracle', address: '0x9988776655443322110099887766554433221100', type: 'Oracle', transactions_count: 32109, last_seen: 900 },
+      { name: 'Gov Module', address: '0x11223344556677889900aabbccddeeff00112233', type: 'Governance', transactions_count: 23471, last_seen: 1800 },
+      { name: 'Bridge Contract', address: '0x223344556677889900aabbccddeeff0011223344', type: 'Bridge', transactions_count: 18293, last_seen: 3600 },
+      { name: 'Vault Contract', address: '0x3344556677889900aabbccddeeff001122334455', type: 'Vault', transactions_count: 12847, last_seen: 7200 },
+      { name: 'Extra Contract', address: '0x44556677889900aabbccddeeff00112233445566', type: 'Unknown', transactions_count: 5001, last_seen: 10800 },
+    ];
+
+    const mockProjects = [
+      { name: 'DogeFood', builder: 'QueenDoge, Geo', category: 'nft', stage: 'testnet', what: 'First NFT collection sold out on DogeOS (1,000 boxes). Adding P2E game layer.', link: 'https://mintdoge.food' },
+      { name: 'Monko', builder: 'Junior', category: 'game', stage: 'testnet', what: 'Memecoin + mobile P2E game with pay-to-play and play-to-earn mechanics.', link: null, onchain_address: null },
+      { name: 'RushFi', builder: 'Lordbsd', category: 'game', stage: 'building', what: 'Tap trading prediction game.', link: null, onchain_address: '0x1234567890abcdef1234567890abcdef12345678' },
+      { name: 'DogeSwap', builder: 'ChefDoge', category: 'defi', stage: 'live', what: 'Decentralized exchange on DogeOS.', link: 'https://dogeswap.io', onchain_address: '0xabcdef1234567890abcdef1234567890abcdef12' },
+      { name: 'PAW Protocol', builder: 'PawTeam', category: 'defi', stage: 'live', what: 'Liquidity protocol for meme assets.', link: 'https://pawprotocol.io', onchain_address: null },
+      { name: 'DogeAI Agent', builder: 'AIDoge', category: 'ai', stage: 'building', what: 'AI agent framework for DogeOS.', link: null, onchain_address: null },
+      { name: 'Bone Doge Finance', builder: 'BoneTeam', category: 'defi', stage: 'testnet', what: 'Lending and borrowing platform.', link: null, onchain_address: null },
+      { name: 'OmnomNFT', builder: 'OmnomLabs', category: 'nft', stage: 'live', what: 'NFT marketplace and minting.', link: 'https://omnomnft.io', onchain_address: null },
+      { name: 'DogeToolkit', builder: 'ToolDoge', category: 'tool', stage: 'confirmed', what: 'Developer tooling suite.', link: null, onchain_address: null },
+      { name: 'DogeChain SDK', builder: 'CoreTeam', category: 'sdk', stage: 'confirmed', what: 'SDK for building on DogeChain.', link: null, onchain_address: null },
+    ];
+
+    const mockChainHealth = {
+      blockHeight: 8947291,
+      blockTime: 3.2,
+      gasPrice: 42.5,
+      networkUtil: 67,
+      lastBlockAge: 3,
+      peerCount: 127,
+    };
+
+    // ── Mock DataInstance ─────────────────────────────────────────────────────
+
+    class MockDataInstance {
+      constructor(initialData) {
+        this._data = initialData;
+        this._listeners = {};
+      }
+      get cache() {
+        return {
+          get: (key) => {
+            if (key === 'all') return this._data;
+            return this._data[key];
+          }
+        };
+      }
+      on(event, cb) {
+        if (!this._listeners[event]) this._listeners[event] = [];
+        this._listeners[event].push(cb);
+      }
+      emit(event, data) {
+        (this._listeners[event] || []).forEach(cb => cb(data));
+      }
+    }
+
+    const mockData = new MockDataInstance({
+      stats: mockStats,
+      blocks: mockBlocks,
+      txns: mockTxns,
+      tokens: mockTokens,
+      contracts: mockContracts,
+      projects: mockProjects,
+      chainHealth: mockChainHealth,
+    });
+
+    // ── Mount ─────────────────────────────────────────────────────────────────
+
+    mountApp(mockData);
+
+    // ── Log output lengths ─────────────────────────────────────────────────────
+
+    console.log('=== Component Output Lengths ===');
+    console.log('renderStatsHero:', renderStatsHero(mockStats).length, 'chars');
+    console.log('renderBlockTicker:', renderBlockTicker(mockBlocks).length, 'chars');
+    console.log('renderTxnFeed:', renderTxnFeed(mockTxns).length, 'chars');
+    console.log('renderTokensLeaderboard:', renderTokensLeaderboard(mockTokens).length, 'chars');
+    console.log('renderContractsTable:', renderContractsTable(mockContracts).length, 'chars');
+    console.log('renderProjectsGrid:', renderProjectsGrid(mockProjects).length, 'chars');
+    console.log('renderChainHealth:', renderChainHealth(mockChainHealth).length, 'chars');
+    console.log('=== Total ===',
+      renderStatsHero(mockStats).length +
+      renderBlockTicker(mockBlocks).length +
+      renderTxnFeed(mockTxns).length +
+      renderTokensLeaderboard(mockTokens).length +
+      renderContractsTable(mockContracts).length +
+      renderProjectsGrid(mockProjects).length +
+      renderChainHealth(mockChainHealth).length,
+      'chars'
+    );
+
+    // ── Expose for Playwright ───────────────────────────────────────────────────
+    window.__testData = {
+      mockStats,
+      mockBlocks,
+      mockTxns,
+      mockTokens,
+      mockContracts,
+      mockProjects,
+      mockChainHealth,
+    };
+
+    // Signal ready
+    document.body.dataset.ready = 'true';
+  </script>
+</body>
+</html>

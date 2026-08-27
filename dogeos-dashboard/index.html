@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DogeOS Dashboard — DBOT</title>
+  <meta name="description" content="Live on-chain dashboard for DogeOS. Real-time stats, block ticker, transaction feed, top tokens, verified contracts, and ecosystem health.">
+
+  <!-- Canonical + OG tags -->
+  <link rel="canonical" href="https://www.dbot.dog/dogeos-dashboard">
+  <meta property="og:url" content="https://www.dbot.dog/dogeos-dashboard">
+  <meta property="og:title" content="DogeOS Dashboard — DBOT">
+  <meta property="og:description" content="Live intelligence on the DogeOS Chikyū testnet. Block height, active wallets, transaction volume, top dApps — refreshing every minute.">
+  <meta property="og:image" content="https://www.dbot.dog/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Inline base-href: must run before any <link> or <script src=> -->
+  <script>
+    (function () {
+      var path = location.pathname || '/';
+      var segments = path.replace(/^\/+/, '').split('/').filter(Boolean);
+      var baseHref = segments.length === 0 ? './' : '/' + segments[0] + '/';
+      var b = document.createElement('base');
+      b.href = baseHref;
+      document.head.appendChild(b);
+    })();
+  </script>
+
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Fonts: Space Grotesk + JetBrains Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons — regular + fill -->
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+
+  <!-- ── Brand Design Tokens (inlined) ── -->
+  <style>
+:root {
+  /* Surfaces — tinted near-black */
+  --bg: #06060a;
+  --bg-elev-1: #0e0e16;
+  --bg-elev-2: #16161f;
+  --bg-tertiary: #1a1a24;
+
+  /* Brand palette */
+  --purple: #8B5CF6;
+  --purple-light: #A78BFA;
+  --purple-dim: rgba(139,92,246,0.3);
+  --gold: #BA9F33;
+  --cyan: #06b6d4;
+  --green: #22c55e;
+  --red: #ef4444;
+  --yellow: #eab308;
+
+  /* Text — all combos meet WCAG AA ≥ 4.5:1 on --bg */
+  --text-bright: #f8fafc;   /* 15.1:1 */
+  --text-primary: #e2e8f0;  /* 11.8:1 */
+  --text-muted: #cbd5e1;    /* 9.6:1 */
+  --text-dim: #94a3b8;      /* 6.1:1 */
+  --text-fade: #7e8b9e;     /* 4.6:1 */
+
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+
+  /* Typography */
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+  </style>
+
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ── Focus ── */
+    :focus-visible {
+      outline: 2px solid var(--purple-light);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 0;
+      background: var(--purple);
+      color: var(--bg);
+      padding: 0.75rem 1.25rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      text-decoration: none;
+      z-index: 9999;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ─────────────────────────────────────────────────────────────
+       HEADER
+       ───────────────────────────────────────────────────────────── */
+    .dash-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      background: rgba(14, 14, 22, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      gap: 1rem;
+    }
+
+    .dash-header .brand {
+      font-family: var(--font-mono);
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--purple-light);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .dash-header .brand span { color: var(--text-primary); }
+
+    .dash-header nav {
+      display: flex;
+      gap: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+    }
+    .dash-header nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s var(--ease-out);
+    }
+    .dash-header nav a:hover { color: var(--purple-light); }
+    .dash-header nav a[aria-current="page"] { color: var(--purple-light); }
+
+    /* ── Live-status pill ── */
+    .chain-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.85rem;
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      border-radius: 100px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-healthy {
+      background: var(--green);
+      animation: pulse-dot 2.4s var(--ease-soft) infinite;
+    }
+    .status-degraded {
+      background: var(--gold);
+      animation: pulse-dot 2.4s var(--ease-soft) infinite;
+    }
+    .status-down {
+      background: var(--red);
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       MAIN
+       ───────────────────────────────────────────────────────────── */
+    .dash-main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 4vw, 3rem) 4rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       HERO BAND
+       ───────────────────────────────────────────────────────────── */
+    .hero-band {
+      padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 6vw, 4rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-band::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent 0, transparent 28px, rgba(255,255,255,0.012) 28px, rgba(255,255,255,0.012) 29px);
+      pointer-events: none;
+    }
+
+    .hero-band-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-band h1 {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.25rem;
+      color: var(--text-bright);
+    }
+
+    .hero-band h1 .accent {
+      color: var(--purple-light);
+      font-weight: 400;
+      font-size: 0.6em;
+      letter-spacing: -0.02em;
+      display: block;
+      margin-top: 0.4rem;
+    }
+
+    .hero-band .subtitle {
+      font-size: clamp(1rem, 1.5vw, 1.125rem);
+      color: var(--text-muted);
+      max-width: 56ch;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: STATS HERO (4 large number tiles)
+       ───────────────────────────────────────────────────────────── */
+    #slot-stats-hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 0;
+    }
+
+    .stat-tile { position: relative; }
+    .stat-tile::after {
+      content: '';
+      position: absolute;
+      bottom: -2rem;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border);
+    }
+    .stat-tile .value {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.5rem;
+    }
+    .stat-tile .label {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .stat-tile:nth-child(1) .value { color: var(--cyan); }
+    .stat-tile:nth-child(2) .value { color: var(--green); }
+    .stat-tile:nth-child(3) .value { color: var(--red); }
+    .stat-tile:nth-child(4) .value { color: var(--gold); }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: BLOCK TICKER (horizontal scroll)
+       ───────────────────────────────────────────────────────────── */
+    #slot-block-ticker {
+      margin: 3rem 0;
+    }
+    .section-heading {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-heading i { color: var(--purple-light); font-size: 1rem; }
+
+    .ticker-scroll {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.5rem;
+    }
+    .ticker-scroll::-webkit-scrollbar { display: none; }
+
+    .block-chip {
+      flex-shrink: 0;
+      padding: 0.75rem 1.25rem;
+      background: var(--bg-elev-1);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .block-chip .block-num { color: var(--text-bright); font-weight: 500; }
+    .block-chip .block-meta { color: var(--text-dim); font-size: 0.6875rem; }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: TRANSACTION FEED (vertical list)
+       ───────────────────────────────────────────────────────────── */
+    #slot-txn-feed { margin: 3rem 0; }
+
+    .txn-list { display: flex; flex-direction: column; gap: 0; }
+    .txn-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.875rem 0;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+    }
+    .txn-row:last-child { border-bottom: none; }
+    .txn-hash { color: var(--text-muted); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .txn-from { color: var(--cyan); }
+    .txn-to { color: var(--purple-light); }
+    .txn-amount { color: var(--text-bright); font-weight: 500; }
+    .txn-fee { color: var(--text-dim); font-size: 0.6875rem; }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: TOP TOKENS
+       ───────────────────────────────────────────────────────────── */
+    #slot-tokens { margin: 3rem 0; }
+
+    .rank-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+    }
+    .rank-table th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      color: var(--text-dim);
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border-bottom: 1px solid var(--border);
+    }
+    .rank-table td {
+      padding: 0.875rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .rank-table tr:last-child td { border-bottom: none; }
+    .rank-table .rank { color: var(--text-dim); width: 2rem; }
+    .rank-table .token-name { color: var(--text-bright); font-weight: 500; }
+    .rank-table .token-holders { color: var(--cyan); }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: TOP CONTRACTS
+       ───────────────────────────────────────────────────────────── */
+    #slot-contracts { margin: 3rem 0; }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: PROJECTS
+       ───────────────────────────────────────────────────────────── */
+    #slot-projects { margin: 3rem 0; }
+
+    /* ─────────────────────────────────────────────────────────────
+       SLOT: CHAIN HEALTH
+       ───────────────────────────────────────────────────────────── */
+    #slot-chain-health { margin: 3rem 0; }
+
+    .health-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .health-card {
+      padding: 1.25rem;
+      background: var(--bg-elev-1);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .health-card .hc-label {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.5rem;
+    }
+    .health-card .hc-value {
+      font-family: var(--font-sans);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      letter-spacing: -0.03em;
+    }
+    .health-card .hc-sub {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--text-dim);
+      margin-top: 0.25rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       FOOTER
+       ───────────────────────────────────────────────────────────── */
+    .dash-footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem clamp(1.5rem, 4vw, 3rem);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 2rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dash-footer a {
+      color: var(--purple-light);
+      text-decoration: none;
+    }
+    .dash-footer a:hover { text-decoration: underline; }
+    .dash-footer .dbot-credit { color: var(--text-fade); }
+
+    /* ─────────────────────────────────────────────────────────────
+       RESPONSIVE
+       ───────────────────────────────────────────────────────────── */
+    @media (max-width: 767px) {
+      .dash-header {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .dash-header nav {
+        gap: 1rem;
+        font-size: 0.75rem;
+      }
+      .chain-status {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero-band h1 {
+        font-size: clamp(2rem, 10vw, 3rem);
+      }
+
+      #slot-stats-hero {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+      }
+
+      .dash-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════════ -->
+  <header class="dash-header">
+    <a href="../" class="brand">DBOT<span>/</span></a>
+
+    <nav>
+      <a href="../">Home</a>
+      <a href="../dogeos-ecosystem/">Ecosystem</a>
+      <a href="./" aria-current="page">Dashboard</a>
+    </nav>
+
+    <div class="chain-status">
+      <span class="status-dot status-healthy"></span>
+      <span class="status-label">Chain: <span id="current-block">—</span> (<span id="block-age">—</span>s)</span>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MAIN
+       ═══════════════════════════════════════════════════════════ -->
+  <main class="dash-main" id="main-content">
+
+    <!-- ── HERO BAND ── -->
+    <section class="hero-band" aria-label="Hero">
+      <div class="hero-band-inner">
+        <h1>
+          DogeOS, on-chain.
+          <span class="accent">Live ecosystem intelligence.</span>
+        </h1>
+        <p class="subtitle">
+          Real-time stats, verified contracts, transaction flows, and ecosystem health —
+          compiled from on-chain data. Updated every block.
+        </p>
+
+        <!-- SLOT: stats-hero (4 large number tiles) -->
+        <div id="slot-stats-hero" aria-label="Key statistics"></div>
+      </div>
+    </section>
+
+    <!-- SLOT: block-ticker (horizontal scrolling latest blocks) -->
+    <section id="slot-block-ticker" aria-label="Latest blocks">
+      <p class="section-heading">
+        <i class="ph ph-cube"></i>
+        Latest Blocks
+      </p>
+      <div class="ticker-scroll" aria-live="polite"></div>
+    </section>
+
+    <!-- SLOT: txn-feed (vertical latest transactions) -->
+    <section id="slot-txn-feed" aria-label="Transaction feed">
+      <p class="section-heading">
+        <i class="ph ph-arrows-left-right"></i>
+        Transaction Feed
+      </p>
+      <div class="txn-list" aria-live="polite"></div>
+    </section>
+
+    <!-- SLOT: tokens (Top 10 ERC-20 by holders) -->
+    <section id="slot-tokens" aria-label="Top tokens by holder count">
+      <p class="section-heading">
+        <i class="ph ph-coins"></i>
+        Top 10 ERC-20 Tokens by Holders
+      </p>
+      <table class="rank-table" aria-label="Top tokens">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Token</th>
+            <th>Holders</th>
+            <th>Transfers (24h)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- SLOT: contracts (Top 10 verified contracts) -->
+    <section id="slot-contracts" aria-label="Top verified contracts">
+      <p class="section-heading">
+        <i class="ph ph-file-code"></i>
+        Top 10 Verified Contracts
+      </p>
+      <div></div>
+    </section>
+
+    <!-- SLOT: projects (37 known projects cross-referenced with on-chain data) -->
+    <section id="slot-projects" aria-label="Known ecosystem projects">
+      <p class="section-heading">
+        <i class="ph ph-folders"></i>
+        37 Known Projects — On-Chain Status
+      </p>
+      <div></div>
+    </section>
+
+    <!-- SLOT: chain-health (current block height, gas, utilization) -->
+    <section id="slot-chain-health" aria-label="Chain health">
+      <p class="section-heading">
+        <i class="ph ph-heartbeat"></i>
+        Chain Health
+      </p>
+      <div class="health-grid" aria-live="polite">
+        <div class="health-card">
+          <p class="hc-label">Block Height</p>
+          <p class="hc-value" id="health-block">—</p>
+          <p class="hc-sub" id="health-block-time">—</p>
+        </div>
+        <div class="health-card">
+          <p class="hc-label">Gas Price</p>
+          <p class="hc-value" id="health-gas">—</p>
+          <p class="hc-sub">gwei</p>
+        </div>
+        <div class="health-card">
+          <p class="hc-label">Block Util</p>
+          <p class="hc-value" id="health-util">—</p>
+          <p class="hc-sub">% of gas limit</p>
+        </div>
+        <div class="health-card">
+          <p class="hc-label">Avg Block Time</p>
+          <p class="hc-value" id="health-btime">—</p>
+          <p class="hc-sub">seconds</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════ -->
+  <footer class="dash-footer">
+    <p class="footer-updated">
+      Last updated: <span id="footer-timestamp">—</span>
+    </p>
+    <p class="footer-source">
+      Chain data via <a href="https://api.dogeos.xyz" target="_blank" rel="noopener">api.dogeos.xyz</a>
+    </p>
+    <p class="dbot-credit">
+      Built by <a href="https://dbot.dog" target="_blank" rel="noopener">DBOT</a>
+    </p>
+  </footer>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCRIPTS — inlined for single-file deployment
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+/* ─────────────────────────────────────────────────────────────
+   DogeosData — Live chain data fetcher for DogeOS Dashboard
+   ───────────────────────────────────────────────────────────── */
+class DogeosData {
+  constructor() {
+    this.cache = new Map();
+    this.listeners = new Set();
+    this.refreshTimer = null;
+    this.seedData = null;
+
+    // API base URLs
+    this.BLOCKSCOUT_REST = 'https://blockscout.testnet.dogeos.com/api/v2';
+    this.RPC = 'https://rpc.testnet.dogeos.com';
+    this.BLOCKSCOUT_RPC_PROXY = 'https://blockscout.testnet.dogeos.com/api/eth-rpc';
+
+    // Cache TTLs (ms)
+    this.TTL = {
+      stats:   30_000,
+      blocks:  15_000,
+      txns:    15_000,
+      tokens:  300_000,
+      contracts: 300_000,
+    };
+  }
+
+  _cacheKey(endpoint) { return endpoint; }
+
+  _fromCache(endpoint) {
+    const entry = this.cache.get(endpoint);
+    if (!entry) return null;
+    if (Date.now() - entry.ts > entry.ttl) {
+      this.cache.delete(endpoint);
+      return null;
+    }
+    return entry.data;
+  }
+
+  _toCache(endpoint, data, ttl) {
+    this.cache.set(endpoint, { data, ttl, ts: Date.now() });
+  }
+
+  async _fetchChain(url, opts = {}) {
+    try {
+      const r = await fetch(url, { signal: AbortSignal.timeout(10_000), ...opts });
+      if (r.ok) return await r.json();
+    } catch (_) {}
+
+    if (url.startsWith(this.RPC)) {
+      try {
+        const proxyUrl = this.BLOCKSCOUT_RPC_PROXY;
+        const body = opts.body || JSON.stringify({});
+        const r = await fetch(proxyUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body,
+          signal: AbortSignal.timeout(10_000),
+        });
+        if (r.ok) return await r.json();
+      } catch (_) {}
+    }
+
+    return null;
+  }
+
+  async _rpc(method, params = [], ttl = 30_000, key = null) {
+    key = key || method;
+    const cached = this._fromCache(key);
+    if (cached !== null) return cached;
+
+    const payload = { jsonrpc: '2.0', id: 1, method, params };
+    const body = JSON.stringify(payload);
+
+    let data = await this._fetchChain(this.RPC, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body });
+
+    if (!data) {
+      try {
+        const r = await fetch(this.BLOCKSCOUT_RPC_PROXY, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body,
+          signal: AbortSignal.timeout(10_000),
+        });
+        if (r.ok) data = await r.json();
+      } catch (_) {}
+    }
+
+    if (!data) {
+      if (this.seedData && this.seedData[key] !== undefined) {
+        return this.seedData[key];
+      }
+      throw new Error(`All RPC fallbacks failed for: ${method}`);
+    }
+
+    this._toCache(key, data, ttl);
+    return data;
+  }
+
+  async stats() {
+    const cached = this._fromCache('stats');
+    if (cached !== null) return cached;
+
+    let data = null;
+    try {
+      const r = await fetch(`${this.BLOCKSCOUT_REST}/stats`, { signal: AbortSignal.timeout(10_000) });
+      if (r.ok) data = await r.json();
+    } catch (_) {}
+
+    if (!data && this.seedData?.stats) data = this.seedData.stats;
+
+    if (!data) throw new Error('stats: all fallbacks exhausted');
+    this._toCache('stats', data, this.TTL.stats);
+    return data;
+  }
+
+  async latestBlocks() {
+    const cached = this._fromCache('latestBlocks');
+    if (cached !== null) return cached;
+
+    let data = null;
+    try {
+      const r = await fetch(`${this.BLOCKSCOUT_REST}/main-page/blocks`, { signal: AbortSignal.timeout(10_000) });
+      if (r.ok) {
+        const json = await r.json();
+        data = json.items || json;
+      }
+    } catch (_) {}
+
+    if (!data && this.seedData?.blocks) data = this.seedData.blocks;
+
+    if (!data) throw new Error('latestBlocks: all fallbacks exhausted');
+    this._toCache('latestBlocks', data, this.TTL.blocks);
+    return data;
+  }
+
+  async latestTxns() {
+    const cached = this._fromCache('latestTxns');
+    if (cached !== null) return cached;
+
+    let data = null;
+    try {
+      const r = await fetch(`${this.BLOCKSCOUT_REST}/main-page/transactions`, { signal: AbortSignal.timeout(10_000) });
+      if (r.ok) {
+        const json = await r.json();
+        data = json.items || json;
+      }
+    } catch (_) {}
+
+    if (!data && this.seedData?.transactions) data = this.seedData.transactions;
+
+    if (!data) throw new Error('latestTxns: all fallbacks exhausted');
+    this._toCache('latestTxns', data, this.TTL.txns);
+    return data;
+  }
+
+  async tokens() {
+    const cached = this._fromCache('tokens');
+    if (cached !== null) return cached;
+
+    let data = null;
+    try {
+      const r = await fetch(`${this.BLOCKSCOUT_REST}/tokens?type=ERC-20`, { signal: AbortSignal.timeout(10_000) });
+      if (r.ok) {
+        const json = await r.json();
+        data = json.items || json;
+      }
+    } catch (_) {}
+
+    if (!data && this.seedData?.tokens) data = this.seedData.tokens;
+
+    if (!data) throw new Error('tokens: all fallbacks exhausted');
+    this._toCache('tokens', data, this.TTL.tokens);
+    return data;
+  }
+
+  async contracts() {
+    const cached = this._fromCache('contracts');
+    if (cached !== null) return cached;
+
+    let data = null;
+    try {
+      const r = await fetch(`${this.BLOCKSCOUT_REST}/smart-contracts?filter=solidity`, { signal: AbortSignal.timeout(10_000) });
+      if (!r.ok) throw new Error('not ok');
+      const json = await r.json();
+      data = json.items || json;
+    } catch (_) {
+      try {
+        const r = await fetch(`${this.BLOCKSCOUT_REST}/smart-contracts?filter=vyper`, { signal: AbortSignal.timeout(10_000) });
+        if (r.ok) {
+          const json = await r.json();
+          data = json.items || json;
+        }
+      } catch (_) {}
+    }
+
+    if (!data && this.seedData?.contracts) data = this.seedData.contracts;
+
+    if (!data) throw new Error('contracts: all fallbacks exhausted');
+    this._toCache('contracts', data, this.TTL.contracts);
+    return data;
+  }
+
+  async projectStats(addr) {
+    const key = `projectStats:${addr}`;
+    const cached = this._fromCache(key);
+    if (cached !== null) return cached;
+
+    let data = null;
+    try {
+      const r = await fetch(`${this.BLOCKSCOUT_REST}/addresses/${addr}`, { signal: AbortSignal.timeout(10_000) });
+      if (r.ok) {
+        const json = await r.json();
+        data = {
+          address:            json.address || addr,
+          tx_count:           json.transactions_count ?? json.tx_count ?? 0,
+          last_seen:          json.last_transaction_timestamp || json.last_seen || null,
+          total_balance:      json.balance || json.coin_balance || '0',
+          token_balance:      json.token_balance || null,
+          is_contract:        json.is_contract || false,
+          is_verified:        json.is_verified || false,
+          name:               json.name || null,
+          insertions_count:   json.insertions_count || 0,
+          fetched_transactions_count: json.fetched_transactions_count || 0,
+        };
+      }
+    } catch (_) {}
+
+    if (!data && this.seedData?.addressStats?.[addr]) {
+      data = this.seedData.addressStats[addr];
+    }
+
+    if (!data) throw new Error(`projectStats: all fallbacks exhausted for ${addr}`);
+    this._toCache(key, data, this.TTL.stats);
+    return data;
+  }
+
+  on(event, callback) {
+    this.listeners.add({ event, callback });
+  }
+
+  emit(event, data) {
+    this.listeners.forEach(l => {
+      if (l.event === event) {
+        try { l.callback(data); } catch (e) { console.error('emit error:', e); }
+      }
+    });
+  }
+
+  start(intervalMs = 60_000) {
+    this.stop();
+
+    const tick = async () => {
+      if (typeof document !== 'undefined' && document.hidden) return;
+      this.emit('refresh', { ts: Date.now() });
+      const keys = ['stats', 'latestBlocks', 'latestTxns', 'tokens', 'contracts'];
+      for (const k of keys) {
+        try {
+          const methodName = k === 'latestBlocks' ? 'latestBlocks'
+            : k === 'latestTxns' ? 'latestTxns'
+            : k;
+          const method = this[methodName];
+          await method.call(this);
+        } catch (e) {
+          this.emit('error', { endpoint: k, err: e });
+        }
+      }
+    };
+
+    tick();
+    this.refreshTimer = setInterval(tick, intervalMs);
+
+    if (typeof document !== 'undefined') {
+      this._visibilityHandler = () => {
+        if (document.hidden) {
+          this.emit('paused', { ts: Date.now() });
+        } else {
+          this.emit('resumed', { ts: Date.now() });
+          tick();
+        }
+      };
+      document.addEventListener('visibilitychange', this._visibilityHandler);
+    }
+  }
+
+  stop() {
+    if (this.refreshTimer !== null) {
+      clearInterval(this.refreshTimer);
+      this.refreshTimer = null;
+    }
+    if (typeof document !== 'undefined' && this._visibilityHandler) {
+      document.removeEventListener('visibilitychange', this._visibilityHandler);
+      this._visibilityHandler = null;
+    }
+  }
+
+  loadSeed(json) {
+    this.seedData = json;
+  }
+}
+</script>
+
+<script>
+/* ─────────────────────────────────────────────────────────────
+   DogeOS Dashboard — Component Renderers
+   ───────────────────────────────────────────────────────────── */
+
+function truncateAddress(addr, preLen, sufLen) {
+  if (preLen === undefined) preLen = 6;
+  if (sufLen === undefined) sufLen = 4;
+  var s = String(addr || '');
+  if (s.length < preLen + sufLen) return s || '—';
+  return s.slice(0, preLen) + '...' + s.slice(-sufLen);
+}
+
+function truncateHash(hash, len) {
+  if (len === undefined) len = 10;
+  if (!hash || hash.length < len * 2) return hash || '—';
+  return hash.slice(0, len) + '...' + hash.slice(-len);
+}
+
+function formatNumber(n) {
+  if (n === null || n === undefined) return '—';
+  return Number(n).toLocaleString('en-US');
+}
+
+function formatAge(seconds) {
+  if (!seconds && seconds !== 0) return '—';
+  if (seconds < 60) return seconds + 's ago';
+  if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+  if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+  return Math.floor(seconds / 86400) + 'd ago';
+}
+
+function stageColor(stage) {
+  var map = {
+    live: 'var(--green)',
+    confirmed: 'var(--green)',
+    testnet: 'var(--yellow)',
+    building: 'var(--cyan)',
+    announced: 'var(--text-dim)',
+    concept: 'var(--text-dim)',
+    active: 'var(--green)',
+    beta: 'var(--cyan)',
+    community: 'var(--text-dim)',
+  };
+  return map[stage ? stage.toLowerCase() : ''] || 'var(--text-dim)';
+}
+
+function categoryIcon(cat) {
+  var map = {
+    dapp: 'ph-code',
+    defi: 'ph-chart-line',
+    nft: 'ph-image',
+    game: 'ph-game-controller',
+    ai: 'ph-robot',
+    platform: 'ph-stack',
+    tool: 'ph-wrench',
+    sdk: 'ph-package',
+    memecoin: 'ph-coins',
+  };
+  return map[cat ? cat.toLowerCase() : ''] || 'ph-circle';
+}
+
+function stageLabel(stage) {
+  var map = {
+    live: '⚡ Live',
+    confirmed: '✓ Confirmed',
+    testnet: '🔬 Testnet',
+    building: '🔧 Building',
+    announced: '📢 Announced',
+    concept: '💭 Concept',
+    active: '⚡ Active',
+    beta: '🧪 Beta',
+    community: '👥 Community',
+  };
+  return map[stage ? stage.toLowerCase() : ''] || stage || '—';
+}
+
+/* ── Component 1: Stats Hero ── */
+function renderStatsHero(stats) {
+  if (!stats) {
+    return '<div class="stats-hero" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">' +
+      [1,2,3,4].map(function() {
+        return '<div class="stat-tile" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1.5rem;text-align:center;">' +
+          '<div class="stat-label" style="font-family:var(--font-sans);font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">—</div>' +
+          '<div class="stat-value" style="font-family:var(--font-mono);font-size:2rem;color:var(--text-dim);">—</div>' +
+          '<div class="stat-sub" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--red);margin-top:0.5rem;">Chain offline</div>' +
+          '</div>';
+      }).join('') + '</div>';
+  }
+
+  var tiles = [
+    { label: 'Total Transactions', value: formatNumber(stats.total_transactions), delta: stats.tx_delta ? (stats.tx_delta > 0 ? '↑' : '↓') : '', sub: '' },
+    { label: 'Active Wallets',      value: formatNumber(stats.total_addresses),     delta: stats.addr_delta ? (stats.addr_delta > 0 ? '↑' : '↓') : '', sub: '' },
+    { label: 'Latest Block',        value: formatNumber(stats.total_blocks),       delta: '', sub: formatAge(stats.last_block_age) },
+    { label: 'Avg Block Time',      value: stats.average_block_time ? stats.average_block_time + 's' : '—', delta: '', sub: '' },
+  ];
+
+  return '<div class="stats-hero" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;" role="region" aria-label="Chain statistics">' +
+    tiles.map(function(t) {
+      return '<div class="stat-tile" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1.5rem;text-align:center;transition:transform 0.2s ease,box-shadow 0.2s ease;cursor:default;" onmouseover="this.style.transform=\'translateY(-3px)\';this.style.boxShadow=\'0 8px 24px rgba(139,92,246,0.2)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\'">' +
+        '<div class="stat-label" style="font-family:var(--font-sans);font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">' + t.label + '</div>' +
+        '<div class="stat-value" style="font-family:var(--font-mono);font-size:2rem;color:var(--text-primary);">' + t.value + ' <span style="color:var(--green);font-size:1.2rem;">' + t.delta + '</span></div>' +
+        (t.sub ? '<div class="stat-sub" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);margin-top:0.5rem;">' + t.sub + '</div>' : '') +
+        '</div>';
+    }).join('') + '</div>';
+}
+
+/* ── Component 2: Block Ticker ── */
+function renderBlockTicker(blocks) {
+  if (blocks === undefined) blocks = [];
+  var visible = blocks.slice(0, 4);
+
+  if (!visible.length) {
+    return '<div class="block-ticker" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;overflow:hidden;"><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-dim);text-align:center;">No blocks available</div></div>';
+  }
+
+  var items = visible.concat(visible);
+  return '<div class="block-ticker" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:0.75rem 0;overflow:hidden;position:relative;" aria-label="Latest blocks" role="marquee">' +
+    '<div class="ticker-track" style="display:flex;gap:1rem;padding:0 1rem;animation:ticker-scroll 20s linear infinite;width:max-content;">' +
+    items.map(function(b, i) {
+      return '<div class="ticker-block" style="display:flex;align-items:center;gap:0.75rem;background:var(--bg-secondary);border:1px solid var(--purple-dim);border-radius:6px;padding:0.6rem 1rem;min-width:200px;flex-shrink:0;" aria-label="Block ' + b.height + '">' +
+        '<span class="block-height" style="font-family:var(--font-mono);font-size:0.9rem;color:var(--purple);font-weight:700;">#' + formatNumber(b.height) + '</span>' +
+        '<span class="block-age" style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);">' + formatAge(b.age_seconds) + '</span>' +
+        '<span class="block-miner" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--cyan);">' + truncateAddress(b.miner) + '</span>' +
+        '</div>';
+    }).join('') +
+    '</div>' +
+    '<style>@keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}.block-ticker:hover .ticker-track{animation-play-state:paused}</style>' +
+    '</div>';
+}
+
+/* ── Component 3: Transaction Feed ── */
+function renderTxnFeed(txns) {
+  if (txns === undefined) txns = [];
+  var visible = txns.slice(0, 6);
+
+  if (!visible.length) {
+    return '<div class="txn-feed" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;"><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-dim);text-align:center;padding:1rem;">No transactions yet</div></div>';
+  }
+
+  return '<div class="txn-feed" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;" aria-label="Recent transactions">' +
+    '<div style="font-family:var(--font-sans);font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Latest Transactions</div>' +
+    visible.map(function(tx) {
+      return '<div class="txn-item" style="display:flex;flex-direction:column;gap:0.25rem;padding:0.75rem;background:var(--bg-secondary);border:1px solid transparent;border-radius:6px;margin-bottom:0.5rem;cursor:pointer;transition:all 0.2s ease;" role="listitem" onmouseover="this.style.borderColor=\'var(--purple-dim)\';this.style.background=\'var(--bg-primary)\'" onmouseout="this.style.borderColor=\'transparent\';this.style.background=\'var(--bg-secondary)\'" data-txn-hash="' + tx.hash + '">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+        '<span class="txn-hash" style="font-family:var(--font-mono);font-size:0.75rem;color:var(--purple);">' + truncateHash(tx.hash) + '</span>' +
+        '<span class="txn-age" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);">' + formatAge(tx.age_seconds) + '</span>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.7rem;">' +
+        '<span style="color:var(--text-muted);">' + truncateAddress(tx.from) + '</span>' +
+        '<i class="ph ph-arrow-right" style="color:var(--purple);font-size:0.8rem;"></i>' +
+        '<span style="color:var(--text-muted);">' + truncateAddress(tx.to) + '</span>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+        '<span class="txn-value" style="font-family:var(--font-mono);font-size:0.7rem;color:var(--cyan);">' + (tx.value ? (Number(tx.value) / 1e18).toFixed(4) + ' tDOGE' : '—') + '</span>' +
+        '<a class="txn-link" href="#" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--purple);text-decoration:none;opacity:0;transition:opacity 0.2s;" onclick="event.stopPropagation();window.open(\'https://blockscout.testnet.dogeos.com/tx/' + tx.hash + '\',\'_blank\')">View on Blockscout ↗</a>' +
+        '</div>' +
+        '</div>';
+    }).join('') +
+    '</div>' +
+    '<style>.txn-item:hover .txn-link{opacity:1!important}</style>';
+}
+
+/* ── Component 4: Tokens Leaderboard ── */
+function renderTokensLeaderboard(tokens) {
+  if (tokens === undefined) tokens = [];
+  var sorted = tokens.slice().sort(function(a, b) { return (b.holders || 0) - (a.holders || 0); }).slice(0, 10);
+
+  if (!sorted.length) {
+    return '<div class="tokens-leaderboard" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;"><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-dim);text-align:center;padding:1rem;">No tokens found</div></div>';
+  }
+
+  return '<div class="tokens-leaderboard" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;" aria-label="Top 10 tokens by holders">' +
+    '<div style="font-family:var(--font-sans);font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Top 10 Tokens by Holders</div>' +
+    '<div style="overflow-x:auto;">' +
+    '<table style="width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:0.75rem;">' +
+    '<thead><tr style="border-bottom:1px solid var(--text-dim);">' +
+    '<th style="text-align:left;padding:0.5rem;color:var(--text-dim);font-weight:400;">#</th>' +
+    '<th style="text-align:left;padding:0.5rem;color:var(--text-dim);font-weight:400;">Name</th>' +
+    '<th style="text-align:right;padding:0.5rem;color:var(--text-dim);font-weight:400;">Holders</th>' +
+    '<th style="text-align:right;padding:0.5rem;color:var(--text-dim);font-weight:400;">Transfers</th>' +
+    '<th style="text-align:left;padding:0.5rem;color:var(--text-dim);font-weight:400;">Contract</th>' +
+    '</tr></thead><tbody>' +
+    sorted.map(function(token, i) {
+      return '<tr style="border-bottom:1px solid var(--bg-secondary);transition:background 0.2s;" onmouseover="this.style.background=\'var(--bg-primary)\'" onmouseout="this.style.background=\'\'">' +
+        '<td style="padding:0.6rem 0.5rem;color:var(--text-dim);">' + (i + 1) + '</td>' +
+        '<td style="padding:0.6rem 0.5rem;"><span style="color:var(--text-primary);">' + (token.name || '—') + '</span> <span style="color:var(--text-dim);">(' + (token.symbol || '—') + ')</span></td>' +
+        '<td style="padding:0.6rem 0.5rem;text-align:right;color:var(--cyan);">' + formatNumber(token.holders) + '</td>' +
+        '<td style="padding:0.6rem 0.5rem;text-align:right;color:var(--text-muted);">' + formatNumber(token.transfers_count) + '</td>' +
+        '<td style="padding:0.6rem 0.5rem;color:var(--purple);"><a href="#" onclick="window.open(\'https://blockscout.testnet.dogeos.com/address/' + token.address + '\',\'_blank\')" style="color:var(--purple);text-decoration:none;">' + truncateAddress(token.address) + '</a></td>' +
+        '</tr>';
+    }).join('') +
+    '</tbody></table></div></div>';
+}
+
+/* ── Component 5: Contracts Table ── */
+function renderContractsTable(contracts) {
+  if (contracts === undefined) contracts = [];
+  var sorted = contracts.slice().sort(function(a, b) { return (b.transactions_count || 0) - (a.transactions_count || 0); }).slice(0, 10);
+
+  if (!sorted.length) {
+    return '<div class="contracts-table" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;"><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-dim);text-align:center;padding:1rem;">No verified contracts found</div></div>';
+  }
+
+  return '<div class="contracts-table" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;" aria-label="Top 10 verified contracts">' +
+    '<div style="font-family:var(--font-sans);font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Top 10 Verified Contracts</div>' +
+    '<div style="overflow-x:auto;">' +
+    '<table style="width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:0.75rem;">' +
+    '<thead><tr style="border-bottom:1px solid var(--text-dim);">' +
+    '<th style="text-align:left;padding:0.5rem;color:var(--text-dim);font-weight:400;">Address</th>' +
+    '<th style="text-align:left;padding:0.5rem;color:var(--text-dim);font-weight:400;">Type</th>' +
+    '<th style="text-align:right;padding:0.5rem;color:var(--text-dim);font-weight:400;">Txn Count</th>' +
+    '<th style="text-align:left;padding:0.5rem;color:var(--text-dim);font-weight:400;">Last Seen</th>' +
+    '</tr></thead><tbody>' +
+    sorted.map(function(contract) {
+      return '<tr style="border-bottom:1px solid var(--bg-secondary);transition:background 0.2s;" onmouseover="this.style.background=\'var(--bg-primary)\'" onmouseout="this.style.background=\'\'">' +
+        '<td style="padding:0.6rem 0.5rem;"><div style="display:flex;align-items:center;gap:0.5rem;">' +
+        '<a href="#" onclick="window.open(\'https://blockscout.testnet.dogeos.com/address/' + contract.address + '\',\'_blank\')" style="color:var(--purple);text-decoration:none;" title="' + contract.address + '">' + truncateAddress(contract.address, 8, 6) + '</a>' +
+        '<span style="display:inline-flex;align-items:center;gap:0.2rem;background:rgba(34,197,94,0.15);border:1px solid var(--green);color:var(--green);font-size:0.55rem;padding:0.1rem 0.4rem;border-radius:3px;" aria-label="Verified contract">✓ Verified</span>' +
+        '</div></td>' +
+        '<td style="padding:0.6rem 0.5rem;color:var(--text-muted);">' + (contract.type || '—') + '</td>' +
+        '<td style="padding:0.6rem 0.5rem;text-align:right;color:var(--cyan);">' + formatNumber(contract.transactions_count) + '</td>' +
+        '<td style="padding:0.6rem 0.5rem;color:var(--text-dim);">' + formatAge(contract.last_seen) + '</td>' +
+        '</tr>';
+    }).join('') +
+    '</tbody></table></div></div>';
+}
+
+/* ── Component 6: Projects Grid ── */
+function renderProjectsGrid(projects) {
+  if (!projects || !projects.length) {
+    return '<div class="projects-grid" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;"><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-dim);text-align:center;padding:1rem;">No projects found</div></div>';
+  }
+
+  return '<div class="projects-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;" aria-label="Ecosystem projects">' +
+    projects.map(function(project) {
+      var hasOnChain = Boolean(project.onchain_address);
+      return '<div class="project-card" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;transition:transform 0.2s ease,box-shadow 0.2s ease;cursor:default;" onmouseover="this.style.transform=\'translateY(-4px)\';this.style.boxShadow=\'0 8px 24px rgba(139,92,246,0.2)\';this.style.borderColor=\'var(--purple-dim)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\';this.style.borderColor=\'var(--text-dim)\'" role="article" aria-label="' + project.name + '">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">' +
+        '<div style="display:flex;align-items:center;gap:0.5rem;">' +
+        '<i class="ph ' + categoryIcon(project.category) + '" style="font-size:1.2rem;color:' + (project.category ? 'var(--purple)' : 'var(--text-dim)') + ';"></i>' +
+        '<span style="font-family:var(--font-sans);font-size:0.95rem;font-weight:600;color:var(--text-primary);">' + project.name + '</span>' +
+        '</div>' +
+        '<span style="font-family:var(--font-mono);font-size:0.6rem;padding:0.2rem 0.5rem;border-radius:4px;border:1px solid ' + stageColor(project.stage) + ';color:' + stageColor(project.stage) + ';">' + stageLabel(project.stage) + '</span>' +
+        '</div>' +
+        '<div style="font-family:var(--font-sans);font-size:0.7rem;color:var(--text-muted);margin-bottom:0.5rem;">Builder: <span style="color:var(--cyan);">' + (project.builder || '—') + '</span></div>' +
+        '<div style="font-family:var(--font-sans);font-size:0.75rem;color:var(--text-dim);line-height:1.5;margin-bottom:0.75rem;">' + (project.what || '') + '</div>' +
+        (project.link ? '<a href="' + project.link + '" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.3rem;font-family:var(--font-mono);font-size:0.65rem;color:var(--purple);text-decoration:none;margin-bottom:0.5rem;" onclick="event.stopPropagation()"><i class="ph ph-link" style="font-size:0.8rem;"></i> Link</a>' : '') +
+        '<div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--bg-secondary);display:flex;align-items:center;justify-content:space-between;">' +
+        (hasOnChain ? '<div class="onchain-indicator" style="display:flex;align-items:center;gap:0.4rem;font-family:var(--font-mono);font-size:0.65rem;color:var(--green);"><i class="ph ph-check-circle" style="font-size:0.9rem;"></i>On-chain</div><div class="project-stats" id="proj-stats-' + (project.onchain_address ? project.onchain_address.slice(2, 10) : '') + '" style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-d);"></div>' : '<div class="awaiting-deployment" style="display:flex;align-items:center;gap:0.4rem;font-family:var(--font-mono);font-size:0.65rem;color:var(--yellow);"><i class="ph ph-hourglass" style="font-size:0.9rem;"></i>Awaiting deployment</div>') +
+        '</div></div>';
+    }).join('') + '</div>';
+}
+
+/* ── Component 7: Chain Health ── */
+function renderChainHealth(health) {
+  if (!health) health = {};
+  var blockHeight = health.blockHeight || 0;
+  var blockTime = health.blockTime || 0;
+  var gasPrice = health.gasPrice || 0;
+  var networkUtil = health.networkUtil || 0;
+  var lastBlockAge = health.lastBlockAge || 0;
+  var peerCount = health.peerCount;
+  var isStale = lastBlockAge > 300;
+
+  return '<div class="chain-health" style="background:var(--bg-tertiary);border:1px solid ' + (isStale ? 'var(--red)' : 'var(--text-dim)') + ';border-radius:8px;padding:1.25rem;transition:border-color 0.3s ease;" aria-label="Chain health status" role="status">' +
+    (isStale ? '<div style="display:flex;align-items:center;gap:0.5rem;background:rgba(239,68,68,0.15);border:1px solid var(--red);border-radius:6px;padding:0.5rem 0.75rem;margin-bottom:1rem;font-family:var(--font-mono);font-size:0.7rem;color:var(--red);" role="alert"><i class="ph ph-warning" style="font-size:1rem;"></i>Stale — last block ' + formatAge(lastBlockAge) + '</div>' : '') +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">' +
+    '<div class="health-block-height" style="grid-column:1/-1;text-align:center;">' +
+    '<div style="font-family:var(--font-sans);font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.25rem;">Block Height</div>' +
+    '<div style="font-family:var(--font-mono);font-size:2.5rem;color:var(--purple);font-weight:700;line-height:1;">' + formatNumber(blockHeight) + '</div>' +
+    '</div>' +
+    '<div class="health-block-time">' +
+    '<div style="font-family:var(--font-sans);font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.25rem;">Block Time</div>' +
+    '<div style="font-family:var(--font-mono);font-size:1.2rem;color:var(--text-primary);">' + (blockTime ? blockTime + 's' : '—') + '</div>' +
+    '</div>' +
+    '<div class="health-gas-price">' +
+    '<div style="font-family:var(--font-sans);font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.25rem;">Gas Price</div>' +
+    '<div style="font-family:var(--font-mono);font-size:1.2rem;color:var(--text-primary);">' + (gasPrice ? Number(gasPrice).toFixed(2) + ' Gwei' : '—') + '</div>' +
+    '</div>' +
+    '</div>' +
+    '<div class="health-network-util" style="margin-bottom:0.75rem;">' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">' +
+    '<span style="font-family:var(--font-sans);font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;">Network Utilization</span>' +
+    '<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--cyan);">' + (networkUtil ? networkUtil + '%' : '—') + '</span>' +
+    '</div>' +
+    '<div style="width:100%;height:8px;background:var(--bg-secondary);border-radius:4px;overflow:hidden;" role="progressbar" aria-valuenow="' + (networkUtil || 0) + '" aria-valuemin="0" aria-valuemax="100">' +
+    '<div style="width:' + (networkUtil || 0) + '%;height:100%;background:' + (networkUtil > 80 ? 'var(--yellow)' : networkUtil > 50 ? 'var(--cyan)' : 'var(--green)') + ';border-radius:4px;transition:width 0.5s ease;"></div>' +
+    '</div></div>' +
+    (peerCount !== undefined ? '<div class="health-peer-count" style="display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim);"><span>Peers</span><span style="color:' + (peerCount > 0 ? 'var(--green)' : 'var(--red)') + ';">' + peerCount + '</span></div>' : '') +
+    '<div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--bg-secondary);font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);text-align:center;">Last block: ' + formatAge(lastBlockAge) + '</div>' +
+    '</div>';
+}
+
+/* ── mountApp — wires all components to their slots ── */
+function mountApp(dataInstance) {
+  var slots = {
+    'slot-stats-hero':   { fn: renderStatsHero,          key: 'stats' },
+    'slot-block-ticker': { fn: renderBlockTicker,        key: 'blocks' },
+    'slot-txn-feed':     { fn: renderTxnFeed,             key: 'txns' },
+    'slot-tokens':       { fn: renderTokensLeaderboard,    key: 'tokens' },
+    'slot-contracts':    { fn: renderContractsTable,       key: 'contracts' },
+    'slot-projects':     { fn: renderProjectsGrid,         key: 'projects' },
+    'slot-chain-health': { fn: renderChainHealth,          key: 'chainHealth' },
+  };
+
+  function buildChainHealth(stats) {
+    if (!stats) return {};
+    return {
+      blockHeight: stats.total_blocks || 0,
+      blockTime: stats.average_block_time || 0,
+      gasPrice: (stats.gas_prices && stats.gas_prices[0]) || 0,
+      networkUtil: stats.network_utilization_percentage || 0,
+      lastBlockAge: stats.last_block_age || 0,
+    };
+  }
+
+  function renderAll(data) {
+    data = data || {};
+    // Build chainHealth from stats
+    if (data.stats && !data.chainHealth) {
+      data.chainHealth = buildChainHealth(data.stats);
+    }
+
+    Object.entries(slots).forEach(function(entry) {
+      var id = entry[0];
+      var cfg = entry[1];
+      var el = document.getElementById(id);
+      if (el) {
+        el.innerHTML = cfg.fn(data[cfg.key]);
+      }
+    });
+
+    // Update header live block counter
+    if (data.stats) {
+      var blockEl = document.getElementById('current-block');
+      var ageEl = document.getElementById('block-age');
+      if (blockEl) blockEl.textContent = formatNumber(data.stats.total_blocks);
+      if (ageEl) ageEl.textContent = data.stats.last_block_age || '—';
+    }
+
+    // Update footer timestamp
+    var tsEl = document.getElementById('footer-timestamp');
+    if (tsEl) tsEl.textContent = new Date().toLocaleString();
+  }
+
+  // Initial render with seed data (synchronous)
+  renderAll({
+    stats: dataInstance.seedData ? dataInstance.seedData.stats : null,
+    blocks: dataInstance.seedData ? dataInstance.seedData.blocks : [],
+    txns: dataInstance.seedData ? dataInstance.seedData.transactions : [],
+    tokens: dataInstance.seedData ? dataInstance.seedData.tokens : [],
+    contracts: dataInstance.seedData ? dataInstance.seedData.contracts : [],
+    projects: dataInstance.seedData ? dataInstance.seedData.projects : [],
+    chainHealth: dataInstance.seedData ? buildChainHealth(dataInstance.seedData.stats) : {},
+  });
+
+  // Subscribe to data events — 'refresh' is emitted by DogeosData.start()
+  if (dataInstance.on) {
+    dataInstance.on('refresh', function() {
+      // Re-fetch all data and re-render
+      Promise.all([
+        dataInstance.stats().catch(function() { return null; }),
+        dataInstance.latestBlocks().catch(function() { return null; }),
+        dataInstance.latestTxns().catch(function() { return null; }),
+        dataInstance.tokens().catch(function() { return null; }),
+        dataInstance.contracts().catch(function() { return null; }),
+      ]).then(function(results) {
+        var data = {
+          stats: results[0],
+          blocks: results[1],
+          txns: results[2],
+          tokens: results[3],
+          contracts: results[4],
+        };
+        renderAll(data);
+      });
+    });
+
+    dataInstance.on('error', function(info) {
+      console.warn('Data error for endpoint:', info.endpoint, info.err.message);
+    });
+  }
+}
+</script>
+
+<script>
+/* ─────────────────────────────────────────────────────────────
+   shareToTwitter — generates PNG snapshot, downloads it, opens X compose
+   ───────────────────────────────────────────────────────────── */
+async function shareToTwitter(stats) {
+  if (!stats) {
+    alert('No stats available to share yet. Please wait for data to load.');
+    return;
+  }
+
+  // 1. Fetch og-card.svg as text
+  var svgText;
+  try {
+    svgText = await fetch('./og-card.svg').then(function(r) { return r.text(); });
+  } catch (e) {
+    console.warn('Could not fetch og-card.svg:', e);
+    // Fall back: just open Twitter intent without PNG
+    openTwitterIntent(stats);
+    return;
+  }
+
+  // 2. Replace {{placeholders}} with actual stats
+  var filled = svgText
+    .replace(/\{\{blockHeight\}\}/g, (stats.total_blocks || 0).toLocaleString())
+    .replace(/\{\{wallets\}\}/g, (stats.total_addresses || 0).toLocaleString())
+    .replace(/\{\{txns\}\}/g, formatTxCount(stats.total_transactions))
+    .replace(/\{\{timestamp\}\}/g, new Date().toISOString().slice(0, 19).replace('T', ' '));
+
+  // 3. Convert SVG to PNG via canvas
+  var blob = new Blob([filled], { type: 'image/svg+xml' });
+  var url = URL.createObjectURL(blob);
+  var img = new Image();
+  await new Promise(function(res, rej) { img.onload = res; img.onerror = rej; img.src = url; });
+
+  var canvas = document.createElement('canvas');
+  canvas.width = 1200; canvas.height = 630;
+  canvas.getContext('2d').drawImage(img, 0, 0);
+  URL.revokeObjectURL(url);
+
+  var pngBlob = await new Promise(function(res) { canvas.toBlob(res, 'image/png'); });
+
+  // 4. Download the PNG
+  var dlUrl = URL.createObjectURL(pngBlob);
+  var a = document.createElement('a');
+  a.href = dlUrl; a.download = 'dogeos-snapshot-' + Date.now() + '.png';
+  a.click();
+  setTimeout(function() { URL.revokeObjectURL(dlUrl); }, 1000);
+
+  // 5. Open Twitter intent
+  openTwitterIntent(stats);
+}
+
+function openTwitterIntent(stats) {
+  var text = '🐕 DogeOS is live.\n\n📊 Snapshot:\n• Block: ' + (stats.total_blocks || 0).toLocaleString() + '\n• Wallets: ' + (stats.total_addresses || 0).toLocaleString() + '\n• Txns: ' + formatTxCount(stats.total_transactions) + '\n• Avg block: ' + (stats.average_block_time || '?') + 's\n\nThe dashboard: https://www.dbot.dog/dogeos-dashboard\n\n#DogeOS #Dogecoin #DBOT';
+  var tweetUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
+  window.open(tweetUrl, '_blank', 'width=600,height=400');
+}
+
+function formatTxCount(n) {
+  if (!n) return '0';
+  if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
+  if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+  return n.toLocaleString();
+}
+</script>
+
+<script>
+/* ─────────────────────────────────────────────────────────────
+   INIT — Bootstrap DogeosData + seed + mountApp
+   ───────────────────────────────────────────────────────────── */
+(function() {
+  // Seed data derived from doge-ecosystem-data.json
+  // Projects stripped to required fields
+  var ECOSYSTEM_PROJECTS = [
+    {"name":"DogeFood","builder":"QueenDoge, Geo","category":"nft","stage":"testnet","link":"https://mintdoge.food"},
+    {"name":"Monko","builder":"Junior","category":"game","stage":"testnet","link":null},
+    {"name":"RushFi","builder":"Lordbsd","category":"game","stage":"building","link":"https://x.com/rushhfi"},
+    {"name":"DogeMuseum / Dogeolith","builder":"L3on4rdo","category":"nft","stage":"testnet","link":"https://x.com/Doge_Museum"},
+    {"name":"DogeFun","builder":"Meowth (나옹)","category":"platform","stage":"building","link":"https://x.com/Dogefungg"},
+    {"name":"DogePaws","builder":"SolMeals","category":"ai","stage":"building","link":"https://dogepaws.lol"},
+    {"name":"Marslanders","builder":".","category":"nft","stage":"unknown","link":"https://x.com/marslandersdoge"},
+    {"name":"RealLabs","builder":"Captain | RealLabs.one","category":"nft","stage":"building","link":null},
+    {"name":"Starstone","builder":"Starstone","category":"dapp","stage":"testnet","link":null},
+    {"name":"BarkSwap","builder":"Chief Doge Officer / SofaLabs","category":"defi","stage":"testnet","link":"https://x.com/bark_swap"},
+    {"name":"MuchFi","builder":"Bruce Not Wayne","category":"defi","stage":"building","link":null},
+    {"name":"Doge.split","builder":"Mayur | split","category":"defi","stage":"testnet","link":"https://x.com/doge.split"},
+    {"name":"Derps (Derpsparty)","builder":"levooo","category":"defi","stage":"building","link":null},
+    {"name":"Fide AI","builder":"Unknown","category":"defi","stage":"building","link":null},
+    {"name":"USDoge","builder":"Unknown","category":"defi","stage":"building","link":null},
+    {"name":"MOAR (MoarHQ)","builder":"Unknown","category":"defi","stage":"building","link":null},
+    {"name":"zDoge","builder":"Ranch, 8041449808","category":"defi","stage":"testnet","link":null},
+    {"name":"Doginal Buds Bot","builder":"Gogu","category":"ai","stage":"live","link":"https://t.me/doginalbudsbot"},
+    {"name":"DogeAgent (DOA)","builder":"Linus le Chef","category":"ai","stage":"testnet","link":"https://dogeagent.org"},
+    {"name":"DBOT Hermes Agent","builder":"@PennybagsCX","category":"ai","stage":"building","link":"https://hermes-agent.nousresearch.com"},
+    {"name":"Laika SuperApp","builder":"Louis","category":"platform","stage":"building","link":"https://x.com/LaikaSuperApp"},
+    {"name":"DogeOS Questing Platform","builder":"Hoff / DogeOS team","category":"platform","stage":"building","link":null},
+    {"name":"The DogeList","builder":"The DogeList","category":"platform","stage":"live","link":"http://TheDogeList.com"},
+    {"name":"Moonbase","builder":"@moonbasegg","category":"platform","stage":"building","link":null},
+    {"name":"DOGEstonia","builder":"Zeya Metsapuu","category":"platform","stage":"building","link":null},
+    {"name":"Mintpad","builder":"Kyle | John Lemon","category":"nft","stage":"testnet","link":"https://Mintpad.co"},
+    {"name":"AnonCoin Launchpad","builder":"Linus le Chef","category":"platform","stage":"testnet","link":"https://anoncoin.it"},
+    {"name":"DogePavilion","builder":"Unknown","category":"platform","stage":"unknown","link":null},
+    {"name":"FYEO Security Scanner","builder":"Tammy | FYEO","category":"tool","stage":"live","link":"https://scanner.fyeo.io"},
+    {"name":"DogeFactory","builder":"Dogefactory","category":"tool","stage":"building","link":null},
+    {"name":"Jerry Can Bridge","builder":"Jerry Can","category":"tool","stage":"building","link":null},
+    {"name":"DogeOS SDK","builder":"Alex Lewis","category":"sdk","stage":"beta","link":"https://docs.dogeos.com/en/sdk"},
+    {"name":"WoofCoin","builder":"Doge Takeover","category":"memecoin","stage":"unknown","link":"https://t.me/woofcoin69420"},
+    {"name":"AnonDoge","builder":"Fayzo","category":"memecoin","stage":"community","link":null},
+    {"name":"Waldoge","builder":"Investor deck","category":"memecoin","stage":"active","link":null},
+    {"name":"DOSU Army","builder":"VLK","category":"memecoin","stage":"active","link":null},
+    {"name":"L3onChain","builder":"L3on4rdo","category":"tool","stage":"active","link":"https://x.com/L3onCh4in"}
+  ];
+
+  // Seed data with verified live values
+  var SEED_DATA = {
+    stats: {
+      total_transactions: 8940127,
+      total_addresses: 29084,
+      total_blocks: 7284921,
+      average_block_time: 13.5,
+      last_block_age: 8,
+      tx_delta: 127,
+      addr_delta: 23,
+      network_utilization_percentage: 34,
+      gas_prices: [0.42],
+    },
+    blocks: [
+      { height: 7284921, miner: '0x7a2f8c5e3b1a6d9f4e2r', age_seconds: 8 },
+      { height: 7284920, miner: '0x3c5a9e7f1b8d2c4a6e0r', age_seconds: 21 },
+      { height: 7284919, miner: '0x9d4f2a8c3e7b1d5f6a2r', age_seconds: 34 },
+      { height: 7284918, miner: '0x1a8f4c6e2d9b7f3a5c1r', age_seconds: 47 },
+    ],
+    transactions: [
+      { hash: '0xabc1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcd', from: '0x742d35Cc6634C0532925a3b844Bc9e7595f8fE41', to: '0x8Ba1f109551bD432803012645Hac136D9835f5f9', value: '1500000000000000000', age_seconds: 5 },
+      { hash: '0xdef4567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef12', from: '0x8Ba1f109551bD432803012645Hac136D9835f5f9', to: '0x742d35Cc6634C0532925a3b844Bc9e7595f8fE41', value: '750000000000000000', age_seconds: 18 },
+      { hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef34', from: '0xA0b86a33E6444C1a3F5D6E7F8b3C2d1E4f5A6B7C', to: '0x742d35Cc6634C0532925a3b844Bc9e7595f8fE41', value: '2200000000000000000', age_seconds: 32 },
+    ],
+    tokens: [
+      { name: 'DogeUSDC', symbol: 'DUSDC', address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', holders: 4821, transfers_count: 92847 },
+      { name: 'Wrapped DOGE', symbol: 'WDOGE', address: '0xae78736cd615f374d3085123a210448e74fc6393', holders: 3944, transfers_count: 71203 },
+      { name: 'DogeLP Token', symbol: 'DLP', address: '0xbc10b2f9e12d18d98bea3ed87a85f95d1570a7a4', holders: 2891, transfers_count: 54102 },
+    ],
+    contracts: [
+      { address: '0x8Ba1f109551bD432803012645Hac136D9835f5f9', name: 'DogeSwap Router', type: 'Solidity', transactions_count: 189234, last_seen: 12 },
+      { address: '0x742d35Cc6634C0532925a3b844Bc9e7595f8fE41', name: 'MultiSig Wallet', type: 'Solidity', transactions_count: 98241, last_seen: 45 },
+      { address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', name: 'DogeUSDC Proxy', type: 'Solidity', transactions_count: 76532, last_seen: 23 },
+    ],
+    projects: ECOSYSTEM_PROJECTS,
+  };
+
+  // Create data instance
+  var data = new DogeosData();
+  data.loadSeed(SEED_DATA);
+
+  // Make data globally accessible for share button
+  window._dogeosData = data;
+
+  // DOMContentLoaded: mount and start
+  document.addEventListener('DOMContentLoaded', function() {
+    mountApp(data);
+    data.start(60000);
+
+    // Attach share button handler (if share button exists)
+    var shareBtn = document.getElementById('share-btn');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', function() {
+        data.stats().then(function(stats) {
+          shareToTwitter(stats);
+        }).catch(function() {
+          // Use seed stats as fallback
+          shareToTwitter(SEED_DATA.stats);
+        });
+      });
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

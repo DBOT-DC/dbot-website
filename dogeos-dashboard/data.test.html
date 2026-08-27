@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DogeosData — Live Fetch Test</title>
+  <style>
+    body { font-family: monospace; background: #0d1117; color: #e6edf3; padding: 20px; }
+    h1 { color: #f0a500; }
+    .result { margin: 8px 0; padding: 8px 12px; background: #161b22; border-left: 3px solid #30363d; }
+    .ok { border-left-color: #3fb950; }
+    .fail { border-left-color: #f85149; }
+    pre { white-space: pre-wrap; word-break: break-all; font-size: 12px; color: #8b949e; }
+    #log { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>🐕 DogeosData — Live Fetch Test</h1>
+  <div id="log"></div>
+
+  <script src="data.js"></script>
+  <script>
+    const log = (msg, ok) => {
+      const el = document.createElement('div');
+      el.className = 'result ' + (ok ? 'ok' : 'fail');
+      el.textContent = msg;
+      document.getElementById('log').appendChild(el);
+      console.log(msg);
+    };
+
+    window.testResults = null;
+
+    const test = async () => {
+      const d = new DogeosData();
+      const results = {};
+
+      // ── stats ──────────────────────────────────────────────────────────
+      try {
+        const stats = await d.stats();
+        results.stats = stats;
+        const blocks = stats.total_blocks || stats.totalBlocks || 0;
+        const addrs   = stats.total_addresses || stats.totalAddresses || 0;
+        const txns    = stats.total_transactions || stats.totalTransactions || 0;
+        log(`✓ stats  — blocks:${blocks}  addrs:${addrs}  txns:${txns}`, blocks > 7000000);
+      } catch (e) {
+        results.stats = { _error: e.message };
+        log('✗ stats  — ' + e.message, false);
+      }
+
+      // ── latestBlocks ───────────────────────────────────────────────────
+      try {
+        const blocks = await d.latestBlocks();
+        results.blocks = Array.isArray(blocks) ? blocks : [];
+        log(`✓ latestBlocks  — ${results.blocks.length} blocks returned`, results.blocks.length >= 1);
+      } catch (e) {
+        results.blocks = [];
+        log('✗ latestBlocks  — ' + e.message, false);
+      }
+
+      // ── latestTxns ─────────────────────────────────────────────────────
+      try {
+        const txns = await d.latestTxns();
+        results.txns = Array.isArray(txns) ? txns : [];
+        log(`✓ latestTxns  — ${results.txns.length} txns returned`, results.txns.length >= 1);
+      } catch (e) {
+        results.txns = [];
+        log('✗ latestTxns  — ' + e.message, false);
+      }
+
+      // ── tokens ──────────────────────────────────────────────────────────
+      try {
+        const tokens = await d.tokens();
+        results.tokens = Array.isArray(tokens) ? tokens : [];
+        log(`✓ tokens  — ${results.tokens.length} tokens returned`, results.tokens.length >= 1);
+      } catch (e) {
+        results.tokens = [];
+        log('✗ tokens  — ' + e.message, false);
+      }
+
+      // ── contracts ───────────────────────────────────────────────────────
+      try {
+        const contracts = await d.contracts();
+        results.contracts = Array.isArray(contracts) ? contracts : [];
+        log(`✓ contracts  — ${results.contracts.length} contracts returned`, results.contracts.length >= 1);
+      } catch (e) {
+        results.contracts = [];
+        log('✗ contracts  — ' + e.message, false);
+      }
+
+      // Always set results so Playwright can read it
+      window.testResults = results;
+      console.log('testResults set:', JSON.stringify(results, null, 2));
+    };
+
+    // Run and ensure results are always set
+    test().catch(err => {
+      console.error('Test runner error:', err);
+      window.testResults = { _runnerError: err.message };
+    });
+  </script>
+</body>
+</html>
