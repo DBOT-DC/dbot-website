@@ -1321,6 +1321,8 @@ function mountApp(dataInstance) {
           txns: results[2],
           tokens: results[3],
           contracts: results[4],
+          // Always preserve projects from seed (no live API for these)
+          projects: dataInstance.seedData ? dataInstance.seedData.projects : [],
         };
         renderAll(data);
       });
