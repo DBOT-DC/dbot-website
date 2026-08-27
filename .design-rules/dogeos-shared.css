@@ -1,0 +1,895 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   DBOT · DogeOS Shared Design System
+   ═══════════════════════════════════════════════════════════════════════════
+   CANONICAL SOURCE. Do not edit the copies inlined into page HTML.
+
+   Consumed by:
+     - /dogeos-ecosystem/index.html
+     - /dogeos-dashboard/index.html
+
+   To propagate changes:
+     python3 scripts/build-design.py
+
+   The build script inlines this file between the
+   <!-- SHARED:START --> / <!-- SHARED:END --> markers in each page, so every
+   page ships as a single self-contained file (DESIGN.md rule 5) while still
+   having exactly one source of truth (DESIGN.md rule 1 — Open Design).
+
+   Rules honoured: Open Design (local, version-controlled, no vendor lock-in),
+   Impeccable (mobile-first, semantic, keyboard, WCAG AA), DBOT + DogeOS brand.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────────────────────────────
+   1. TOKENS — the single palette both pages draw from.
+   Every --text-* / --bg-* pair used for body copy meets WCAG AA (>= 4.5:1).
+   ─────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* DBOT brand */
+  --purple: #8B5CF6;
+  --purple-dim: #6d28d9;
+  --purple-light: #A78BFA;
+  --purple-glow: rgba(139, 92, 246, 0.35);
+
+  /* DogeOS brand — cyan/teal */
+  --cyan: #06b6d4;
+  --cyan-light: #67e8f9;
+  --cyan-dim: #0e7490;
+  --cyan-glow: rgba(6, 182, 212, 0.3);
+
+  /* Accents */
+  --gold: #BA9F33;
+  --gold-light: #D4B649;
+  --gold-glow: rgba(186, 159, 51, 0.3);
+  --green: #22c55e;
+  --green-dim: #16a34a;
+  --pink: #EC4899;
+  --red: #ef4444;
+  --orange: #F59E0B;
+  --yellow: #eab308;
+
+  /* Surfaces — tinted near-black, never pure #000 (Impeccable) */
+  --bg-deep: #06060a;
+  --bg-primary: #0c0c14;
+  --bg-secondary: #12121c;
+  --bg-tertiary: #1a1a26;
+  --bg-elevated: #20202e;
+
+  /* Aliases kept so older rules/renderers resolve to real values */
+  --bg: var(--bg-deep);
+  --bg-elev-1: var(--bg-secondary);
+  --bg-elev-2: var(--bg-tertiary);
+
+  /* Text */
+  --text-bright: #f8fafc;
+  --text-primary: #e2e8f0;
+  --text-muted: #cbd5e1;
+  --text-dim: #94a3b8;
+  --text-fade: #7e8b9e;
+
+  /* Borders — borders are borders; never reuse a text token here */
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --border-hover: rgba(139, 92, 246, 0.6);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Type */
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* Rhythm — 8px grid */
+  --shell-max: 1400px;
+  --shell-pad: clamp(1.5rem, 4vw, 3rem);
+  /* Use --shell-outer as max-width on any element that ALSO carries the
+     gutter as padding. It makes that element's *content box* resolve to
+     --shell-max, so it lines up pixel-for-pixel with the hero pattern
+     (outer = padding only, inner = max-width) at every viewport. */
+  --shell-outer: calc(var(--shell-max) + 2 * var(--shell-pad));
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   2. RESET + PAGE FRAME
+   ─────────────────────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  /* Shared ambient wash — identical on both pages */
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(139, 92, 246, 0.10), transparent 50%),
+    radial-gradient(ellipse 70% 50% at 90% 20%, rgba(6, 182, 212, 0.06), transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Shared page shell: same max-width and gutters on every section */
+.shell {
+  max-width: var(--shell-outer);
+  margin: 0 auto;
+  padding-left: var(--shell-pad);
+  padding-right: var(--shell-pad);
+}
+
+:focus-visible {
+  outline: 2px solid var(--purple-light);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--purple);
+  color: var(--bg-deep);
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 9999;
+}
+.skip-link:focus { top: 0; }
+
+/* Visually hidden but announced by screen readers (table captions etc.) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Focus-ring guard ───────────────────────────────────────────────────────
+   `transition: all` animates outline-width up from 0px, which leaves the
+   keyboard focus ring invisible at the instant focus lands. Two rules keep
+   that from ever regressing:
+     1. Never write `transition: all` — enumerate properties instead.
+     2. This override, so a stray shorthand still can't animate the ring.
+   Accessibility override — the one place !important is allowed (DESIGN.md §5).
+   ────────────────────────────────────────────────────────────────────────── */
+:focus-visible {
+  transition: none !important;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   3. HEADER — one header for both pages
+   ─────────────────────────────────────────────────────────────────────────── */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem var(--shell-pad);
+  background: rgba(12, 12, 20, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.site-header .brand {
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--purple-light);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+.site-header .brand span { color: var(--text-primary); }
+
+.site-header nav {
+  display: flex;
+  gap: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+.site-header nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out);
+}
+.site-header nav a:hover { color: var(--purple-light); }
+.site-header nav a[aria-current="page"] { color: var(--purple-light); }
+
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* Live status pill — dashboard header, and reusable anywhere */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--green);
+  animation: pulse-dot 2.4s var(--ease-soft) infinite;
+}
+.status-degraded { background: var(--gold-light); }
+.status-down { background: var(--red); animation: none; }
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+
+/* Ghost button — shared control style (share, refresh, etc.) */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.28);
+  border-radius: 100px;
+  color: var(--purple-light);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s var(--ease-out),
+              border-color 0.2s var(--ease-out),
+              color 0.2s var(--ease-out),
+              transform 0.2s var(--ease-out),
+              box-shadow 0.2s var(--ease-out);
+  white-space: nowrap;
+}
+.btn-ghost:hover {
+  background: rgba(139, 92, 246, 0.16);
+  border-color: var(--purple);
+  color: var(--text-bright);
+}
+/* :focus-visible sets outline, but these elements also set border-color on
+   hover/focus — restate the ring here so the border change can't mask it. */
+.btn-ghost:focus-visible {
+  background: rgba(139, 92, 246, 0.16);
+  border-color: var(--purple);
+  color: var(--text-bright);
+  outline: 2px solid var(--purple-light);
+  outline-offset: 3px;
+}
+.btn-ghost i { font-size: 0.9375rem; }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   4. HERO — same editorial hero on both pages
+   ─────────────────────────────────────────────────────────────────────────── */
+.hero {
+  padding: clamp(3rem, 8vw, 6rem) var(--shell-pad) clamp(2rem, 6vw, 4rem);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent 0, transparent 28px,
+    rgba(255, 255, 255, 0.012) 28px, rgba(255, 255, 255, 0.012) 29px);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-inner {
+  max-width: var(--shell-max);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--cyan-light);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 1.5rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: 100px;
+  background: rgba(6, 182, 212, 0.06);
+}
+.hero-eyebrow .pulse {
+  width: 8px;
+  height: 8px;
+  background: var(--cyan);
+  border-radius: 100%;
+  animation: pulse-dot 2.4s var(--ease-soft) infinite;
+}
+
+.hero h1 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(2.75rem, 8vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.25rem;
+  color: var(--text-bright);
+}
+.hero h1 .doge {
+  color: var(--cyan-light);
+  font-style: italic;
+  font-weight: 600;
+}
+.hero h1 .split {
+  display: block;
+  color: var(--purple-light);
+  font-weight: 400;
+  font-size: 0.62em;
+  letter-spacing: -0.02em;
+  margin-top: 0.4rem;
+}
+
+.hero .lede {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  color: var(--text-muted);
+  max-width: 56ch;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+.hero .lede code {
+  font-family: var(--font-mono);
+  color: var(--cyan-light);
+  font-size: 0.9em;
+  background: rgba(6, 182, 212, 0.08);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+/* Inline prose links — the UA default blue fails WCAG AA on dark surfaces,
+   so every link inside body copy gets an explicit AA-safe brand colour. */
+.hero .lede a,
+.overview-card a,
+.metric a {
+  color: var(--purple-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: rgba(167, 139, 250, 0.4);
+  transition: color 0.2s var(--ease-out), text-decoration-color 0.2s var(--ease-out);
+}
+.hero .lede a:hover,
+.overview-card a:hover,
+.metric a:hover {
+  color: var(--cyan-light);
+  text-decoration-color: var(--cyan-light);
+}
+
+.hero-meta {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+.hero-meta dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-fade);
+  margin-bottom: 0.25rem;
+}
+.hero-meta dd { color: var(--text-primary); font-weight: 500; }
+.hero-meta dd strong { color: var(--cyan-light); font-weight: 700; }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   5. STATS — editorial big numbers with hairlines (the DogeOS motif).
+   Identical treatment on both pages: .stats > .stats-grid > .stat
+   ─────────────────────────────────────────────────────────────────────────── */
+.stats {
+  padding: 0 var(--shell-pad) clamp(2rem, 4vw, 3rem);
+  max-width: var(--shell-outer);
+  margin: 0 auto;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 2rem 0;
+}
+.stat {
+  text-align: left;
+  position: relative;
+}
+.stat::after {
+  content: '';
+  position: absolute;
+  bottom: -2rem;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border);
+}
+.stat .value {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: 0.5rem;
+  color: var(--text-bright);
+}
+.stat:nth-child(1) .value { color: var(--cyan-light); }
+.stat:nth-child(2) .value { color: var(--green); }
+.stat:nth-child(3) .value { color: var(--purple-light); }
+.stat:nth-child(4) .value { color: var(--gold-light); }
+.stat:nth-child(5) .value { color: var(--pink); }
+.stat .label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.stat .sub {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-fade);
+  margin-top: 0.35rem;
+}
+.stat .delta { font-size: 0.5em; margin-left: 0.15em; }
+.stat .delta.up { color: var(--green); }
+.stat .delta.down { color: var(--red); }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   6. SECTION HEADING — mono/uppercase eyebrow used above every block
+   ─────────────────────────────────────────────────────────────────────────── */
+.section-heading {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-heading i { color: var(--purple-light); font-size: 1rem; }
+.section-heading .count-pill {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+  text-transform: none;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   7. CARD — the shared card. Gradient body, 3px accent bar, lift on hover.
+   ─────────────────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(26, 26, 38, 0.5), rgba(18, 18, 28, 0.5));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  transition: transform 0.25s var(--ease-out),
+              border-color 0.25s var(--ease-out),
+              background 0.25s var(--ease-out),
+              box-shadow 0.25s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  color: inherit;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-accent, var(--purple));
+  opacity: 0.7;
+  transition: opacity 0.2s var(--ease-out);
+}
+.card.is-interactive { cursor: pointer; }
+.card.is-interactive:hover,
+.card.is-interactive:focus-visible {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+  background: linear-gradient(180deg, rgba(32, 32, 46, 0.6), rgba(22, 22, 32, 0.6));
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--border-hover);
+}
+.card.is-interactive:hover::before { opacity: 1; }
+/* Same reason as .btn-ghost: the hover/focus rule above swaps border-color,
+   so restate the outline to guarantee a visible keyboard focus indicator. */
+.card.is-interactive:focus-visible {
+  outline: 2px solid var(--purple-light);
+  outline-offset: 3px;
+}
+
+.card .card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.625rem;
+}
+.card .title {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card .title i { color: var(--card-accent, var(--purple-light)); font-size: 1.125rem; flex-shrink: 0; }
+.card .badge {
+  padding: 0.2rem 0.55rem;
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--purple-light);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.05em;
+}
+.card .builder {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--cyan-light);
+  margin-bottom: 0.625rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.card .builder i { color: var(--text-fade); font-size: 0.875rem; }
+.card .desc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-bottom: 0.875rem;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card .meta {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+/* Card footer rule — used for the dashboard's on-chain indicator row */
+.card .card-foot {
+  margin-top: 0.875rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+.card .card-foot .onchain { color: var(--green); display: inline-flex; align-items: center; gap: 0.35rem; }
+.card .card-foot .pending { color: var(--yellow); display: inline-flex; align-items: center; gap: 0.35rem; }
+.card .card-foot .card-link {
+  color: var(--purple-light);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.card .card-foot .card-link:hover { color: var(--cyan-light); text-decoration: underline; }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   8. TAGS — one vocabulary for stage / severity / role / priority
+   ─────────────────────────────────────────────────────────────────────────── */
+.tag {
+  padding: 0.2rem 0.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.tag.t-testnet { color: var(--cyan-light); background: rgba(6, 182, 212, 0.08); border-color: rgba(6, 182, 212, 0.2); }
+.tag.t-building { color: var(--yellow); background: rgba(234, 179, 8, 0.08); border-color: rgba(234, 179, 8, 0.2); }
+.tag.t-live, .tag.t-active { color: var(--green); background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.2); }
+.tag.t-idea, .tag.t-unknown { color: var(--text-dim); }
+.tag.t-beta { color: var(--orange); background: rgba(245, 158, 11, 0.08); border-color: rgba(245, 158, 11, 0.2); }
+.tag.t-community { color: var(--pink); background: rgba(236, 72, 153, 0.08); border-color: rgba(236, 72, 153, 0.2); }
+.tag.t-pivoted, .tag.t-deprecated { color: var(--red); }
+
+.tag.sev-high { color: var(--red); background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.25); font-weight: 600; }
+.tag.sev-medium { color: var(--yellow); background: rgba(234, 179, 8, 0.08); border-color: rgba(234, 179, 8, 0.25); }
+.tag.sev-low { color: var(--text-muted); }
+
+.tag.role-team, .tag.role-team-contact, .tag.role-team-adjacent {
+  color: var(--purple-light); background: rgba(139, 92, 246, 0.12); border-color: rgba(139, 92, 246, 0.25);
+}
+.tag.role-builder, .tag.role-builder-tooling {
+  color: var(--cyan-light); background: rgba(6, 182, 212, 0.08); border-color: rgba(6, 182, 212, 0.2);
+}
+.tag.role-helper, .tag.role-builder-helper, .tag.role-coordinator {
+  color: var(--green); background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.2);
+}
+.tag.role-shiller, .tag.role-builder-influencer {
+  color: var(--pink); background: rgba(236, 72, 153, 0.08); border-color: rgba(236, 72, 153, 0.2);
+}
+.tag.role-community, .tag.role-questioner { color: var(--text-muted); }
+
+.tag.dbot-high {
+  color: var(--gold-light); background: rgba(186, 159, 51, 0.15); border-color: rgba(186, 159, 51, 0.4);
+  font-weight: 700;
+}
+.tag.dbot-medium { color: var(--cyan-light); background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.25); }
+.tag.dbot-low { color: var(--text-dim); }
+
+.tag.verified { color: var(--green); background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.28); }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   9. DATA PANEL + TABLE — shared surface for tabular/live data
+   ─────────────────────────────────────────────────────────────────────────── */
+.data-panel {
+  background: linear-gradient(180deg, rgba(26, 26, 38, 0.4), rgba(18, 18, 28, 0.4));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.data-panel .panel-scroll { overflow-x: auto; }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+.data-table th {
+  text-align: left;
+  padding: 0.875rem 1rem;
+  color: var(--text-dim);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr { transition: background 0.2s var(--ease-out); }
+.data-table tbody tr:hover { background: rgba(139, 92, 246, 0.05); }
+.data-table .num { text-align: right; }
+.data-table .rank { color: var(--text-fade); width: 2.5rem; }
+.data-table .primary { color: var(--text-bright); font-weight: 500; }
+.data-table .accent { color: var(--cyan-light); }
+.data-table .subtle { color: var(--text-dim); }
+.data-table a { color: var(--purple-light); text-decoration: none; }
+.data-table a:hover { color: var(--cyan-light); text-decoration: underline; }
+
+/* Definition list of metrics — chain health, snapshots, etc. */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.metric {
+  background: linear-gradient(180deg, rgba(26, 26, 38, 0.4), rgba(18, 18, 28, 0.4));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+.metric .m-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
+}
+.metric .m-value {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.metric .m-sub {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-fade);
+  margin-top: 0.35rem;
+}
+
+/* Progress meter */
+.meter {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.meter > span {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--green);
+  transition: width 0.5s var(--ease-out);
+}
+.meter.is-warn > span { background: var(--yellow); }
+.meter.is-busy > span { background: var(--cyan); }
+
+/* Inline alert — stale chain, errors */
+.notice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+}
+.notice.is-error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: var(--red);
+}
+.notice.is-warn {
+  background: rgba(234, 179, 8, 0.1);
+  border: 1px solid rgba(234, 179, 8, 0.35);
+  color: var(--yellow);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   10. EMPTY STATE
+   ─────────────────────────────────────────────────────────────────────────── */
+.empty {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+.empty i { font-size: 2.5rem; margin-bottom: 0.75rem; display: block; color: var(--text-fade); }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   11. FOOTER — one footer for both pages
+   ─────────────────────────────────────────────────────────────────────────── */
+.site-footer {
+  text-align: left;
+  padding: 3rem var(--shell-pad) 2.5rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-primary);
+  margin-top: 4rem;
+}
+.site-footer .foot-inner {
+  max-width: var(--shell-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: end;
+}
+.site-footer p {
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+}
+.site-footer p strong { color: var(--text-muted); font-weight: 600; }
+.site-footer a {
+  color: var(--purple-light);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s var(--ease-out);
+}
+.site-footer a:hover { border-bottom-color: var(--purple-light); }
+.site-footer .foot-right { text-align: right; }
+.site-footer .stale {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-fade);
+  margin-top: 0.5rem;
+}
+.site-footer .stale i { color: var(--gold-light); }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   12. RESPONSIVE — mobile-first breakpoints shared by both pages
+   ─────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .site-header { padding: 1rem; flex-wrap: wrap; gap: 0.75rem; }
+  .site-header nav { gap: 1rem; font-size: 0.75rem; }
+  .header-tools { order: 3; width: 100%; justify-content: center; }
+
+  .hero { padding: 2rem 1.25rem 1.5rem; }
+  .hero h1 { font-size: clamp(2.25rem, 12vw, 3.5rem); }
+  .hero-meta { gap: 1rem; }
+
+  .stats { padding: 0 1rem 1.5rem; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 1.25rem 0; }
+  .stat::after { display: none; }
+  .stat .value { font-size: 1.75rem; }
+
+  .grid { grid-template-columns: 1fr; }
+  .data-table th, .data-table td { padding: 0.75rem 0.65rem; }
+
+  .site-footer .foot-inner { grid-template-columns: 1fr; }
+  .site-footer .foot-right { text-align: left; }
+}
+
+@media (max-width: 480px) {
+  .stat { text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

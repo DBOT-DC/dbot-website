@@ -11,8 +11,16 @@
   <meta property="og:url" content="https://www.dbot.dog/dogeos-dashboard">
   <meta property="og:title" content="DogeOS Dashboard — DBOT">
   <meta property="og:description" content="Live intelligence on the DogeOS Chikyū testnet. Block height, active wallets, transaction volume, top dApps — refreshing every minute.">
-  <meta property="og:image" content="https://www.dbot.dog/og-image.png">
+  <meta property="og:image" content="https://www.dbot.dog/images/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DogeOS Dashboard — DBOT">
+  <meta name="twitter:description" content="Live DogeOS chain data: blocks, transactions, tokens, verified contracts, ecosystem health.">
+  <meta name="twitter:image" content="https://www.dbot.dog/images/og-image.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DBOT">
+  <meta property="telegram:site" content="@DBOTCommunity">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta name="robots" content="index, follow">
 
   <!-- Inline base-href: must run before any <link> or <script src=> -->
   <script>
@@ -33,614 +41,1167 @@
   <!-- Fonts: Space Grotesk + JetBrains Mono -->
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Phosphor Icons — regular + fill -->
+  <!-- Phosphor Icons (DBOT standard) -->
   <link rel="preconnect" href="https://unpkg.com">
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
   <!-- ── Brand Design Tokens (inlined) ── -->
-  <style>
-:root {
-  /* Surfaces — tinted near-black */
-  --bg: #06060a;
-  --bg-elev-1: #0e0e16;
-  --bg-elev-2: #16161f;
-  --bg-tertiary: #1a1a24;
+<style>
+/* SHARED:START */
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  AUTO-GENERATED — DO NOT EDIT THIS BLOCK BY HAND.                ║
+   ║  Source:  .design-rules/dogeos-shared.css                        ║
+   ║           .design-rules/dogeos-dashboard.css                    ║
+   ║  Rebuild: python3 scripts/build-design.py                        ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
 
-  /* Brand palette */
+/* ═══════════════════════════════════════════════════════════════════════════
+   DBOT · DogeOS Shared Design System
+   ═══════════════════════════════════════════════════════════════════════════
+   CANONICAL SOURCE. Do not edit the copies inlined into page HTML.
+
+   Consumed by:
+     - /dogeos-ecosystem/index.html
+     - /dogeos-dashboard/index.html
+
+   To propagate changes:
+     python3 scripts/build-design.py
+
+   The build script inlines this file between the
+   <!-- SHARED:START --> / <!-- SHARED:END --> markers in each page, so every
+   page ships as a single self-contained file (DESIGN.md rule 5) while still
+   having exactly one source of truth (DESIGN.md rule 1 — Open Design).
+
+   Rules honoured: Open Design (local, version-controlled, no vendor lock-in),
+   Impeccable (mobile-first, semantic, keyboard, WCAG AA), DBOT + DogeOS brand.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────────────────────────────
+   1. TOKENS — the single palette both pages draw from.
+   Every --text-* / --bg-* pair used for body copy meets WCAG AA (>= 4.5:1).
+   ─────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* DBOT brand */
   --purple: #8B5CF6;
+  --purple-dim: #6d28d9;
   --purple-light: #A78BFA;
-  --purple-dim: rgba(139,92,246,0.3);
-  --gold: #BA9F33;
+  --purple-glow: rgba(139, 92, 246, 0.35);
+
+  /* DogeOS brand — cyan/teal */
   --cyan: #06b6d4;
+  --cyan-light: #67e8f9;
+  --cyan-dim: #0e7490;
+  --cyan-glow: rgba(6, 182, 212, 0.3);
+
+  /* Accents */
+  --gold: #BA9F33;
+  --gold-light: #D4B649;
+  --gold-glow: rgba(186, 159, 51, 0.3);
   --green: #22c55e;
+  --green-dim: #16a34a;
+  --pink: #EC4899;
   --red: #ef4444;
+  --orange: #F59E0B;
   --yellow: #eab308;
 
-  /* Text — all combos meet WCAG AA ≥ 4.5:1 on --bg */
-  --text-bright: #f8fafc;   /* 15.1:1 */
-  --text-primary: #e2e8f0;  /* 11.8:1 */
-  --text-muted: #cbd5e1;    /* 9.6:1 */
-  --text-dim: #94a3b8;      /* 6.1:1 */
-  --text-fade: #7e8b9e;     /* 4.6:1 */
+  /* Surfaces — tinted near-black, never pure #000 (Impeccable) */
+  --bg-deep: #06060a;
+  --bg-primary: #0c0c14;
+  --bg-secondary: #12121c;
+  --bg-tertiary: #1a1a26;
+  --bg-elevated: #20202e;
 
-  /* Borders */
+  /* Aliases kept so older rules/renderers resolve to real values */
+  --bg: var(--bg-deep);
+  --bg-elev-1: var(--bg-secondary);
+  --bg-elev-2: var(--bg-tertiary);
+
+  /* Text */
+  --text-bright: #f8fafc;
+  --text-primary: #e2e8f0;
+  --text-muted: #cbd5e1;
+  --text-dim: #94a3b8;
+  --text-fade: #7e8b9e;
+
+  /* Borders — borders are borders; never reuse a text token here */
   --border: rgba(255, 255, 255, 0.06);
   --border-strong: rgba(255, 255, 255, 0.12);
-
-  /* Typography */
-  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+  --border-hover: rgba(139, 92, 246, 0.6);
 
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Type */
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* Rhythm — 8px grid */
+  --shell-max: 1400px;
+  --shell-pad: clamp(1.5rem, 4vw, 3rem);
+  /* Use --shell-outer as max-width on any element that ALSO carries the
+     gutter as padding. It makes that element's *content box* resolve to
+     --shell-max, so it lines up pixel-for-pixel with the hero pattern
+     (outer = padding only, inner = max-width) at every viewport. */
+  --shell-outer: calc(var(--shell-max) + 2 * var(--shell-pad));
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
 }
-  </style>
 
-  <style>
-    /* ── Reset ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ───────────────────────────────────────────────────────────────────────────
+   2. RESET + PAGE FRAME
+   ─────────────────────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 
-    body {
-      font-family: var(--font-sans);
-      background: var(--bg);
-      color: var(--text-primary);
-      line-height: 1.6;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden;
-    }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  /* Shared ambient wash — identical on both pages */
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(139, 92, 246, 0.10), transparent 50%),
+    radial-gradient(ellipse 70% 50% at 90% 20%, rgba(6, 182, 212, 0.06), transparent 50%);
+  background-attachment: fixed;
+}
 
-    /* ── Focus ── */
-    :focus-visible {
-      outline: 2px solid var(--purple-light);
-      outline-offset: 3px;
-      border-radius: 4px;
-    }
+/* Shared page shell: same max-width and gutters on every section */
+.shell {
+  max-width: var(--shell-outer);
+  margin: 0 auto;
+  padding-left: var(--shell-pad);
+  padding-right: var(--shell-pad);
+}
 
-    /* ── Skip link ── */
-    .skip-link {
-      position: absolute;
-      top: -100px;
-      left: 0;
-      background: var(--purple);
-      color: var(--bg);
-      padding: 0.75rem 1.25rem;
-      font-family: var(--font-mono);
-      font-weight: 700;
-      text-decoration: none;
-      z-index: 9999;
-    }
-    .skip-link:focus { top: 0; }
+:focus-visible {
+  outline: 2px solid var(--purple-light);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
 
-    /* ─────────────────────────────────────────────────────────────
-       HEADER
-       ───────────────────────────────────────────────────────────── */
-    .dash-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.25rem 1.5rem;
-      background: rgba(14, 14, 22, 0.85);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      gap: 1rem;
-    }
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--purple);
+  color: var(--bg-deep);
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 9999;
+}
+.skip-link:focus { top: 0; }
 
-    .dash-header .brand {
-      font-family: var(--font-mono);
-      font-size: 1.125rem;
-      font-weight: 700;
-      color: var(--purple-light);
-      text-decoration: none;
-      letter-spacing: -0.02em;
-      flex-shrink: 0;
-    }
-    .dash-header .brand span { color: var(--text-primary); }
+/* Visually hidden but announced by screen readers (table captions etc.) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
-    .dash-header nav {
-      display: flex;
-      gap: 1.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.8125rem;
-    }
-    .dash-header nav a {
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s var(--ease-out);
-    }
-    .dash-header nav a:hover { color: var(--purple-light); }
-    .dash-header nav a[aria-current="page"] { color: var(--purple-light); }
+/* ── Focus-ring guard ───────────────────────────────────────────────────────
+   `transition: all` animates outline-width up from 0px, which leaves the
+   keyboard focus ring invisible at the instant focus lands. Two rules keep
+   that from ever regressing:
+     1. Never write `transition: all` — enumerate properties instead.
+     2. This override, so a stray shorthand still can't animate the ring.
+   Accessibility override — the one place !important is allowed (DESIGN.md §5).
+   ────────────────────────────────────────────────────────────────────────── */
+:focus-visible {
+  transition: none !important;
+}
 
-    /* ── Live-status pill ── */
-    .chain-status {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 0.85rem;
-      background: rgba(34, 197, 94, 0.08);
-      border: 1px solid rgba(34, 197, 94, 0.2);
-      border-radius: 100px;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      flex-shrink: 0;
-    }
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .status-healthy {
-      background: var(--green);
-      animation: pulse-dot 2.4s var(--ease-soft) infinite;
-    }
-    .status-degraded {
-      background: var(--gold);
-      animation: pulse-dot 2.4s var(--ease-soft) infinite;
-    }
-    .status-down {
-      background: var(--red);
-    }
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.4); }
-    }
+/* ───────────────────────────────────────────────────────────────────────────
+   3. HEADER — one header for both pages
+   ─────────────────────────────────────────────────────────────────────────── */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem var(--shell-pad);
+  background: rgba(12, 12, 20, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.site-header .brand {
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--purple-light);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+.site-header .brand span { color: var(--text-primary); }
 
-    /* ─────────────────────────────────────────────────────────────
-       MAIN
-       ───────────────────────────────────────────────────────────── */
-    .dash-main {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 clamp(1.5rem, 4vw, 3rem) 4rem;
-    }
+.site-header nav {
+  display: flex;
+  gap: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+.site-header nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out);
+}
+.site-header nav a:hover { color: var(--purple-light); }
+.site-header nav a[aria-current="page"] { color: var(--purple-light); }
 
-    /* ─────────────────────────────────────────────────────────────
-       HERO BAND
-       ───────────────────────────────────────────────────────────── */
-    .hero-band {
-      padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 6vw, 4rem);
-      position: relative;
-      overflow: hidden;
-    }
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
 
-    .hero-band::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        repeating-linear-gradient(0deg, transparent 0, transparent 28px, rgba(255,255,255,0.012) 28px, rgba(255,255,255,0.012) 29px);
-      pointer-events: none;
-    }
+/* Live status pill — dashboard header, and reusable anywhere */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--green);
+  animation: pulse-dot 2.4s var(--ease-soft) infinite;
+}
+.status-degraded { background: var(--gold-light); }
+.status-down { background: var(--red); animation: none; }
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
 
-    .hero-band-inner {
-      position: relative;
-      z-index: 1;
-    }
+/* Ghost button — shared control style (share, refresh, etc.) */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.28);
+  border-radius: 100px;
+  color: var(--purple-light);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s var(--ease-out),
+              border-color 0.2s var(--ease-out),
+              color 0.2s var(--ease-out),
+              transform 0.2s var(--ease-out),
+              box-shadow 0.2s var(--ease-out);
+  white-space: nowrap;
+}
+.btn-ghost:hover {
+  background: rgba(139, 92, 246, 0.16);
+  border-color: var(--purple);
+  color: var(--text-bright);
+}
+/* :focus-visible sets outline, but these elements also set border-color on
+   hover/focus — restate the ring here so the border change can't mask it. */
+.btn-ghost:focus-visible {
+  background: rgba(139, 92, 246, 0.16);
+  border-color: var(--purple);
+  color: var(--text-bright);
+  outline: 2px solid var(--purple-light);
+  outline-offset: 3px;
+}
+.btn-ghost i { font-size: 0.9375rem; }
 
-    .hero-band h1 {
-      font-family: var(--font-sans);
-      font-weight: 700;
-      font-size: clamp(2.5rem, 7vw, 5.5rem);
-      line-height: 0.95;
-      letter-spacing: -0.04em;
-      margin-bottom: 1.25rem;
-      color: var(--text-bright);
-    }
+/* ───────────────────────────────────────────────────────────────────────────
+   4. HERO — same editorial hero on both pages
+   ─────────────────────────────────────────────────────────────────────────── */
+.hero {
+  padding: clamp(3rem, 8vw, 6rem) var(--shell-pad) clamp(2rem, 6vw, 4rem);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent 0, transparent 28px,
+    rgba(255, 255, 255, 0.012) 28px, rgba(255, 255, 255, 0.012) 29px);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-inner {
+  max-width: var(--shell-max);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
 
-    .hero-band h1 .accent {
-      color: var(--purple-light);
-      font-weight: 400;
-      font-size: 0.6em;
-      letter-spacing: -0.02em;
-      display: block;
-      margin-top: 0.4rem;
-    }
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--cyan-light);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 1.5rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: 100px;
+  background: rgba(6, 182, 212, 0.06);
+}
+.hero-eyebrow .pulse {
+  width: 8px;
+  height: 8px;
+  background: var(--cyan);
+  border-radius: 100%;
+  animation: pulse-dot 2.4s var(--ease-soft) infinite;
+}
 
-    .hero-band .subtitle {
-      font-size: clamp(1rem, 1.5vw, 1.125rem);
-      color: var(--text-muted);
-      max-width: 56ch;
-      line-height: 1.6;
-      margin-bottom: 2.5rem;
-    }
+.hero h1 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(2.75rem, 8vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.25rem;
+  color: var(--text-bright);
+}
+.hero h1 .doge {
+  color: var(--cyan-light);
+  font-style: italic;
+  font-weight: 600;
+}
+.hero h1 .split {
+  display: block;
+  color: var(--purple-light);
+  font-weight: 400;
+  font-size: 0.62em;
+  letter-spacing: -0.02em;
+  margin-top: 0.4rem;
+}
 
-    /* ─────────────────────────────────────────────────────────────
-       SLOT: STATS HERO (4 large number tiles)
-       ───────────────────────────────────────────────────────────── */
-    #slot-stats-hero {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 1.5rem;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 2rem 0;
-    }
+.hero .lede {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  color: var(--text-muted);
+  max-width: 56ch;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+.hero .lede code {
+  font-family: var(--font-mono);
+  color: var(--cyan-light);
+  font-size: 0.9em;
+  background: rgba(6, 182, 212, 0.08);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+/* Inline prose links — the UA default blue fails WCAG AA on dark surfaces,
+   so every link inside body copy gets an explicit AA-safe brand colour. */
+.hero .lede a,
+.overview-card a,
+.metric a {
+  color: var(--purple-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: rgba(167, 139, 250, 0.4);
+  transition: color 0.2s var(--ease-out), text-decoration-color 0.2s var(--ease-out);
+}
+.hero .lede a:hover,
+.overview-card a:hover,
+.metric a:hover {
+  color: var(--cyan-light);
+  text-decoration-color: var(--cyan-light);
+}
 
-    .stat-tile { position: relative; }
-    .stat-tile::after {
-      content: '';
-      position: absolute;
-      bottom: -2rem;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: var(--border);
-    }
-    .stat-tile .value {
-      font-family: var(--font-sans);
-      font-weight: 700;
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1;
-      letter-spacing: -0.04em;
-      margin-bottom: 0.5rem;
-    }
-    .stat-tile .label {
-      font-family: var(--font-mono);
-      font-size: 0.6875rem;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-    }
-    .stat-tile:nth-child(1) .value { color: var(--cyan); }
-    .stat-tile:nth-child(2) .value { color: var(--green); }
-    .stat-tile:nth-child(3) .value { color: var(--red); }
-    .stat-tile:nth-child(4) .value { color: var(--gold); }
+.hero-meta {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+.hero-meta dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-fade);
+  margin-bottom: 0.25rem;
+}
+.hero-meta dd { color: var(--text-primary); font-weight: 500; }
+.hero-meta dd strong { color: var(--cyan-light); font-weight: 700; }
 
-    /* ─────────────────────────────────────────────────────────────
-       SLOT: BLOCK TICKER (horizontal scroll)
-       ───────────────────────────────────────────────────────────── */
-    #slot-block-ticker {
-      margin: 3rem 0;
-    }
-    .section-heading {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .section-heading i { color: var(--purple-light); font-size: 1rem; }
+/* ───────────────────────────────────────────────────────────────────────────
+   5. STATS — editorial big numbers with hairlines (the DogeOS motif).
+   Identical treatment on both pages: .stats > .stats-grid > .stat
+   ─────────────────────────────────────────────────────────────────────────── */
+.stats {
+  padding: 0 var(--shell-pad) clamp(2rem, 4vw, 3rem);
+  max-width: var(--shell-outer);
+  margin: 0 auto;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 2rem 0;
+}
+.stat {
+  text-align: left;
+  position: relative;
+}
+.stat::after {
+  content: '';
+  position: absolute;
+  bottom: -2rem;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border);
+}
+.stat .value {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: 0.5rem;
+  color: var(--text-bright);
+}
+.stat:nth-child(1) .value { color: var(--cyan-light); }
+.stat:nth-child(2) .value { color: var(--green); }
+.stat:nth-child(3) .value { color: var(--purple-light); }
+.stat:nth-child(4) .value { color: var(--gold-light); }
+.stat:nth-child(5) .value { color: var(--pink); }
+.stat .label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.stat .sub {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-fade);
+  margin-top: 0.35rem;
+}
+.stat .delta { font-size: 0.5em; margin-left: 0.15em; }
+.stat .delta.up { color: var(--green); }
+.stat .delta.down { color: var(--red); }
 
-    .ticker-scroll {
-      display: flex;
-      gap: 1rem;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 0.5rem;
-    }
-    .ticker-scroll::-webkit-scrollbar { display: none; }
+/* ───────────────────────────────────────────────────────────────────────────
+   6. SECTION HEADING — mono/uppercase eyebrow used above every block
+   ─────────────────────────────────────────────────────────────────────────── */
+.section-heading {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-heading i { color: var(--purple-light); font-size: 1rem; }
+.section-heading .count-pill {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+  text-transform: none;
+}
 
-    .block-chip {
-      flex-shrink: 0;
-      padding: 0.75rem 1.25rem;
-      background: var(--bg-elev-1);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-family: var(--font-mono);
-      font-size: 0.8125rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-    .block-chip .block-num { color: var(--text-bright); font-weight: 500; }
-    .block-chip .block-meta { color: var(--text-dim); font-size: 0.6875rem; }
+/* ───────────────────────────────────────────────────────────────────────────
+   7. CARD — the shared card. Gradient body, 3px accent bar, lift on hover.
+   ─────────────────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+}
 
-    /* ─────────────────────────────────────────────────────────────
-       SLOT: TRANSACTION FEED (vertical list)
-       ───────────────────────────────────────────────────────────── */
-    #slot-txn-feed { margin: 3rem 0; }
+.card {
+  background: linear-gradient(180deg, rgba(26, 26, 38, 0.5), rgba(18, 18, 28, 0.5));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  transition: transform 0.25s var(--ease-out),
+              border-color 0.25s var(--ease-out),
+              background 0.25s var(--ease-out),
+              box-shadow 0.25s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  color: inherit;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-accent, var(--purple));
+  opacity: 0.7;
+  transition: opacity 0.2s var(--ease-out);
+}
+.card.is-interactive { cursor: pointer; }
+.card.is-interactive:hover,
+.card.is-interactive:focus-visible {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+  background: linear-gradient(180deg, rgba(32, 32, 46, 0.6), rgba(22, 22, 32, 0.6));
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--border-hover);
+}
+.card.is-interactive:hover::before { opacity: 1; }
+/* Same reason as .btn-ghost: the hover/focus rule above swaps border-color,
+   so restate the outline to guarantee a visible keyboard focus indicator. */
+.card.is-interactive:focus-visible {
+  outline: 2px solid var(--purple-light);
+  outline-offset: 3px;
+}
 
-    .txn-list { display: flex; flex-direction: column; gap: 0; }
-    .txn-row {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.875rem 0;
-      border-bottom: 1px solid var(--border);
-      font-family: var(--font-mono);
-      font-size: 0.8125rem;
-    }
-    .txn-row:last-child { border-bottom: none; }
-    .txn-hash { color: var(--text-muted); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .txn-from { color: var(--cyan); }
-    .txn-to { color: var(--purple-light); }
-    .txn-amount { color: var(--text-bright); font-weight: 500; }
-    .txn-fee { color: var(--text-dim); font-size: 0.6875rem; }
+.card .card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.625rem;
+}
+.card .title {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card .title i { color: var(--card-accent, var(--purple-light)); font-size: 1.125rem; flex-shrink: 0; }
+.card .badge {
+  padding: 0.2rem 0.55rem;
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--purple-light);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.05em;
+}
+.card .builder {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--cyan-light);
+  margin-bottom: 0.625rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.card .builder i { color: var(--text-fade); font-size: 0.875rem; }
+.card .desc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-bottom: 0.875rem;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card .meta {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+/* Card footer rule — used for the dashboard's on-chain indicator row */
+.card .card-foot {
+  margin-top: 0.875rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+.card .card-foot .onchain { color: var(--green); display: inline-flex; align-items: center; gap: 0.35rem; }
+.card .card-foot .pending { color: var(--yellow); display: inline-flex; align-items: center; gap: 0.35rem; }
+.card .card-foot .card-link {
+  color: var(--purple-light);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.card .card-foot .card-link:hover { color: var(--cyan-light); text-decoration: underline; }
 
-    /* ─────────────────────────────────────────────────────────────
-       SLOT: TOP TOKENS
-       ───────────────────────────────────────────────────────────── */
-    #slot-tokens { margin: 3rem 0; }
+/* ───────────────────────────────────────────────────────────────────────────
+   8. TAGS — one vocabulary for stage / severity / role / priority
+   ─────────────────────────────────────────────────────────────────────────── */
+.tag {
+  padding: 0.2rem 0.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.tag.t-testnet { color: var(--cyan-light); background: rgba(6, 182, 212, 0.08); border-color: rgba(6, 182, 212, 0.2); }
+.tag.t-building { color: var(--yellow); background: rgba(234, 179, 8, 0.08); border-color: rgba(234, 179, 8, 0.2); }
+.tag.t-live, .tag.t-active { color: var(--green); background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.2); }
+.tag.t-idea, .tag.t-unknown { color: var(--text-dim); }
+.tag.t-beta { color: var(--orange); background: rgba(245, 158, 11, 0.08); border-color: rgba(245, 158, 11, 0.2); }
+.tag.t-community { color: var(--pink); background: rgba(236, 72, 153, 0.08); border-color: rgba(236, 72, 153, 0.2); }
+.tag.t-pivoted, .tag.t-deprecated { color: var(--red); }
 
-    .rank-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: var(--font-mono);
-      font-size: 0.8125rem;
-    }
-    .rank-table th {
-      text-align: left;
-      padding: 0.75rem 1rem;
-      color: var(--text-dim);
-      font-size: 0.6875rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      border-bottom: 1px solid var(--border);
-    }
-    .rank-table td {
-      padding: 0.875rem 1rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--text-muted);
-    }
-    .rank-table tr:last-child td { border-bottom: none; }
-    .rank-table .rank { color: var(--text-dim); width: 2rem; }
-    .rank-table .token-name { color: var(--text-bright); font-weight: 500; }
-    .rank-table .token-holders { color: var(--cyan); }
+.tag.sev-high { color: var(--red); background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.25); font-weight: 600; }
+.tag.sev-medium { color: var(--yellow); background: rgba(234, 179, 8, 0.08); border-color: rgba(234, 179, 8, 0.25); }
+.tag.sev-low { color: var(--text-muted); }
 
-    /* ─────────────────────────────────────────────────────────────
-       SLOT: TOP CONTRACTS
-       ───────────────────────────────────────────────────────────── */
-    #slot-contracts { margin: 3rem 0; }
+.tag.role-team, .tag.role-team-contact, .tag.role-team-adjacent {
+  color: var(--purple-light); background: rgba(139, 92, 246, 0.12); border-color: rgba(139, 92, 246, 0.25);
+}
+.tag.role-builder, .tag.role-builder-tooling {
+  color: var(--cyan-light); background: rgba(6, 182, 212, 0.08); border-color: rgba(6, 182, 212, 0.2);
+}
+.tag.role-helper, .tag.role-builder-helper, .tag.role-coordinator {
+  color: var(--green); background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.2);
+}
+.tag.role-shiller, .tag.role-builder-influencer {
+  color: var(--pink); background: rgba(236, 72, 153, 0.08); border-color: rgba(236, 72, 153, 0.2);
+}
+.tag.role-community, .tag.role-questioner { color: var(--text-muted); }
 
-    /* ─────────────────────────────────────────────────────────────
-       SLOT: PROJECTS
-       ───────────────────────────────────────────────────────────── */
-    #slot-projects { margin: 3rem 0; }
+.tag.dbot-high {
+  color: var(--gold-light); background: rgba(186, 159, 51, 0.15); border-color: rgba(186, 159, 51, 0.4);
+  font-weight: 700;
+}
+.tag.dbot-medium { color: var(--cyan-light); background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.25); }
+.tag.dbot-low { color: var(--text-dim); }
 
-    /* ─────────────────────────────────────────────────────────────
-       SLOT: CHAIN HEALTH
-       ───────────────────────────────────────────────────────────── */
-    #slot-chain-health { margin: 3rem 0; }
+.tag.verified { color: var(--green); background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.28); }
 
-    .health-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-    .health-card {
-      padding: 1.25rem;
-      background: var(--bg-elev-1);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-    }
-    .health-card .hc-label {
-      font-family: var(--font-mono);
-      font-size: 0.6875rem;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-bottom: 0.5rem;
-    }
-    .health-card .hc-value {
-      font-family: var(--font-sans);
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-bright);
-      letter-spacing: -0.03em;
-    }
-    .health-card .hc-sub {
-      font-family: var(--font-mono);
-      font-size: 0.6875rem;
-      color: var(--text-dim);
-      margin-top: 0.25rem;
-    }
+/* ───────────────────────────────────────────────────────────────────────────
+   9. DATA PANEL + TABLE — shared surface for tabular/live data
+   ─────────────────────────────────────────────────────────────────────────── */
+.data-panel {
+  background: linear-gradient(180deg, rgba(26, 26, 38, 0.4), rgba(18, 18, 28, 0.4));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.data-panel .panel-scroll { overflow-x: auto; }
 
-    /* ─────────────────────────────────────────────────────────────
-       FOOTER
-       ───────────────────────────────────────────────────────────── */
-    .dash-footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem clamp(1.5rem, 4vw, 3rem);
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 2rem;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .dash-footer a {
-      color: var(--purple-light);
-      text-decoration: none;
-    }
-    .dash-footer a:hover { text-decoration: underline; }
-    .dash-footer .dbot-credit { color: var(--text-fade); }
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+.data-table th {
+  text-align: left;
+  padding: 0.875rem 1rem;
+  color: var(--text-dim);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr { transition: background 0.2s var(--ease-out); }
+.data-table tbody tr:hover { background: rgba(139, 92, 246, 0.05); }
+.data-table .num { text-align: right; }
+.data-table .rank { color: var(--text-fade); width: 2.5rem; }
+.data-table .primary { color: var(--text-bright); font-weight: 500; }
+.data-table .accent { color: var(--cyan-light); }
+.data-table .subtle { color: var(--text-dim); }
+.data-table a { color: var(--purple-light); text-decoration: none; }
+.data-table a:hover { color: var(--cyan-light); text-decoration: underline; }
 
-    /* ─────────────────────────────────────────────────────────────
-       RESPONSIVE
-       ───────────────────────────────────────────────────────────── */
-    @media (max-width: 767px) {
-      .dash-header {
-        flex-wrap: wrap;
-        gap: 0.75rem;
-      }
-      .dash-header nav {
-        gap: 1rem;
-        font-size: 0.75rem;
-      }
-      .chain-status {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-      }
+/* Definition list of metrics — chain health, snapshots, etc. */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.metric {
+  background: linear-gradient(180deg, rgba(26, 26, 38, 0.4), rgba(18, 18, 28, 0.4));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+.metric .m-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
+}
+.metric .m-value {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.metric .m-sub {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-fade);
+  margin-top: 0.35rem;
+}
 
-      .hero-band h1 {
-        font-size: clamp(2rem, 10vw, 3rem);
-      }
+/* Progress meter */
+.meter {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.meter > span {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--green);
+  transition: width 0.5s var(--ease-out);
+}
+.meter.is-warn > span { background: var(--yellow); }
+.meter.is-busy > span { background: var(--cyan); }
 
-      #slot-stats-hero {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.25rem;
-      }
+/* Inline alert — stale chain, errors */
+.notice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+}
+.notice.is-error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: var(--red);
+}
+.notice.is-warn {
+  background: rgba(234, 179, 8, 0.1);
+  border: 1px solid rgba(234, 179, 8, 0.35);
+  color: var(--yellow);
+}
 
-      .dash-footer {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-      }
-    }
-  </style>
+/* ───────────────────────────────────────────────────────────────────────────
+   10. EMPTY STATE
+   ─────────────────────────────────────────────────────────────────────────── */
+.empty {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+.empty i { font-size: 2.5rem; margin-bottom: 0.75rem; display: block; color: var(--text-fade); }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   11. FOOTER — one footer for both pages
+   ─────────────────────────────────────────────────────────────────────────── */
+.site-footer {
+  text-align: left;
+  padding: 3rem var(--shell-pad) 2.5rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-primary);
+  margin-top: 4rem;
+}
+.site-footer .foot-inner {
+  max-width: var(--shell-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: end;
+}
+.site-footer p {
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+}
+.site-footer p strong { color: var(--text-muted); font-weight: 600; }
+.site-footer a {
+  color: var(--purple-light);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s var(--ease-out);
+}
+.site-footer a:hover { border-bottom-color: var(--purple-light); }
+.site-footer .foot-right { text-align: right; }
+.site-footer .stale {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-fade);
+  margin-top: 0.5rem;
+}
+.site-footer .stale i { color: var(--gold-light); }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   12. RESPONSIVE — mobile-first breakpoints shared by both pages
+   ─────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .site-header { padding: 1rem; flex-wrap: wrap; gap: 0.75rem; }
+  .site-header nav { gap: 1rem; font-size: 0.75rem; }
+  .header-tools { order: 3; width: 100%; justify-content: center; }
+
+  .hero { padding: 2rem 1.25rem 1.5rem; }
+  .hero h1 { font-size: clamp(2.25rem, 12vw, 3.5rem); }
+  .hero-meta { gap: 1rem; }
+
+  .stats { padding: 0 1rem 1.5rem; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 1.25rem 0; }
+  .stat::after { display: none; }
+  .stat .value { font-size: 1.75rem; }
+
+  .grid { grid-template-columns: 1fr; }
+  .data-table th, .data-table td { padding: 0.75rem 0.65rem; }
+
+  .site-footer .foot-inner { grid-template-columns: 1fr; }
+  .site-footer .foot-right { text-align: left; }
+}
+
+@media (max-width: 480px) {
+  .stat { text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Dashboard page — page-specific layer.
+   Loads AFTER dogeos-shared.css. Only things unique to /dogeos-dashboard.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Sections share the shell gutters/max-width so they line up with hero+stats */
+.dash-section {
+  max-width: var(--shell-outer);
+  margin: 0 auto;
+  padding: 0 var(--shell-pad);
+}
+.dash-section + .dash-section { margin-top: 3rem; }
+.dash-section:last-of-type { padding-bottom: 4rem; }
+
+/* ── BLOCK TICKER (dashboard only) ── */
+.ticker {
+  background: linear-gradient(180deg, rgba(26, 26, 38, 0.4), rgba(18, 18, 28, 0.4));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 0;
+  overflow: hidden;
+  position: relative;
+}
+.ticker-track {
+  display: flex;
+  gap: 1rem;
+  padding: 0 1rem;
+  width: max-content;
+  animation: ticker-scroll 30s linear infinite;
+}
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track { animation-play-state: paused; }
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.block-chip {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 210px;
+  padding: 0.7rem 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  transition: border-color 0.2s var(--ease-out);
+}
+.block-chip:hover { border-color: var(--border-hover); }
+.block-chip .b-height { color: var(--purple-light); font-weight: 700; }
+.block-chip .b-age { color: var(--text-dim); font-size: 0.6875rem; }
+.block-chip .b-miner { color: var(--cyan-light); font-size: 0.6875rem; }
+
+/* ── TRANSACTION FEED (dashboard only) ── */
+.txn-list { display: flex; flex-direction: column; }
+.txn-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr) auto auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  transition: background 0.2s var(--ease-out);
+}
+.txn-row:last-child { border-bottom: none; }
+.txn-row:hover { background: rgba(139, 92, 246, 0.05); }
+.txn-row .t-hash {
+  color: var(--purple-light);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.txn-row .t-hash:hover { text-decoration: underline; }
+.txn-row .t-flow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  min-width: 0;
+}
+.txn-row .t-flow i { color: var(--text-fade); font-size: 0.8125rem; flex-shrink: 0; }
+.txn-row .t-flow span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.txn-row .t-value { color: var(--cyan-light); text-align: right; white-space: nowrap; }
+.txn-row .t-age { color: var(--text-dim); font-size: 0.6875rem; text-align: right; white-space: nowrap; }
+
+/* ── CHAIN HEALTH (dashboard only) ── */
+.health-headline {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 1.5rem 1.25rem;
+}
+.health-headline .m-label { margin-bottom: 0.5rem; }
+.health-headline .m-value {
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  color: var(--purple-light);
+  line-height: 1;
+}
+
+/* ── Dashboard responsive overrides ── */
+@media (max-width: 768px) {
+  .dash-section { padding: 0 1rem; }
+  .dash-section + .dash-section { margin-top: 2.25rem; }
+
+  .txn-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "hash age"
+      "flow value";
+    row-gap: 0.35rem;
+  }
+  .txn-row .t-hash  { grid-area: hash; }
+  .txn-row .t-age   { grid-area: age; }
+  .txn-row .t-flow  { grid-area: flow; }
+  .txn-row .t-value { grid-area: value; }
+}
+
+/* SHARED:END */
+</style>
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#main" class="skip-link">Skip to main content</a>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       HEADER
-       ═══════════════════════════════════════════════════════════ -->
-  <header class="dash-header">
-    <a href="../" class="brand">DBOT<span>/</span></a>
-
-    <nav>
-      <a href="../">Home</a>
-      <a href="../dogeos-ecosystem/">Ecosystem</a>
+  <header class="site-header" role="banner">
+    <a href="https://www.dbot.dog/" class="brand" aria-label="DBOT home">DBOT<span>.dog</span></a>
+    <nav aria-label="Primary">
+      <a href="https://www.dbot.dog/">Home</a>
+      <a href="https://www.dbot.dog/dogeos-ecosystem/">Ecosystem</a>
       <a href="./" aria-current="page">Dashboard</a>
+      <a href="https://t.me/DBOTCommunity" target="_blank" rel="noopener">Telegram</a>
     </nav>
-
-    <div class="chain-status">
-      <span class="status-dot status-healthy"></span>
-      <span class="status-label">Chain: <span id="current-block">—</span> (<span id="block-age">—</span>s)</span>
+    <div class="header-tools">
+      <span class="status-pill" id="chain-status">
+        <span class="status-dot" id="status-dot" aria-hidden="true"></span>
+        <span>Block <span id="current-block">—</span> &middot; <span id="block-age">—</span></span>
+      </span>
+      <button class="btn-ghost" id="share-btn" type="button" aria-label="Share snapshot to X">
+        <i class="ph ph-share-network" aria-hidden="true"></i> Share
+      </button>
     </div>
   </header>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       MAIN
-       ═══════════════════════════════════════════════════════════ -->
-  <main class="dash-main" id="main-content">
+  <main id="main">
 
-    <!-- ── HERO BAND ── -->
-    <section class="hero-band" aria-label="Hero">
-      <div class="hero-band-inner">
+    <!-- ── HERO (shared .hero pattern) ── -->
+    <section class="hero">
+      <div class="hero-inner">
+        <span class="hero-eyebrow">
+          <span class="pulse" aria-hidden="true"></span> LIVE &middot; Chikyū testnet &middot; refreshing every 60s
+        </span>
         <h1>
-          DogeOS, on-chain.
-          <span class="accent">Live ecosystem intelligence.</span>
+          <span class="doge">DogeOS</span> on-chain,
+          <span class="split">measured every block.</span>
         </h1>
-        <p class="subtitle">
-          Real-time stats, verified contracts, transaction flows, and ecosystem health —
-          compiled from on-chain data. Updated every block.
+        <p class="lede">
+          Real-time chain stats, verified contracts, transaction flow and ecosystem health —
+          read straight from <code>api.dogeos.xyz</code>. The live counterpart to the
+          <a href="https://www.dbot.dog/dogeos-ecosystem/">Ecosystem Explorer</a>.
         </p>
-
-        <!-- SLOT: stats-hero (4 large number tiles) -->
-        <div id="slot-stats-hero" aria-label="Key statistics"></div>
+        <dl class="hero-meta">
+          <div>
+            <dt>Network</dt>
+            <dd>Chikyū testnet &middot; <strong>chain 6281971</strong></dd>
+          </div>
+          <div>
+            <dt>Refresh</dt>
+            <dd>Every <strong>60s</strong> &middot; pauses when hidden</dd>
+          </div>
+          <div>
+            <dt>Projects tracked</dt>
+            <dd><strong>37</strong> from the ecosystem map</dd>
+          </div>
+        </dl>
       </div>
     </section>
 
-    <!-- SLOT: block-ticker (horizontal scrolling latest blocks) -->
-    <section id="slot-block-ticker" aria-label="Latest blocks">
-      <p class="section-heading">
-        <i class="ph ph-cube"></i>
-        Latest Blocks
-      </p>
-      <div class="ticker-scroll" aria-live="polite"></div>
+    <!-- ── STATS (shared .stats / .stats-grid / .stat pattern) ── -->
+    <section class="stats" aria-label="Chain at a glance">
+      <div class="stats-grid" id="slot-stats-hero"></div>
     </section>
 
-    <!-- SLOT: txn-feed (vertical latest transactions) -->
-    <section id="slot-txn-feed" aria-label="Transaction feed">
-      <p class="section-heading">
-        <i class="ph ph-arrows-left-right"></i>
-        Transaction Feed
+    <!-- ── LATEST BLOCKS ── -->
+    <section class="dash-section" aria-labelledby="h-blocks">
+      <p class="section-heading" id="h-blocks">
+        <i class="ph ph-cube" aria-hidden="true"></i> Latest blocks
       </p>
-      <div class="txn-list" aria-live="polite"></div>
+      <div id="slot-block-ticker" aria-live="polite"></div>
     </section>
 
-    <!-- SLOT: tokens (Top 10 ERC-20 by holders) -->
-    <section id="slot-tokens" aria-label="Top tokens by holder count">
-      <p class="section-heading">
-        <i class="ph ph-coins"></i>
-        Top 10 ERC-20 Tokens by Holders
+    <!-- ── TRANSACTION FEED ── -->
+    <section class="dash-section" aria-labelledby="h-txns">
+      <p class="section-heading" id="h-txns">
+        <i class="ph ph-arrows-left-right" aria-hidden="true"></i> Transaction feed
       </p>
-      <table class="rank-table" aria-label="Top tokens">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Token</th>
-            <th>Holders</th>
-            <th>Transfers (24h)</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <div id="slot-txn-feed" aria-live="polite"></div>
     </section>
 
-    <!-- SLOT: contracts (Top 10 verified contracts) -->
-    <section id="slot-contracts" aria-label="Top verified contracts">
-      <p class="section-heading">
-        <i class="ph ph-file-code"></i>
-        Top 10 Verified Contracts
+    <!-- ── TOP TOKENS ── -->
+    <section class="dash-section" aria-labelledby="h-tokens">
+      <p class="section-heading" id="h-tokens">
+        <i class="ph ph-coins" aria-hidden="true"></i> Top tokens
+        <span class="count-pill">by holders</span>
       </p>
-      <div></div>
+      <div id="slot-tokens"></div>
     </section>
 
-    <!-- SLOT: projects (37 known projects cross-referenced with on-chain data) -->
-    <section id="slot-projects" aria-label="Known ecosystem projects">
-      <p class="section-heading">
-        <i class="ph ph-folders"></i>
-        37 Known Projects — On-Chain Status
+    <!-- ── TOP CONTRACTS ── -->
+    <section class="dash-section" aria-labelledby="h-contracts">
+      <p class="section-heading" id="h-contracts">
+        <i class="ph ph-file-code" aria-hidden="true"></i> Verified contracts
+        <span class="count-pill">by tx count</span>
       </p>
-      <div></div>
+      <div id="slot-contracts"></div>
     </section>
 
-    <!-- SLOT: chain-health (current block height, gas, utilization) -->
-    <section id="slot-chain-health" aria-label="Chain health">
-      <p class="section-heading">
-        <i class="ph ph-heartbeat"></i>
-        Chain Health
+    <!-- ── PROJECTS (same .grid / .card as the Ecosystem page) ── -->
+    <section class="dash-section" aria-labelledby="h-projects">
+      <p class="section-heading" id="h-projects">
+        <i class="ph ph-rocket-launch" aria-hidden="true"></i> Ecosystem projects
+        <span class="count-pill">37 tracked</span>
       </p>
-      <div class="health-grid" aria-live="polite">
-        <div class="health-card">
-          <p class="hc-label">Block Height</p>
-          <p class="hc-value" id="health-block">—</p>
-          <p class="hc-sub" id="health-block-time">—</p>
-        </div>
-        <div class="health-card">
-          <p class="hc-label">Gas Price</p>
-          <p class="hc-value" id="health-gas">—</p>
-          <p class="hc-sub">gwei</p>
-        </div>
-        <div class="health-card">
-          <p class="hc-label">Block Util</p>
-          <p class="hc-value" id="health-util">—</p>
-          <p class="hc-sub">% of gas limit</p>
-        </div>
-        <div class="health-card">
-          <p class="hc-label">Avg Block Time</p>
-          <p class="hc-value" id="health-btime">—</p>
-          <p class="hc-sub">seconds</p>
-        </div>
-      </div>
+      <div id="slot-projects"></div>
+    </section>
+
+    <!-- ── CHAIN HEALTH ── -->
+    <section class="dash-section" aria-labelledby="h-health">
+      <p class="section-heading" id="h-health">
+        <i class="ph ph-heartbeat" aria-hidden="true"></i> Chain health
+      </p>
+      <div id="slot-chain-health" role="status"></div>
     </section>
 
   </main>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       FOOTER
-       ═══════════════════════════════════════════════════════════ -->
-  <footer class="dash-footer">
-    <p class="footer-updated">
-      Last updated: <span id="footer-timestamp">—</span>
-    </p>
-    <p class="footer-source">
-      Chain data via <a href="https://api.dogeos.xyz" target="_blank" rel="noopener">api.dogeos.xyz</a>
-    </p>
-    <p class="dbot-credit">
-      Built by <a href="https://dbot.dog" target="_blank" rel="noopener">DBOT</a>
-    </p>
+  <footer class="site-footer" role="contentinfo">
+    <div class="foot-inner">
+      <div>
+        <p>Built by <a href="https://www.dbot.dog/">DBOT</a> &middot; Chain data from <a href="https://api.dogeos.xyz" target="_blank" rel="noopener">api.dogeos.xyz</a></p>
+        <p><strong>37 projects</strong> cross-referenced from the <a href="https://www.dbot.dog/dogeos-ecosystem/">Ecosystem Explorer</a> &middot; auto-refresh 60s</p>
+        <span class="stale"><i class="ph ph-clock-clockwise" aria-hidden="true"></i> Last updated: <span id="footer-timestamp">—</span></span>
+      </div>
+      <div class="foot-right">
+        <p>DBOT &middot; Decentralized Intelligence</p>
+      </div>
+    </div>
   </footer>
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -950,307 +1511,313 @@ class DogeosData {
 <script>
 /* ─────────────────────────────────────────────────────────────
    DogeOS Dashboard — Component Renderers
+
+   Every renderer emits the SHARED design-system classes
+   (.stat, .card, .data-table, .metric, .txn-row, .block-chip …)
+   defined in .design-rules/dogeos-shared.css.
+
+   Rule: no inline style="" for anything the design system covers,
+   and never reference a CSS variable that isn't in :root.
    ───────────────────────────────────────────────────────────── */
+
+var EXPLORER = 'https://blockscout.testnet.dogeos.com';
+
+function esc(s) {
+  return String(s === null || s === undefined ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
 
 function truncateAddress(addr, preLen, sufLen) {
   if (preLen === undefined) preLen = 6;
   if (sufLen === undefined) sufLen = 4;
   var s = String(addr || '');
-  if (s.length < preLen + sufLen) return s || '—';
-  return s.slice(0, preLen) + '...' + s.slice(-sufLen);
+  if (!s) return '—';
+  if (s.length <= preLen + sufLen) return s;
+  return s.slice(0, preLen) + '…' + s.slice(-sufLen);
 }
 
 function truncateHash(hash, len) {
   if (len === undefined) len = 10;
-  if (!hash || hash.length < len * 2) return hash || '—';
-  return hash.slice(0, len) + '...' + hash.slice(-len);
+  var s = String(hash || '');
+  if (!s) return '—';
+  if (s.length <= len * 2) return s;
+  return s.slice(0, len) + '…' + s.slice(-6);
 }
 
 function formatNumber(n) {
-  if (n === null || n === undefined) return '—';
-  return Number(n).toLocaleString('en-US');
+  if (n === null || n === undefined || n === '') return '—';
+  var v = Number(n);
+  return isNaN(v) ? '—' : v.toLocaleString('en-US');
 }
 
 function formatAge(seconds) {
-  if (!seconds && seconds !== 0) return '—';
-  if (seconds < 60) return seconds + 's ago';
-  if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
-  if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
-  return Math.floor(seconds / 86400) + 'd ago';
+  if (seconds === null || seconds === undefined || seconds === '') return '—';
+  var s = Number(seconds);
+  if (isNaN(s)) return '—';
+  if (s < 60) return Math.max(0, Math.round(s)) + 's ago';
+  if (s < 3600) return Math.floor(s / 60) + 'm ago';
+  if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+  return Math.floor(s / 86400) + 'd ago';
 }
 
-function stageColor(stage) {
-  var map = {
-    live: 'var(--green)',
-    confirmed: 'var(--green)',
-    testnet: 'var(--yellow)',
-    building: 'var(--cyan)',
-    announced: 'var(--text-dim)',
-    concept: 'var(--text-dim)',
-    active: 'var(--green)',
-    beta: 'var(--cyan)',
-    community: 'var(--text-dim)',
-  };
-  return map[stage ? stage.toLowerCase() : ''] || 'var(--text-dim)';
-}
-
-function categoryIcon(cat) {
-  var map = {
-    dapp: 'ph-code',
-    defi: 'ph-chart-line',
-    nft: 'ph-image',
-    game: 'ph-game-controller',
-    ai: 'ph-robot',
-    platform: 'ph-stack',
-    tool: 'ph-wrench',
-    sdk: 'ph-package',
-    memecoin: 'ph-coins',
-  };
-  return map[cat ? cat.toLowerCase() : ''] || 'ph-circle';
+/* Stage → shared .tag class (same vocabulary as the Ecosystem page) */
+function stageTagClass(stage) {
+  var s = String(stage || '').toLowerCase();
+  var known = ['testnet', 'building', 'live', 'active', 'beta', 'community', 'unknown', 'idea'];
+  return known.indexOf(s) !== -1 ? 't-' + s : 't-unknown';
 }
 
 function stageLabel(stage) {
   var map = {
-    live: '⚡ Live',
-    confirmed: '✓ Confirmed',
-    testnet: '🔬 Testnet',
-    building: '🔧 Building',
-    announced: '📢 Announced',
-    concept: '💭 Concept',
-    active: '⚡ Active',
-    beta: '🧪 Beta',
-    community: '👥 Community',
+    live: 'Live', confirmed: 'Confirmed', testnet: 'Testnet', building: 'Building',
+    announced: 'Announced', concept: 'Concept', active: 'Active', beta: 'Beta',
+    community: 'Community', unknown: 'Unknown'
   };
-  return map[stage ? stage.toLowerCase() : ''] || stage || '—';
+  var s = String(stage || '').toLowerCase();
+  return map[s] || (stage || '—');
 }
 
-/* ── Component 1: Stats Hero ── */
+/* Category → accent colour, mirrors dogeos-ecosystem-data.json categories */
+function categoryAccent(cat) {
+  var map = {
+    dapp: 'var(--purple)', defi: 'var(--cyan)', nft: 'var(--gold)',
+    game: 'var(--green)', ai: 'var(--purple-light)', platform: 'var(--orange)',
+    tool: 'var(--pink)', sdk: 'var(--green-dim)', memecoin: 'var(--yellow)'
+  };
+  return map[String(cat || '').toLowerCase()] || 'var(--purple)';
+}
+
+function categoryIcon(cat) {
+  var map = {
+    dapp: 'ph-code', defi: 'ph-chart-line', nft: 'ph-image',
+    game: 'ph-game-controller', ai: 'ph-robot', platform: 'ph-stack',
+    tool: 'ph-wrench', sdk: 'ph-package', memecoin: 'ph-coins'
+  };
+  return map[String(cat || '').toLowerCase()] || 'ph-circle';
+}
+
+function emptyState(icon, msg) {
+  return '<div class="empty"><i class="ph ' + icon + '" aria-hidden="true"></i>' + esc(msg) + '</div>';
+}
+
+/* ── 1: Stats hero → shared .stat tiles inside .stats-grid ── */
 function renderStatsHero(stats) {
   if (!stats) {
-    return '<div class="stats-hero" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">' +
-      [1,2,3,4].map(function() {
-        return '<div class="stat-tile" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1.5rem;text-align:center;">' +
-          '<div class="stat-label" style="font-family:var(--font-sans);font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">—</div>' +
-          '<div class="stat-value" style="font-family:var(--font-mono);font-size:2rem;color:var(--text-dim);">—</div>' +
-          '<div class="stat-sub" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--red);margin-top:0.5rem;">Chain offline</div>' +
-          '</div>';
-      }).join('') + '</div>';
+    return ['Total transactions', 'Active wallets', 'Latest block', 'Avg block time']
+      .map(function (label) {
+        return '<div class="stat"><div class="value">—</div>' +
+               '<div class="label">' + esc(label) + '</div>' +
+               '<div class="sub">Chain unreachable</div></div>';
+      }).join('');
+  }
+
+  function delta(d) {
+    if (!d) return '';
+    var up = Number(d) > 0;
+    return '<span class="delta ' + (up ? 'up' : 'down') + '" aria-hidden="true">' +
+           (up ? '↑' : '↓') + '</span>';
   }
 
   var tiles = [
-    { label: 'Total Transactions', value: formatNumber(stats.total_transactions), delta: stats.tx_delta ? (stats.tx_delta > 0 ? '↑' : '↓') : '', sub: '' },
-    { label: 'Active Wallets',      value: formatNumber(stats.total_addresses),     delta: stats.addr_delta ? (stats.addr_delta > 0 ? '↑' : '↓') : '', sub: '' },
-    { label: 'Latest Block',        value: formatNumber(stats.total_blocks),       delta: '', sub: formatAge(stats.last_block_age) },
-    { label: 'Avg Block Time',      value: stats.average_block_time ? stats.average_block_time + 's' : '—', delta: '', sub: '' },
+    { label: 'Total transactions', value: formatNumber(stats.total_transactions), d: stats.tx_delta, sub: '' },
+    { label: 'Active wallets', value: formatNumber(stats.total_addresses), d: stats.addr_delta, sub: '' },
+    { label: 'Latest block', value: formatNumber(stats.total_blocks), d: 0, sub: formatAge(stats.last_block_age) },
+    { label: 'Avg block time', value: stats.average_block_time ? Number(stats.average_block_time).toFixed(1) + 's' : '—', d: 0, sub: '' }
   ];
 
-  return '<div class="stats-hero" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;" role="region" aria-label="Chain statistics">' +
-    tiles.map(function(t) {
-      return '<div class="stat-tile" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1.5rem;text-align:center;transition:transform 0.2s ease,box-shadow 0.2s ease;cursor:default;" onmouseover="this.style.transform=\'translateY(-3px)\';this.style.boxShadow=\'0 8px 24px rgba(139,92,246,0.2)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\'">' +
-        '<div class="stat-label" style="font-family:var(--font-sans);font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">' + t.label + '</div>' +
-        '<div class="stat-value" style="font-family:var(--font-mono);font-size:2rem;color:var(--text-primary);">' + t.value + ' <span style="color:var(--green);font-size:1.2rem;">' + t.delta + '</span></div>' +
-        (t.sub ? '<div class="stat-sub" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);margin-top:0.5rem;">' + t.sub + '</div>' : '') +
-        '</div>';
-    }).join('') + '</div>';
+  return tiles.map(function (t) {
+    return '<div class="stat">' +
+      '<div class="value">' + t.value + delta(t.d) + '</div>' +
+      '<div class="label">' + esc(t.label) + '</div>' +
+      (t.sub ? '<div class="sub">' + esc(t.sub) + '</div>' : '') +
+      '</div>';
+  }).join('');
 }
 
-/* ── Component 2: Block Ticker ── */
+/* ── 2: Block ticker → .ticker > .ticker-track > .block-chip ── */
 function renderBlockTicker(blocks) {
-  if (blocks === undefined) blocks = [];
-  var visible = blocks.slice(0, 4);
+  var visible = (blocks || []).slice(0, 6);
+  if (!visible.length) return emptyState('ph-cube', 'No blocks available');
 
-  if (!visible.length) {
-    return '<div class="block-ticker" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;overflow:hidden;"><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-dim);text-align:center;">No blocks available</div></div>';
-  }
-
-  var items = visible.concat(visible);
-  return '<div class="block-ticker" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:0.75rem 0;overflow:hidden;position:relative;" aria-label="Latest blocks" role="marquee">' +
-    '<div class="ticker-track" style="display:flex;gap:1rem;padding:0 1rem;animation:ticker-scroll 20s linear infinite;width:max-content;">' +
-    items.map(function(b, i) {
-      return '<div class="ticker-block" style="display:flex;align-items:center;gap:0.75rem;background:var(--bg-secondary);border:1px solid var(--purple-dim);border-radius:6px;padding:0.6rem 1rem;min-width:200px;flex-shrink:0;" aria-label="Block ' + b.height + '">' +
-        '<span class="block-height" style="font-family:var(--font-mono);font-size:0.9rem;color:var(--purple);font-weight:700;">#' + formatNumber(b.height) + '</span>' +
-        '<span class="block-age" style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);">' + formatAge(b.age_seconds) + '</span>' +
-        '<span class="block-miner" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--cyan);">' + truncateAddress(b.miner) + '</span>' +
+  var items = visible.concat(visible); // duplicate for seamless -50% scroll
+  return '<div class="ticker">' +
+    '<div class="ticker-track">' +
+    items.map(function (b, i) {
+      return '<div class="block-chip"' + (i >= visible.length ? ' aria-hidden="true"' : '') + '>' +
+        '<span class="b-height">#' + formatNumber(b.height) + '</span>' +
+        '<span class="b-age">' + esc(formatAge(b.age_seconds)) + '</span>' +
+        '<span class="b-miner">' + esc(truncateAddress(b.miner)) + '</span>' +
         '</div>';
     }).join('') +
-    '</div>' +
-    '<style>@keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}.block-ticker:hover .ticker-track{animation-play-state:paused}</style>' +
+    '</div></div>';
+}
+
+/* ── 3: Transaction feed → .data-panel > .txn-list > .txn-row ── */
+function renderTxnFeed(txns) {
+  var visible = (txns || []).slice(0, 6);
+  if (!visible.length) return emptyState('ph-arrows-left-right', 'No transactions yet');
+
+  return '<div class="data-panel"><div class="txn-list">' +
+    visible.map(function (tx) {
+      var val = tx.value ? (Number(tx.value) / 1e18).toFixed(4) + ' tDOGE' : '—';
+      return '<div class="txn-row">' +
+        '<a class="t-hash" href="' + EXPLORER + '/tx/' + esc(tx.hash) + '" target="_blank" rel="noopener"' +
+          ' title="' + esc(tx.hash) + '">' + esc(truncateHash(tx.hash)) + '</a>' +
+        '<span class="t-flow">' +
+          '<span title="' + esc(tx.from) + '">' + esc(truncateAddress(tx.from)) + '</span>' +
+          '<i class="ph ph-arrow-right" aria-hidden="true"></i>' +
+          '<span title="' + esc(tx.to) + '">' + esc(truncateAddress(tx.to)) + '</span>' +
+        '</span>' +
+        '<span class="t-value">' + esc(val) + '</span>' +
+        '<span class="t-age">' + esc(formatAge(tx.age_seconds)) + '</span>' +
+        '</div>';
+    }).join('') +
+    '</div></div>';
+}
+
+/* ── 4: Tokens → .data-panel > .data-table ── */
+function renderTokensLeaderboard(tokens) {
+  var sorted = (tokens || []).slice()
+    .sort(function (a, b) { return (b.holders || 0) - (a.holders || 0); })
+    .slice(0, 10);
+  if (!sorted.length) return emptyState('ph-coins', 'No tokens found');
+
+  return '<div class="data-panel"><div class="panel-scroll">' +
+    '<table class="data-table">' +
+    '<caption class="sr-only">Top 10 tokens by holder count</caption>' +
+    '<thead><tr>' +
+      '<th scope="col">#</th>' +
+      '<th scope="col">Token</th>' +
+      '<th scope="col" class="num">Holders</th>' +
+      '<th scope="col" class="num">Transfers</th>' +
+      '<th scope="col">Contract</th>' +
+    '</tr></thead><tbody>' +
+    sorted.map(function (t, i) {
+      return '<tr>' +
+        '<td class="rank">' + (i + 1) + '</td>' +
+        '<td><span class="primary">' + esc(t.name || '—') + '</span> ' +
+            '<span class="subtle">' + esc(t.symbol || '') + '</span></td>' +
+        '<td class="num accent">' + formatNumber(t.holders) + '</td>' +
+        '<td class="num">' + formatNumber(t.transfers_count) + '</td>' +
+        '<td><a href="' + EXPLORER + '/address/' + esc(t.address) + '" target="_blank" rel="noopener"' +
+           ' title="' + esc(t.address) + '">' + esc(truncateAddress(t.address)) + '</a></td>' +
+        '</tr>';
+    }).join('') +
+    '</tbody></table></div></div>';
+}
+
+/* ── 5: Contracts → .data-panel > .data-table ── */
+function renderContractsTable(contracts) {
+  var sorted = (contracts || []).slice()
+    .sort(function (a, b) { return (b.transactions_count || 0) - (a.transactions_count || 0); })
+    .slice(0, 10);
+  if (!sorted.length) return emptyState('ph-file-code', 'No verified contracts found');
+
+  return '<div class="data-panel"><div class="panel-scroll">' +
+    '<table class="data-table">' +
+    '<caption class="sr-only">Top 10 verified contracts by transaction count</caption>' +
+    '<thead><tr>' +
+      '<th scope="col">Address</th>' +
+      '<th scope="col">Status</th>' +
+      '<th scope="col">Type</th>' +
+      '<th scope="col" class="num">Transactions</th>' +
+      '<th scope="col">Last seen</th>' +
+    '</tr></thead><tbody>' +
+    sorted.map(function (c) {
+      return '<tr>' +
+        '<td><a href="' + EXPLORER + '/address/' + esc(c.address) + '" target="_blank" rel="noopener"' +
+           ' title="' + esc(c.address) + '">' + esc(truncateAddress(c.address, 8, 6)) + '</a></td>' +
+        '<td><span class="tag verified">Verified</span></td>' +
+        '<td>' + esc(c.type || '—') + '</td>' +
+        '<td class="num accent">' + formatNumber(c.transactions_count) + '</td>' +
+        '<td class="subtle">' + esc(formatAge(c.last_seen)) + '</td>' +
+        '</tr>';
+    }).join('') +
+    '</tbody></table></div></div>';
+}
+
+/* ── 6: Projects → the SAME .grid > .card markup as the Ecosystem page ── */
+function renderProjectsGrid(projects) {
+  if (!projects || !projects.length) return emptyState('ph-rocket-launch', 'No projects found');
+
+  return '<div class="grid">' +
+    projects.map(function (p) {
+      var onchain = Boolean(p.onchain_address);
+      var accent = categoryAccent(p.category);
+      return '<article class="card" style="--card-accent: ' + accent + '">' +
+        '<div class="card-header">' +
+          '<h3 class="title"><i class="ph ' + categoryIcon(p.category) + '" aria-hidden="true"></i>' +
+            esc(p.name) + '</h3>' +
+          '<span class="tag ' + stageTagClass(p.stage) + '">' + esc(stageLabel(p.stage)) + '</span>' +
+        '</div>' +
+        '<p class="builder"><i class="ph ph-user" aria-hidden="true"></i>' + esc(p.builder || 'Unknown') + '</p>' +
+        (p.what ? '<p class="desc">' + esc(p.what) + '</p>' : '') +
+        '<div class="card-foot">' +
+          (onchain
+            ? '<span class="onchain"><i class="ph ph-check-circle" aria-hidden="true"></i>On-chain</span>'
+            : '<span class="pending"><i class="ph ph-hourglass" aria-hidden="true"></i>Awaiting deployment</span>') +
+          (p.link
+            ? '<a class="card-link" href="' + esc(p.link) + '" target="_blank" rel="noopener">' +
+              '<i class="ph ph-arrow-up-right" aria-hidden="true"></i>Visit</a>'
+            : '') +
+        '</div>' +
+        '</article>';
+    }).join('') +
     '</div>';
 }
 
-/* ── Component 3: Transaction Feed ── */
-function renderTxnFeed(txns) {
-  if (txns === undefined) txns = [];
-  var visible = txns.slice(0, 6);
-
-  if (!visible.length) {
-    return '<div class="txn-feed" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;"><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-dim);text-align:center;padding:1rem;">No transactions yet</div></div>';
-  }
-
-  return '<div class="txn-feed" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;" aria-label="Recent transactions">' +
-    '<div style="font-family:var(--font-sans);font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Latest Transactions</div>' +
-    visible.map(function(tx) {
-      return '<div class="txn-item" style="display:flex;flex-direction:column;gap:0.25rem;padding:0.75rem;background:var(--bg-secondary);border:1px solid transparent;border-radius:6px;margin-bottom:0.5rem;cursor:pointer;transition:all 0.2s ease;" role="listitem" onmouseover="this.style.borderColor=\'var(--purple-dim)\';this.style.background=\'var(--bg-primary)\'" onmouseout="this.style.borderColor=\'transparent\';this.style.background=\'var(--bg-secondary)\'" data-txn-hash="' + tx.hash + '">' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;">' +
-        '<span class="txn-hash" style="font-family:var(--font-mono);font-size:0.75rem;color:var(--purple);">' + truncateHash(tx.hash) + '</span>' +
-        '<span class="txn-age" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);">' + formatAge(tx.age_seconds) + '</span>' +
-        '</div>' +
-        '<div style="display:flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.7rem;">' +
-        '<span style="color:var(--text-muted);">' + truncateAddress(tx.from) + '</span>' +
-        '<i class="ph ph-arrow-right" style="color:var(--purple);font-size:0.8rem;"></i>' +
-        '<span style="color:var(--text-muted);">' + truncateAddress(tx.to) + '</span>' +
-        '</div>' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;">' +
-        '<span class="txn-value" style="font-family:var(--font-mono);font-size:0.7rem;color:var(--cyan);">' + (tx.value ? (Number(tx.value) / 1e18).toFixed(4) + ' tDOGE' : '—') + '</span>' +
-        '<a class="txn-link" href="#" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--purple);text-decoration:none;opacity:0;transition:opacity 0.2s;" onclick="event.stopPropagation();window.open(\'https://blockscout.testnet.dogeos.com/tx/' + tx.hash + '\',\'_blank\')">View on Blockscout ↗</a>' +
-        '</div>' +
-        '</div>';
-    }).join('') +
-    '</div>' +
-    '<style>.txn-item:hover .txn-link{opacity:1!important}</style>';
-}
-
-/* ── Component 4: Tokens Leaderboard ── */
-function renderTokensLeaderboard(tokens) {
-  if (tokens === undefined) tokens = [];
-  var sorted = tokens.slice().sort(function(a, b) { return (b.holders || 0) - (a.holders || 0); }).slice(0, 10);
-
-  if (!sorted.length) {
-    return '<div class="tokens-leaderboard" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;"><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-dim);text-align:center;padding:1rem;">No tokens found</div></div>';
-  }
-
-  return '<div class="tokens-leaderboard" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;" aria-label="Top 10 tokens by holders">' +
-    '<div style="font-family:var(--font-sans);font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Top 10 Tokens by Holders</div>' +
-    '<div style="overflow-x:auto;">' +
-    '<table style="width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:0.75rem;">' +
-    '<thead><tr style="border-bottom:1px solid var(--text-dim);">' +
-    '<th style="text-align:left;padding:0.5rem;color:var(--text-dim);font-weight:400;">#</th>' +
-    '<th style="text-align:left;padding:0.5rem;color:var(--text-dim);font-weight:400;">Name</th>' +
-    '<th style="text-align:right;padding:0.5rem;color:var(--text-dim);font-weight:400;">Holders</th>' +
-    '<th style="text-align:right;padding:0.5rem;color:var(--text-dim);font-weight:400;">Transfers</th>' +
-    '<th style="text-align:left;padding:0.5rem;color:var(--text-dim);font-weight:400;">Contract</th>' +
-    '</tr></thead><tbody>' +
-    sorted.map(function(token, i) {
-      return '<tr style="border-bottom:1px solid var(--bg-secondary);transition:background 0.2s;" onmouseover="this.style.background=\'var(--bg-primary)\'" onmouseout="this.style.background=\'\'">' +
-        '<td style="padding:0.6rem 0.5rem;color:var(--text-dim);">' + (i + 1) + '</td>' +
-        '<td style="padding:0.6rem 0.5rem;"><span style="color:var(--text-primary);">' + (token.name || '—') + '</span> <span style="color:var(--text-dim);">(' + (token.symbol || '—') + ')</span></td>' +
-        '<td style="padding:0.6rem 0.5rem;text-align:right;color:var(--cyan);">' + formatNumber(token.holders) + '</td>' +
-        '<td style="padding:0.6rem 0.5rem;text-align:right;color:var(--text-muted);">' + formatNumber(token.transfers_count) + '</td>' +
-        '<td style="padding:0.6rem 0.5rem;color:var(--purple);"><a href="#" onclick="window.open(\'https://blockscout.testnet.dogeos.com/address/' + token.address + '\',\'_blank\')" style="color:var(--purple);text-decoration:none;">' + truncateAddress(token.address) + '</a></td>' +
-        '</tr>';
-    }).join('') +
-    '</tbody></table></div></div>';
-}
-
-/* ── Component 5: Contracts Table ── */
-function renderContractsTable(contracts) {
-  if (contracts === undefined) contracts = [];
-  var sorted = contracts.slice().sort(function(a, b) { return (b.transactions_count || 0) - (a.transactions_count || 0); }).slice(0, 10);
-
-  if (!sorted.length) {
-    return '<div class="contracts-table" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;"><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-dim);text-align:center;padding:1rem;">No verified contracts found</div></div>';
-  }
-
-  return '<div class="contracts-table" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;" aria-label="Top 10 verified contracts">' +
-    '<div style="font-family:var(--font-sans);font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Top 10 Verified Contracts</div>' +
-    '<div style="overflow-x:auto;">' +
-    '<table style="width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:0.75rem;">' +
-    '<thead><tr style="border-bottom:1px solid var(--text-dim);">' +
-    '<th style="text-align:left;padding:0.5rem;color:var(--text-dim);font-weight:400;">Address</th>' +
-    '<th style="text-align:left;padding:0.5rem;color:var(--text-dim);font-weight:400;">Type</th>' +
-    '<th style="text-align:right;padding:0.5rem;color:var(--text-dim);font-weight:400;">Txn Count</th>' +
-    '<th style="text-align:left;padding:0.5rem;color:var(--text-dim);font-weight:400;">Last Seen</th>' +
-    '</tr></thead><tbody>' +
-    sorted.map(function(contract) {
-      return '<tr style="border-bottom:1px solid var(--bg-secondary);transition:background 0.2s;" onmouseover="this.style.background=\'var(--bg-primary)\'" onmouseout="this.style.background=\'\'">' +
-        '<td style="padding:0.6rem 0.5rem;"><div style="display:flex;align-items:center;gap:0.5rem;">' +
-        '<a href="#" onclick="window.open(\'https://blockscout.testnet.dogeos.com/address/' + contract.address + '\',\'_blank\')" style="color:var(--purple);text-decoration:none;" title="' + contract.address + '">' + truncateAddress(contract.address, 8, 6) + '</a>' +
-        '<span style="display:inline-flex;align-items:center;gap:0.2rem;background:rgba(34,197,94,0.15);border:1px solid var(--green);color:var(--green);font-size:0.55rem;padding:0.1rem 0.4rem;border-radius:3px;" aria-label="Verified contract">✓ Verified</span>' +
-        '</div></td>' +
-        '<td style="padding:0.6rem 0.5rem;color:var(--text-muted);">' + (contract.type || '—') + '</td>' +
-        '<td style="padding:0.6rem 0.5rem;text-align:right;color:var(--cyan);">' + formatNumber(contract.transactions_count) + '</td>' +
-        '<td style="padding:0.6rem 0.5rem;color:var(--text-dim);">' + formatAge(contract.last_seen) + '</td>' +
-        '</tr>';
-    }).join('') +
-    '</tbody></table></div></div>';
-}
-
-/* ── Component 6: Projects Grid ── */
-function renderProjectsGrid(projects) {
-  if (!projects || !projects.length) {
-    return '<div class="projects-grid" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;"><div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-dim);text-align:center;padding:1rem;">No projects found</div></div>';
-  }
-
-  return '<div class="projects-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;" aria-label="Ecosystem projects">' +
-    projects.map(function(project) {
-      var hasOnChain = Boolean(project.onchain_address);
-      return '<div class="project-card" style="background:var(--bg-tertiary);border:1px solid var(--text-dim);border-radius:8px;padding:1rem;transition:transform 0.2s ease,box-shadow 0.2s ease;cursor:default;" onmouseover="this.style.transform=\'translateY(-4px)\';this.style.boxShadow=\'0 8px 24px rgba(139,92,246,0.2)\';this.style.borderColor=\'var(--purple-dim)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\';this.style.borderColor=\'var(--text-dim)\'" role="article" aria-label="' + project.name + '">' +
-        '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">' +
-        '<div style="display:flex;align-items:center;gap:0.5rem;">' +
-        '<i class="ph ' + categoryIcon(project.category) + '" style="font-size:1.2rem;color:' + (project.category ? 'var(--purple)' : 'var(--text-dim)') + ';"></i>' +
-        '<span style="font-family:var(--font-sans);font-size:0.95rem;font-weight:600;color:var(--text-primary);">' + project.name + '</span>' +
-        '</div>' +
-        '<span style="font-family:var(--font-mono);font-size:0.6rem;padding:0.2rem 0.5rem;border-radius:4px;border:1px solid ' + stageColor(project.stage) + ';color:' + stageColor(project.stage) + ';">' + stageLabel(project.stage) + '</span>' +
-        '</div>' +
-        '<div style="font-family:var(--font-sans);font-size:0.7rem;color:var(--text-muted);margin-bottom:0.5rem;">Builder: <span style="color:var(--cyan);">' + (project.builder || '—') + '</span></div>' +
-        '<div style="font-family:var(--font-sans);font-size:0.75rem;color:var(--text-dim);line-height:1.5;margin-bottom:0.75rem;">' + (project.what || '') + '</div>' +
-        (project.link ? '<a href="' + project.link + '" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.3rem;font-family:var(--font-mono);font-size:0.65rem;color:var(--purple);text-decoration:none;margin-bottom:0.5rem;" onclick="event.stopPropagation()"><i class="ph ph-link" style="font-size:0.8rem;"></i> Link</a>' : '') +
-        '<div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--bg-secondary);display:flex;align-items:center;justify-content:space-between;">' +
-        (hasOnChain ? '<div class="onchain-indicator" style="display:flex;align-items:center;gap:0.4rem;font-family:var(--font-mono);font-size:0.65rem;color:var(--green);"><i class="ph ph-check-circle" style="font-size:0.9rem;"></i>On-chain</div><div class="project-stats" id="proj-stats-' + (project.onchain_address ? project.onchain_address.slice(2, 10) : '') + '" style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-d);"></div>' : '<div class="awaiting-deployment" style="display:flex;align-items:center;gap:0.4rem;font-family:var(--font-mono);font-size:0.65rem;color:var(--yellow);"><i class="ph ph-hourglass" style="font-size:0.9rem;"></i>Awaiting deployment</div>') +
-        '</div></div>';
-    }).join('') + '</div>';
-}
-
-/* ── Component 7: Chain Health ── */
+/* ── 7: Chain health → .metric-grid > .metric + .meter ── */
 function renderChainHealth(health) {
-  if (!health) health = {};
+  health = health || {};
   var blockHeight = health.blockHeight || 0;
   var blockTime = health.blockTime || 0;
   var gasPrice = health.gasPrice || 0;
-  var networkUtil = health.networkUtil || 0;
-  var lastBlockAge = health.lastBlockAge || 0;
-  var peerCount = health.peerCount;
-  var isStale = lastBlockAge > 300;
+  var util = Number(health.networkUtil || 0);
+  var lastAge = health.lastBlockAge || 0;
+  var stale = Number(lastAge) > 300;
 
-  return '<div class="chain-health" style="background:var(--bg-tertiary);border:1px solid ' + (isStale ? 'var(--red)' : 'var(--text-dim)') + ';border-radius:8px;padding:1.25rem;transition:border-color 0.3s ease;" aria-label="Chain health status" role="status">' +
-    (isStale ? '<div style="display:flex;align-items:center;gap:0.5rem;background:rgba(239,68,68,0.15);border:1px solid var(--red);border-radius:6px;padding:0.5rem 0.75rem;margin-bottom:1rem;font-family:var(--font-mono);font-size:0.7rem;color:var(--red);" role="alert"><i class="ph ph-warning" style="font-size:1rem;"></i>Stale — last block ' + formatAge(lastBlockAge) + '</div>' : '') +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">' +
-    '<div class="health-block-height" style="grid-column:1/-1;text-align:center;">' +
-    '<div style="font-family:var(--font-sans);font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.25rem;">Block Height</div>' +
-    '<div style="font-family:var(--font-mono);font-size:2.5rem;color:var(--purple);font-weight:700;line-height:1;">' + formatNumber(blockHeight) + '</div>' +
-    '</div>' +
-    '<div class="health-block-time">' +
-    '<div style="font-family:var(--font-sans);font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.25rem;">Block Time</div>' +
-    '<div style="font-family:var(--font-mono);font-size:1.2rem;color:var(--text-primary);">' + (blockTime ? blockTime + 's' : '—') + '</div>' +
-    '</div>' +
-    '<div class="health-gas-price">' +
-    '<div style="font-family:var(--font-sans);font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.25rem;">Gas Price</div>' +
-    '<div style="font-family:var(--font-mono);font-size:1.2rem;color:var(--text-primary);">' + (gasPrice ? Number(gasPrice).toFixed(2) + ' Gwei' : '—') + '</div>' +
-    '</div>' +
-    '</div>' +
-    '<div class="health-network-util" style="margin-bottom:0.75rem;">' +
-    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">' +
-    '<span style="font-family:var(--font-sans);font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;">Network Utilization</span>' +
-    '<span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--cyan);">' + (networkUtil ? networkUtil + '%' : '—') + '</span>' +
-    '</div>' +
-    '<div style="width:100%;height:8px;background:var(--bg-secondary);border-radius:4px;overflow:hidden;" role="progressbar" aria-valuenow="' + (networkUtil || 0) + '" aria-valuemin="0" aria-valuemax="100">' +
-    '<div style="width:' + (networkUtil || 0) + '%;height:100%;background:' + (networkUtil > 80 ? 'var(--yellow)' : networkUtil > 50 ? 'var(--cyan)' : 'var(--green)') + ';border-radius:4px;transition:width 0.5s ease;"></div>' +
-    '</div></div>' +
-    (peerCount !== undefined ? '<div class="health-peer-count" style="display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim);"><span>Peers</span><span style="color:' + (peerCount > 0 ? 'var(--green)' : 'var(--red)') + ';">' + peerCount + '</span></div>' : '') +
-    '<div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--bg-secondary);font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);text-align:center;">Last block: ' + formatAge(lastBlockAge) + '</div>' +
+  var meterClass = util > 80 ? 'meter is-warn' : util > 50 ? 'meter is-busy' : 'meter';
+
+  return (stale
+      ? '<div class="notice is-error" role="alert"><i class="ph ph-warning" aria-hidden="true"></i>' +
+        'Stale — last block ' + esc(formatAge(lastAge)) + '</div>'
+      : '') +
+    '<div class="metric-grid">' +
+      '<div class="metric health-headline">' +
+        '<div class="m-label">Block height</div>' +
+        '<div class="m-value">' + formatNumber(blockHeight) + '</div>' +
+        '<div class="m-sub">Last block ' + esc(formatAge(lastAge)) + '</div>' +
+      '</div>' +
+      '<div class="metric">' +
+        '<div class="m-label">Block time</div>' +
+        '<div class="m-value">' + (blockTime ? Number(blockTime).toFixed(1) + 's' : '—') + '</div>' +
+      '</div>' +
+      '<div class="metric">' +
+        '<div class="m-label">Gas price</div>' +
+        '<div class="m-value">' + (gasPrice ? Number(gasPrice).toFixed(2) + ' Gwei' : '—') + '</div>' +
+      '</div>' +
+      '<div class="metric">' +
+        '<div class="m-label">Network utilization</div>' +
+        '<div class="m-value">' + (util ? util + '%' : '—') + '</div>' +
+        '<div class="' + meterClass + '" role="progressbar" aria-label="Network utilization"' +
+          ' aria-valuenow="' + util + '" aria-valuemin="0" aria-valuemax="100">' +
+          '<span style="width:' + Math.max(0, Math.min(100, util)) + '%"></span>' +
+        '</div>' +
+      '</div>' +
     '</div>';
 }
 
-/* ── mountApp — wires all components to their slots ── */
+/* ── mountApp — wires renderers to slots ── */
 function mountApp(dataInstance) {
   var slots = {
-    'slot-stats-hero':   { fn: renderStatsHero,          key: 'stats' },
-    'slot-block-ticker': { fn: renderBlockTicker,        key: 'blocks' },
-    'slot-txn-feed':     { fn: renderTxnFeed,             key: 'txns' },
-    'slot-tokens':       { fn: renderTokensLeaderboard,    key: 'tokens' },
-    'slot-contracts':    { fn: renderContractsTable,       key: 'contracts' },
-    'slot-projects':     { fn: renderProjectsGrid,         key: 'projects' },
-    'slot-chain-health': { fn: renderChainHealth,          key: 'chainHealth' },
+    'slot-stats-hero':   { fn: renderStatsHero,        key: 'stats' },
+    'slot-block-ticker': { fn: renderBlockTicker,      key: 'blocks' },
+    'slot-txn-feed':     { fn: renderTxnFeed,          key: 'txns' },
+    'slot-tokens':       { fn: renderTokensLeaderboard, key: 'tokens' },
+    'slot-contracts':    { fn: renderContractsTable,   key: 'contracts' },
+    'slot-projects':     { fn: renderProjectsGrid,     key: 'projects' },
+    'slot-chain-health': { fn: renderChainHealth,      key: 'chainHealth' }
   };
 
   function buildChainHealth(stats) {
@@ -1260,76 +1827,77 @@ function mountApp(dataInstance) {
       blockTime: stats.average_block_time || 0,
       gasPrice: (stats.gas_prices && stats.gas_prices[0]) || 0,
       networkUtil: stats.network_utilization_percentage || 0,
-      lastBlockAge: stats.last_block_age || 0,
+      lastBlockAge: stats.last_block_age || 0
     };
+  }
+
+  function updateStatusPill(stats) {
+    var dot = document.getElementById('status-dot');
+    var blockEl = document.getElementById('current-block');
+    var ageEl = document.getElementById('block-age');
+    if (!stats) {
+      if (dot) dot.className = 'status-dot status-down';
+      return;
+    }
+    var age = Number(stats.last_block_age || 0);
+    if (blockEl) blockEl.textContent = formatNumber(stats.total_blocks);
+    if (ageEl) ageEl.textContent = formatAge(age);
+    if (dot) {
+      dot.className = 'status-dot' +
+        (age > 300 ? ' status-down' : age > 90 ? ' status-degraded' : '');
+    }
   }
 
   function renderAll(data) {
     data = data || {};
-    // Build chainHealth from stats
-    if (data.stats && !data.chainHealth) {
-      data.chainHealth = buildChainHealth(data.stats);
-    }
+    if (data.stats && !data.chainHealth) data.chainHealth = buildChainHealth(data.stats);
 
-    Object.entries(slots).forEach(function(entry) {
-      var id = entry[0];
-      var cfg = entry[1];
+    Object.keys(slots).forEach(function (id) {
       var el = document.getElementById(id);
-      if (el) {
-        el.innerHTML = cfg.fn(data[cfg.key]);
-      }
+      if (el) el.innerHTML = slots[id].fn(data[slots[id].key]);
     });
 
-    // Update header live block counter
-    if (data.stats) {
-      var blockEl = document.getElementById('current-block');
-      var ageEl = document.getElementById('block-age');
-      if (blockEl) blockEl.textContent = formatNumber(data.stats.total_blocks);
-      if (ageEl) ageEl.textContent = data.stats.last_block_age || '—';
-    }
+    updateStatusPill(data.stats);
 
-    // Update footer timestamp
     var tsEl = document.getElementById('footer-timestamp');
     if (tsEl) tsEl.textContent = new Date().toLocaleString();
   }
 
-  // Initial render with seed data (synchronous)
+  var seed = dataInstance.seedData || {};
   renderAll({
-    stats: dataInstance.seedData ? dataInstance.seedData.stats : null,
-    blocks: dataInstance.seedData ? dataInstance.seedData.blocks : [],
-    txns: dataInstance.seedData ? dataInstance.seedData.transactions : [],
-    tokens: dataInstance.seedData ? dataInstance.seedData.tokens : [],
-    contracts: dataInstance.seedData ? dataInstance.seedData.contracts : [],
-    projects: dataInstance.seedData ? dataInstance.seedData.projects : [],
-    chainHealth: dataInstance.seedData ? buildChainHealth(dataInstance.seedData.stats) : {},
+    stats: seed.stats || null,
+    blocks: seed.blocks || [],
+    txns: seed.transactions || [],
+    tokens: seed.tokens || [],
+    contracts: seed.contracts || [],
+    projects: seed.projects || [],
+    chainHealth: buildChainHealth(seed.stats)
   });
 
-  // Subscribe to data events — 'refresh' is emitted by DogeosData.start()
   if (dataInstance.on) {
-    dataInstance.on('refresh', function() {
-      // Re-fetch all data and re-render
+    dataInstance.on('refresh', function () {
       Promise.all([
-        dataInstance.stats().catch(function() { return null; }),
-        dataInstance.latestBlocks().catch(function() { return null; }),
-        dataInstance.latestTxns().catch(function() { return null; }),
-        dataInstance.tokens().catch(function() { return null; }),
-        dataInstance.contracts().catch(function() { return null; }),
-      ]).then(function(results) {
-        var data = {
-          stats: results[0],
-          blocks: results[1],
-          txns: results[2],
-          tokens: results[3],
-          contracts: results[4],
-          // Always preserve projects from seed (no live API for these)
-          projects: dataInstance.seedData ? dataInstance.seedData.projects : [],
-        };
-        renderAll(data);
+        dataInstance.stats().catch(function () { return null; }),
+        dataInstance.latestBlocks().catch(function () { return null; }),
+        dataInstance.latestTxns().catch(function () { return null; }),
+        dataInstance.tokens().catch(function () { return null; }),
+        dataInstance.contracts().catch(function () { return null; })
+      ]).then(function (r) {
+        var s = dataInstance.seedData || {};
+        renderAll({
+          stats:     r[0] || s.stats || null,
+          blocks:    (r[1] && r[1].length) ? r[1] : (s.blocks || []),
+          txns:      (r[2] && r[2].length) ? r[2] : (s.transactions || []),
+          tokens:    (r[3] && r[3].length) ? r[3] : (s.tokens || []),
+          contracts: (r[4] && r[4].length) ? r[4] : (s.contracts || []),
+          // No live API for projects — always from the ecosystem seed
+          projects:  s.projects || []
+        });
       });
     });
 
-    dataInstance.on('error', function(info) {
-      console.warn('Data error for endpoint:', info.endpoint, info.err.message);
+    dataInstance.on('error', function (info) {
+      console.warn('Data error:', info.endpoint, info.err && info.err.message);
     });
   }
 }

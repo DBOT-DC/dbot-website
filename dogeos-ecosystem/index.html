@@ -46,17 +46,52 @@
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
 <style>
+/* SHARED:START */
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  AUTO-GENERATED — DO NOT EDIT THIS BLOCK BY HAND.                ║
+   ║  Source:  .design-rules/dogeos-shared.css                        ║
+   ║           .design-rules/dogeos-ecosystem.css                    ║
+   ║  Rebuild: python3 scripts/build-design.py                        ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DBOT · DogeOS Shared Design System
+   ═══════════════════════════════════════════════════════════════════════════
+   CANONICAL SOURCE. Do not edit the copies inlined into page HTML.
+
+   Consumed by:
+     - /dogeos-ecosystem/index.html
+     - /dogeos-dashboard/index.html
+
+   To propagate changes:
+     python3 scripts/build-design.py
+
+   The build script inlines this file between the
+   <!-- SHARED:START --> / <!-- SHARED:END --> markers in each page, so every
+   page ships as a single self-contained file (DESIGN.md rule 5) while still
+   having exactly one source of truth (DESIGN.md rule 1 — Open Design).
+
+   Rules honoured: Open Design (local, version-controlled, no vendor lock-in),
+   Impeccable (mobile-first, semantic, keyboard, WCAG AA), DBOT + DogeOS brand.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────────────────────────────
+   1. TOKENS — the single palette both pages draw from.
+   Every --text-* / --bg-* pair used for body copy meets WCAG AA (>= 4.5:1).
+   ─────────────────────────────────────────────────────────────────────────── */
 :root {
   /* DBOT brand */
   --purple: #8B5CF6;
   --purple-dim: #6d28d9;
   --purple-light: #A78BFA;
   --purple-glow: rgba(139, 92, 246, 0.35);
-  /* DogeOS brand — cyan/teal for "doge" theme */
+
+  /* DogeOS brand — cyan/teal */
   --cyan: #06b6d4;
   --cyan-light: #67e8f9;
   --cyan-dim: #0e7490;
   --cyan-glow: rgba(6, 182, 212, 0.3);
+
   /* Accents */
   --gold: #BA9F33;
   --gold-light: #D4B649;
@@ -67,30 +102,56 @@
   --red: #ef4444;
   --orange: #F59E0B;
   --yellow: #eab308;
-  /* Surfaces — tinted, not pure black (Impeccable rule) */
+
+  /* Surfaces — tinted near-black, never pure #000 (Impeccable) */
   --bg-deep: #06060a;
   --bg-primary: #0c0c14;
   --bg-secondary: #12121c;
   --bg-tertiary: #1a1a26;
   --bg-elevated: #20202e;
-  /* Text — bumped dim/fade to meet WCAG AA on tinted dark bg */
+
+  /* Aliases kept so older rules/renderers resolve to real values */
+  --bg: var(--bg-deep);
+  --bg-elev-1: var(--bg-secondary);
+  --bg-elev-2: var(--bg-tertiary);
+
+  /* Text */
   --text-bright: #f8fafc;
   --text-primary: #e2e8f0;
   --text-muted: #cbd5e1;
   --text-dim: #94a3b8;
   --text-fade: #7e8b9e;
-  /* Borders */
+
+  /* Borders — borders are borders; never reuse a text token here */
   --border: rgba(255, 255, 255, 0.06);
   --border-strong: rgba(255, 255, 255, 0.12);
   --border-hover: rgba(139, 92, 246, 0.6);
+
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
   /* Type */
   --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* Rhythm — 8px grid */
+  --shell-max: 1400px;
+  --shell-pad: clamp(1.5rem, 4vw, 3rem);
+  /* Use --shell-outer as max-width on any element that ALSO carries the
+     gutter as padding. It makes that element's *content box* resolve to
+     --shell-max, so it lines up pixel-for-pixel with the hero pattern
+     (outer = padding only, inner = max-width) at every viewport. */
+  --shell-outer: calc(var(--shell-max) + 2 * var(--shell-pad));
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
 }
 
+/* ───────────────────────────────────────────────────────────────────────────
+   2. RESET + PAGE FRAME
+   ─────────────────────────────────────────────────────────────────────────── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
@@ -104,20 +165,27 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  /* Shared ambient wash — identical on both pages */
   background-image:
     radial-gradient(ellipse 80% 50% at 20% 0%, rgba(139, 92, 246, 0.10), transparent 50%),
     radial-gradient(ellipse 70% 50% at 90% 20%, rgba(6, 182, 212, 0.06), transparent 50%);
   background-attachment: fixed;
 }
 
-/* Accessible focus rings */
+/* Shared page shell: same max-width and gutters on every section */
+.shell {
+  max-width: var(--shell-outer);
+  margin: 0 auto;
+  padding-left: var(--shell-pad);
+  padding-right: var(--shell-pad);
+}
+
 :focus-visible {
   outline: 2px solid var(--purple-light);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* Skip link for keyboard users */
 .skip-link {
   position: absolute;
   top: -100px;
@@ -132,13 +200,41 @@ body {
 }
 .skip-link:focus { top: 0; }
 
-/* ── HEADER ── */
+/* Visually hidden but announced by screen readers (table captions etc.) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Focus-ring guard ───────────────────────────────────────────────────────
+   `transition: all` animates outline-width up from 0px, which leaves the
+   keyboard focus ring invisible at the instant focus lands. Two rules keep
+   that from ever regressing:
+     1. Never write `transition: all` — enumerate properties instead.
+     2. This override, so a stray shorthand still can't animate the ring.
+   Accessibility override — the one place !important is allowed (DESIGN.md §5).
+   ────────────────────────────────────────────────────────────────────────── */
+:focus-visible {
+  transition: none !important;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   3. HEADER — one header for both pages
+   ─────────────────────────────────────────────────────────────────────────── */
 .site-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 1.5rem;
-  background: rgba(12, 12, 20, 0.7);
+  gap: 1rem;
+  padding: 1.25rem var(--shell-pad);
+  background: rgba(12, 12, 20, 0.72);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--border);
@@ -153,20 +249,102 @@ body {
   color: var(--purple-light);
   text-decoration: none;
   letter-spacing: -0.02em;
+  flex-shrink: 0;
 }
 .site-header .brand span { color: var(--text-primary); }
-.site-header nav { display: flex; gap: 1.5rem; font-family: var(--font-mono); font-size: 0.8125rem; }
+
+.site-header nav {
+  display: flex;
+  gap: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
 .site-header nav a {
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.2s var(--ease-out);
 }
-.site-header nav a[aria-current="page"] { color: var(--purple-light); }
 .site-header nav a:hover { color: var(--purple-light); }
+.site-header nav a[aria-current="page"] { color: var(--purple-light); }
 
-/* ── HERO — editorial kinetic typography ── */
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* Live status pill — dashboard header, and reusable anywhere */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--green);
+  animation: pulse-dot 2.4s var(--ease-soft) infinite;
+}
+.status-degraded { background: var(--gold-light); }
+.status-down { background: var(--red); animation: none; }
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+
+/* Ghost button — shared control style (share, refresh, etc.) */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.28);
+  border-radius: 100px;
+  color: var(--purple-light);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s var(--ease-out),
+              border-color 0.2s var(--ease-out),
+              color 0.2s var(--ease-out),
+              transform 0.2s var(--ease-out),
+              box-shadow 0.2s var(--ease-out);
+  white-space: nowrap;
+}
+.btn-ghost:hover {
+  background: rgba(139, 92, 246, 0.16);
+  border-color: var(--purple);
+  color: var(--text-bright);
+}
+/* :focus-visible sets outline, but these elements also set border-color on
+   hover/focus — restate the ring here so the border change can't mask it. */
+.btn-ghost:focus-visible {
+  background: rgba(139, 92, 246, 0.16);
+  border-color: var(--purple);
+  color: var(--text-bright);
+  outline: 2px solid var(--purple-light);
+  outline-offset: 3px;
+}
+.btn-ghost i { font-size: 0.9375rem; }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   4. HERO — same editorial hero on both pages
+   ─────────────────────────────────────────────────────────────────────────── */
 .hero {
-  padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 4vw, 3rem) clamp(2rem, 6vw, 4rem);
+  padding: clamp(3rem, 8vw, 6rem) var(--shell-pad) clamp(2rem, 6vw, 4rem);
   position: relative;
   overflow: hidden;
 }
@@ -174,12 +352,18 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    repeating-linear-gradient(0deg, transparent 0, transparent 28px, rgba(255,255,255,0.012) 28px, rgba(255,255,255,0.012) 29px);
+  background: repeating-linear-gradient(
+    0deg, transparent 0, transparent 28px,
+    rgba(255, 255, 255, 0.012) 28px, rgba(255, 255, 255, 0.012) 29px);
   pointer-events: none;
   z-index: 0;
 }
-.hero-inner { max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-inner {
+  max-width: var(--shell-max);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
 
 .hero-eyebrow {
   display: inline-flex;
@@ -201,11 +385,7 @@ body {
   height: 8px;
   background: var(--cyan);
   border-radius: 100%;
-  animation: pulse 2.4s var(--ease-soft) infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.4); }
+  animation: pulse-dot 2.4s var(--ease-soft) infinite;
 }
 
 .hero h1 {
@@ -246,6 +426,23 @@ body {
   padding: 0.1rem 0.4rem;
   border-radius: 4px;
 }
+/* Inline prose links — the UA default blue fails WCAG AA on dark surfaces,
+   so every link inside body copy gets an explicit AA-safe brand colour. */
+.hero .lede a,
+.overview-card a,
+.metric a {
+  color: var(--purple-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: rgba(167, 139, 250, 0.4);
+  transition: color 0.2s var(--ease-out), text-decoration-color 0.2s var(--ease-out);
+}
+.hero .lede a:hover,
+.overview-card a:hover,
+.metric a:hover {
+  color: var(--cyan-light);
+  text-decoration-color: var(--cyan-light);
+}
 
 .hero-meta {
   display: flex;
@@ -267,10 +464,13 @@ body {
 .hero-meta dd { color: var(--text-primary); font-weight: 500; }
 .hero-meta dd strong { color: var(--cyan-light); font-weight: 700; }
 
-/* ── STATS BAR — editorial big numbers (DogeOS motif) ── */
+/* ───────────────────────────────────────────────────────────────────────────
+   5. STATS — editorial big numbers with hairlines (the DogeOS motif).
+   Identical treatment on both pages: .stats > .stats-grid > .stat
+   ─────────────────────────────────────────────────────────────────────────── */
 .stats {
-  padding: 0 clamp(1.5rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem);
-  max-width: 1400px;
+  padding: 0 var(--shell-pad) clamp(2rem, 4vw, 3rem);
+  max-width: var(--shell-outer);
   margin: 0 auto;
 }
 .stats-grid {
@@ -301,12 +501,13 @@ body {
   line-height: 1;
   letter-spacing: -0.04em;
   margin-bottom: 0.5rem;
+  color: var(--text-bright);
 }
 .stat:nth-child(1) .value { color: var(--cyan-light); }
 .stat:nth-child(2) .value { color: var(--green); }
-.stat:nth-child(3) .value { color: var(--red); }
+.stat:nth-child(3) .value { color: var(--purple-light); }
 .stat:nth-child(4) .value { color: var(--gold-light); }
-.stat:nth-child(5) .value { color: var(--purple-light); }
+.stat:nth-child(5) .value { color: var(--pink); }
 .stat .label {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
@@ -314,179 +515,61 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
-
-/* ── TABS ── */
-.tabs-wrap {
-  padding: 0 clamp(1.5rem, 4vw, 3rem);
-  max-width: 1400px;
-  margin: 0 auto;
+.stat .sub {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-fade);
+  margin-top: 0.35rem;
 }
-.tabs {
-  display: flex;
-  gap: 0;
-  border-bottom: 1px solid var(--border);
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.tabs::-webkit-scrollbar { display: none; }
+.stat .delta { font-size: 0.5em; margin-left: 0.15em; }
+.stat .delta.up { color: var(--green); }
+.stat .delta.down { color: var(--red); }
 
-.tab {
-  padding: 1.25rem 1.5rem;
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--text-muted);
-  font-family: var(--font-sans);
-  font-size: 0.9375rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.25s var(--ease-out);
-  white-space: nowrap;
+/* ───────────────────────────────────────────────────────────────────────────
+   6. SECTION HEADING — mono/uppercase eyebrow used above every block
+   ─────────────────────────────────────────────────────────────────────────── */
+.section-heading {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  position: relative;
-  margin-bottom: -1px;
+  gap: 0.5rem;
 }
-.tab i { font-size: 1.125rem; opacity: 0.7; transition: opacity 0.2s; }
-.tab:hover { color: var(--text-bright); background: rgba(139, 92, 246, 0.04); }
-.tab:hover i { opacity: 1; }
-.tab[aria-selected="true"] {
-  color: var(--text-bright);
-  border-bottom-color: var(--purple-light);
-}
-.tab[aria-selected="true"] i { opacity: 1; color: var(--purple-light); }
-.tab .count {
+.section-heading i { color: var(--purple-light); font-size: 1rem; }
+.section-heading .count-pill {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 700;
-  background: rgba(139, 92, 246, 0.15);
-  color: var(--purple-light);
+  color: var(--text-dim);
   padding: 0.15rem 0.5rem;
-  border-radius: 100px;
-  margin-left: 0.25rem;
-}
-
-/* ── TAB PANES ── */
-.tab-pane {
-  display: none;
-  animation: pane-in 0.4s var(--ease-out);
-}
-.tab-pane[aria-hidden="false"] { display: block; }
-@keyframes pane-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.pane-inner {
-  padding: 2.5rem clamp(1.5rem, 4vw, 3rem) 4rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* ── FILTERS ── */
-.filters {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-.search {
-  flex: 1;
-  min-width: 240px;
-  position: relative;
-}
-.search input {
-  width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.5rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  font-size: 0.9375rem;
-  transition: all 0.2s var(--ease-out);
-}
-.search input::placeholder { color: var(--text-fade); }
-.search input:focus {
-  outline: none;
-  border-color: var(--purple);
-  background: var(--bg-tertiary);
-  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.12);
-}
-.search i {
-  position: absolute;
-  left: 0.875rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-fade);
-  font-size: 1.0625rem;
-}
-.search .clear {
-  position: absolute;
-  right: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  color: var(--text-fade);
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-.search .clear:hover { color: var(--red); background: rgba(239, 68, 68, 0.1); }
-.search.has-value .clear { display: flex; }
-
-.chips {
-  display: flex;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-}
-.chip {
-  padding: 0.5rem 0.875rem;
-  background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 100px;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s var(--ease-out);
-  white-space: nowrap;
-}
-.chip:hover {
-  border-color: var(--border-strong);
-  color: var(--text-primary);
-  transform: translateY(-1px);
-}
-.chip[aria-pressed="true"] {
-  background: rgba(139, 92, 246, 0.18);
-  border-color: var(--purple);
-  color: var(--purple-light);
+  letter-spacing: 0.05em;
+  text-transform: none;
 }
 
-/* ── GRID ── */
+/* ───────────────────────────────────────────────────────────────────────────
+   7. CARD — the shared card. Gradient body, 3px accent bar, lift on hover.
+   ─────────────────────────────────────────────────────────────────────────── */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1rem;
 }
 
-/* ── CARD ── */
 .card {
-  background: linear-gradient(180deg, rgba(26,26,38,0.5), rgba(18,18,28,0.5));
+  background: linear-gradient(180deg, rgba(26, 26, 38, 0.5), rgba(18, 18, 28, 0.5));
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   padding: 1.25rem;
-  transition: all 0.25s var(--ease-out);
-  cursor: pointer;
+  transition: transform 0.25s var(--ease-out),
+              border-color 0.25s var(--ease-out),
+              background 0.25s var(--ease-out),
+              box-shadow 0.25s var(--ease-out);
   position: relative;
   overflow: hidden;
   text-align: left;
@@ -505,13 +588,21 @@ body {
   opacity: 0.7;
   transition: opacity 0.2s var(--ease-out);
 }
-.card:hover {
+.card.is-interactive { cursor: pointer; }
+.card.is-interactive:hover,
+.card.is-interactive:focus-visible {
   border-color: var(--border-hover);
   transform: translateY(-3px);
-  background: linear-gradient(180deg, rgba(32,32,46,0.6), rgba(22,22,32,0.6));
+  background: linear-gradient(180deg, rgba(32, 32, 46, 0.6), rgba(22, 22, 32, 0.6));
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--border-hover);
 }
-.card:hover::before { opacity: 1; }
+.card.is-interactive:hover::before { opacity: 1; }
+/* Same reason as .btn-ghost: the hover/focus rule above swaps border-color,
+   so restate the outline to guarantee a visible keyboard focus indicator. */
+.card.is-interactive:focus-visible {
+  outline: 2px solid var(--purple-light);
+  outline-offset: 3px;
+}
 
 .card .card-header {
   display: flex;
@@ -527,7 +618,11 @@ body {
   color: var(--text-bright);
   line-height: 1.3;
   letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
+.card .title i { color: var(--card-accent, var(--purple-light)); font-size: 1.125rem; flex-shrink: 0; }
 .card .badge {
   padding: 0.2rem 0.55rem;
   background: rgba(139, 92, 246, 0.15);
@@ -556,9 +651,9 @@ body {
   font-size: 0.875rem;
   margin-bottom: 0.875rem;
   line-height: 1.55;
-  /* Clamp to 3 lines */
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -569,48 +664,201 @@ body {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
 }
+/* Card footer rule — used for the dashboard's on-chain indicator row */
+.card .card-foot {
+  margin-top: 0.875rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+.card .card-foot .onchain { color: var(--green); display: inline-flex; align-items: center; gap: 0.35rem; }
+.card .card-foot .pending { color: var(--yellow); display: inline-flex; align-items: center; gap: 0.35rem; }
+.card .card-foot .card-link {
+  color: var(--purple-light);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.card .card-foot .card-link:hover { color: var(--cyan-light); text-decoration: underline; }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   8. TAGS — one vocabulary for stage / severity / role / priority
+   ─────────────────────────────────────────────────────────────────────────── */
 .tag {
   padding: 0.2rem 0.5rem;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
   letter-spacing: 0.02em;
+  white-space: nowrap;
 }
-.tag.t-testnet { color: var(--cyan-light); background: rgba(6,182,212,0.08); border-color: rgba(6,182,212,0.2); }
-.tag.t-building { color: var(--yellow); background: rgba(234,179,8,0.08); border-color: rgba(234,179,8,0.2); }
-.tag.t-live, .tag.t-active { color: var(--green); background: rgba(34,197,94,0.08); border-color: rgba(34,197,94,0.2); }
+.tag.t-testnet { color: var(--cyan-light); background: rgba(6, 182, 212, 0.08); border-color: rgba(6, 182, 212, 0.2); }
+.tag.t-building { color: var(--yellow); background: rgba(234, 179, 8, 0.08); border-color: rgba(234, 179, 8, 0.2); }
+.tag.t-live, .tag.t-active { color: var(--green); background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.2); }
 .tag.t-idea, .tag.t-unknown { color: var(--text-dim); }
-.tag.t-beta { color: var(--orange); background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2); }
-.tag.t-community { color: var(--pink); background: rgba(236,72,153,0.08); border-color: rgba(236,72,153,0.2); }
+.tag.t-beta { color: var(--orange); background: rgba(245, 158, 11, 0.08); border-color: rgba(245, 158, 11, 0.2); }
+.tag.t-community { color: var(--pink); background: rgba(236, 72, 153, 0.08); border-color: rgba(236, 72, 153, 0.2); }
 .tag.t-pivoted, .tag.t-deprecated { color: var(--red); }
 
-.tag.sev-high { color: var(--red); background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.25); font-weight: 600; }
-.tag.sev-medium { color: var(--yellow); background: rgba(234,179,8,0.08); border-color: rgba(234,179,8,0.25); }
+.tag.sev-high { color: var(--red); background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.25); font-weight: 600; }
+.tag.sev-medium { color: var(--yellow); background: rgba(234, 179, 8, 0.08); border-color: rgba(234, 179, 8, 0.25); }
 .tag.sev-low { color: var(--text-muted); }
 
 .tag.role-team, .tag.role-team-contact, .tag.role-team-adjacent {
-  color: var(--purple-light); background: rgba(139,92,246,0.12); border-color: rgba(139,92,246,0.25);
+  color: var(--purple-light); background: rgba(139, 92, 246, 0.12); border-color: rgba(139, 92, 246, 0.25);
 }
 .tag.role-builder, .tag.role-builder-tooling {
-  color: var(--cyan-light); background: rgba(6,182,212,0.08); border-color: rgba(6,182,212,0.2);
+  color: var(--cyan-light); background: rgba(6, 182, 212, 0.08); border-color: rgba(6, 182, 212, 0.2);
 }
 .tag.role-helper, .tag.role-builder-helper, .tag.role-coordinator {
-  color: var(--green); background: rgba(34,197,94,0.08); border-color: rgba(34,197,94,0.2);
+  color: var(--green); background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.2);
 }
 .tag.role-shiller, .tag.role-builder-influencer {
-  color: var(--pink); background: rgba(236,72,153,0.08); border-color: rgba(236,72,153,0.2);
+  color: var(--pink); background: rgba(236, 72, 153, 0.08); border-color: rgba(236, 72, 153, 0.2);
 }
 .tag.role-community, .tag.role-questioner { color: var(--text-muted); }
 
 .tag.dbot-high {
-  color: var(--gold-light); background: rgba(186,159,51,0.15); border-color: rgba(186,159,51,0.4);
+  color: var(--gold-light); background: rgba(186, 159, 51, 0.15); border-color: rgba(186, 159, 51, 0.4);
   font-weight: 700;
 }
-.tag.dbot-medium { color: var(--cyan-light); background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.25); }
+.tag.dbot-medium { color: var(--cyan-light); background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.25); }
 .tag.dbot-low { color: var(--text-dim); }
 
-/* ── EMPTY STATE ── */
+.tag.verified { color: var(--green); background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.28); }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   9. DATA PANEL + TABLE — shared surface for tabular/live data
+   ─────────────────────────────────────────────────────────────────────────── */
+.data-panel {
+  background: linear-gradient(180deg, rgba(26, 26, 38, 0.4), rgba(18, 18, 28, 0.4));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.data-panel .panel-scroll { overflow-x: auto; }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+.data-table th {
+  text-align: left;
+  padding: 0.875rem 1rem;
+  color: var(--text-dim);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr { transition: background 0.2s var(--ease-out); }
+.data-table tbody tr:hover { background: rgba(139, 92, 246, 0.05); }
+.data-table .num { text-align: right; }
+.data-table .rank { color: var(--text-fade); width: 2.5rem; }
+.data-table .primary { color: var(--text-bright); font-weight: 500; }
+.data-table .accent { color: var(--cyan-light); }
+.data-table .subtle { color: var(--text-dim); }
+.data-table a { color: var(--purple-light); text-decoration: none; }
+.data-table a:hover { color: var(--cyan-light); text-decoration: underline; }
+
+/* Definition list of metrics — chain health, snapshots, etc. */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.metric {
+  background: linear-gradient(180deg, rgba(26, 26, 38, 0.4), rgba(18, 18, 28, 0.4));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+.metric .m-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
+}
+.metric .m-value {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.metric .m-sub {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-fade);
+  margin-top: 0.35rem;
+}
+
+/* Progress meter */
+.meter {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.meter > span {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--green);
+  transition: width 0.5s var(--ease-out);
+}
+.meter.is-warn > span { background: var(--yellow); }
+.meter.is-busy > span { background: var(--cyan); }
+
+/* Inline alert — stale chain, errors */
+.notice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+}
+.notice.is-error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: var(--red);
+}
+.notice.is-warn {
+  background: rgba(234, 179, 8, 0.1);
+  border: 1px solid rgba(234, 179, 8, 0.35);
+  color: var(--yellow);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   10. EMPTY STATE
+   ─────────────────────────────────────────────────────────────────────────── */
 .empty {
   text-align: center;
   padding: 4rem 1.5rem;
@@ -620,7 +868,256 @@ body {
 }
 .empty i { font-size: 2.5rem; margin-bottom: 0.75rem; display: block; color: var(--text-fade); }
 
-/* ── OVERVIEW TAB ── */
+/* ───────────────────────────────────────────────────────────────────────────
+   11. FOOTER — one footer for both pages
+   ─────────────────────────────────────────────────────────────────────────── */
+.site-footer {
+  text-align: left;
+  padding: 3rem var(--shell-pad) 2.5rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-primary);
+  margin-top: 4rem;
+}
+.site-footer .foot-inner {
+  max-width: var(--shell-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: end;
+}
+.site-footer p {
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+}
+.site-footer p strong { color: var(--text-muted); font-weight: 600; }
+.site-footer a {
+  color: var(--purple-light);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s var(--ease-out);
+}
+.site-footer a:hover { border-bottom-color: var(--purple-light); }
+.site-footer .foot-right { text-align: right; }
+.site-footer .stale {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-fade);
+  margin-top: 0.5rem;
+}
+.site-footer .stale i { color: var(--gold-light); }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   12. RESPONSIVE — mobile-first breakpoints shared by both pages
+   ─────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .site-header { padding: 1rem; flex-wrap: wrap; gap: 0.75rem; }
+  .site-header nav { gap: 1rem; font-size: 0.75rem; }
+  .header-tools { order: 3; width: 100%; justify-content: center; }
+
+  .hero { padding: 2rem 1.25rem 1.5rem; }
+  .hero h1 { font-size: clamp(2.25rem, 12vw, 3.5rem); }
+  .hero-meta { gap: 1rem; }
+
+  .stats { padding: 0 1rem 1.5rem; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 1.25rem 0; }
+  .stat::after { display: none; }
+  .stat .value { font-size: 1.75rem; }
+
+  .grid { grid-template-columns: 1fr; }
+  .data-table th, .data-table td { padding: 0.75rem 0.65rem; }
+
+  .site-footer .foot-inner { grid-template-columns: 1fr; }
+  .site-footer .foot-right { text-align: left; }
+}
+
+@media (max-width: 480px) {
+  .stat { text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Ecosystem page — page-specific layer.
+   Loads AFTER dogeos-shared.css. Only things unique to /dogeos-ecosystem.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── TABS (ecosystem only) ── */
+.tabs-wrap {
+  padding: 0 var(--shell-pad);
+  max-width: var(--shell-outer);
+  margin: 0 auto;
+}
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  padding: 1.25rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.25s var(--ease-out), background 0.25s var(--ease-out),
+              border-color 0.25s var(--ease-out);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  position: relative;
+  margin-bottom: -1px;
+}
+.tab i { font-size: 1.125rem; opacity: 0.7; transition: opacity 0.2s; }
+.tab:hover { color: var(--text-bright); background: rgba(139, 92, 246, 0.04); }
+.tab:hover i { opacity: 1; }
+.tab[aria-selected="true"] {
+  color: var(--text-bright);
+  border-bottom-color: var(--purple-light);
+}
+.tab[aria-selected="true"] i { opacity: 1; color: var(--purple-light); }
+.tab .count {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--purple-light);
+  padding: 0.15rem 0.5rem;
+  border-radius: 100px;
+  margin-left: 0.25rem;
+}
+
+.tab-pane {
+  display: none;
+  animation: pane-in 0.4s var(--ease-out);
+}
+.tab-pane[aria-hidden="false"] { display: block; }
+@keyframes pane-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pane-inner {
+  padding: 2.5rem var(--shell-pad) 4rem;
+  max-width: var(--shell-outer);
+  margin: 0 auto;
+}
+
+/* ── FILTERS (ecosystem only) ── */
+.filters {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.search {
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+}
+.search input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  transition: border-color 0.2s var(--ease-out), background 0.2s var(--ease-out),
+              box-shadow 0.2s var(--ease-out);
+}
+.search input::placeholder { color: var(--text-fade); }
+.search input:focus {
+  outline: none;
+  border-color: var(--purple);
+  background: var(--bg-tertiary);
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.12);
+}
+.search i {
+  position: absolute;
+  left: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-fade);
+  font-size: 1.0625rem;
+}
+.search .clear {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-fade);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.search .clear:hover { color: var(--red); background: rgba(239, 68, 68, 0.1); }
+.search.has-value .clear { display: flex; }
+
+.chips {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.chip {
+  padding: 0.5rem 0.875rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s var(--ease-out),
+              border-color 0.2s var(--ease-out),
+              color 0.2s var(--ease-out),
+              transform 0.2s var(--ease-out),
+              box-shadow 0.2s var(--ease-out);
+  white-space: nowrap;
+}
+.chip:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+.chip[aria-pressed="true"] {
+  background: rgba(139, 92, 246, 0.18);
+  border-color: var(--purple);
+  color: var(--purple-light);
+}
+
+/* ── OVERVIEW TAB (ecosystem only) ── */
 .overview-section { margin-bottom: 3rem; }
 .overview-section h2 {
   font-family: var(--font-sans);
@@ -651,9 +1148,9 @@ body {
   gap: 1rem;
 }
 .overview-card {
-  background: linear-gradient(180deg, rgba(26,26,38,0.4), rgba(18,18,28,0.4));
+  background: linear-gradient(180deg, rgba(26, 26, 38, 0.4), rgba(18, 18, 28, 0.4));
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
   position: relative;
   overflow: hidden;
@@ -698,11 +1195,11 @@ body {
 }
 .overview-card ul li strong { color: var(--text-bright); font-weight: 600; }
 
-/* ── TOP 3 DBOT PANEL (gold border, editorial layout) ── */
+/* ── TOP 3 DBOT PANEL (ecosystem only) ── */
 .top3-panel {
-  background: linear-gradient(180deg, rgba(186,159,51,0.05), rgba(18,18,28,0.6));
+  background: linear-gradient(180deg, rgba(186, 159, 51, 0.05), rgba(18, 18, 28, 0.6));
   border: 1px solid rgba(186, 159, 51, 0.3);
-  border-radius: 16px;
+  border-radius: var(--radius-xl);
   padding: 2rem;
   position: relative;
   overflow: hidden;
@@ -739,19 +1236,29 @@ body {
 .top3-item {
   background: rgba(12, 12, 20, 0.6);
   border: 1px solid rgba(186, 159, 51, 0.2);
-  border-radius: 12px;
+  border-radius: var(--radius);
   padding: 1.5rem;
   cursor: pointer;
-  transition: all 0.25s var(--ease-out);
+  transition: background 0.25s var(--ease-out),
+              border-color 0.25s var(--ease-out),
+              color 0.25s var(--ease-out),
+              transform 0.25s var(--ease-out),
+              box-shadow 0.25s var(--ease-out);
   text-align: left;
   width: 100%;
   font-family: inherit;
   color: inherit;
 }
-.top3-item:hover {
+.top3-item:hover, .top3-item:focus-visible {
   border-color: rgba(186, 159, 51, 0.5);
   transform: translateY(-2px);
   background: rgba(20, 20, 32, 0.7);
+}
+/* Restate the ring: the rule above changes border-color on focus, which
+   would otherwise leave keyboard users with no visible focus indicator. */
+.top3-item:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: 3px;
 }
 .top3-item .rank {
   font-family: var(--font-mono);
@@ -777,7 +1284,7 @@ body {
 }
 .top3-item .meta { display: flex; gap: 0.4rem; flex-wrap: wrap; }
 
-/* ── MODAL ── */
+/* ── MODAL (ecosystem only) ── */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -795,7 +1302,7 @@ body {
 .modal {
   background: var(--bg-secondary);
   border: 1px solid var(--border-strong);
-  border-radius: 18px;
+  border-radius: var(--radius-xl);
   padding: 2.25rem;
   max-width: 720px;
   width: 100%;
@@ -822,7 +1329,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s var(--ease-out);
+  transition: background 0.2s var(--ease-out),
+              border-color 0.2s var(--ease-out),
+              color 0.2s var(--ease-out),
+              transform 0.2s var(--ease-out),
+              box-shadow 0.2s var(--ease-out);
 }
 .modal-close:hover {
   border-color: var(--red);
@@ -875,7 +1386,7 @@ body {
   background: rgba(139, 92, 246, 0.06);
   border-left: 3px solid var(--purple-light);
   padding: 1rem 1.25rem;
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
   font-style: italic;
   color: var(--text-primary);
   line-height: 1.65;
@@ -906,83 +1417,23 @@ body {
   margin-top: 0.5rem;
 }
 
-/* ── FOOTER ── */
-footer {
-  text-align: left;
-  padding: 3rem clamp(1.5rem, 4vw, 3rem) 2.5rem;
-  border-top: 1px solid var(--border);
-  background: var(--bg-primary);
-  margin-top: 4rem;
-}
-footer .foot-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 2rem;
-  align-items: end;
-}
-footer p {
-  color: var(--text-dim);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  line-height: 1.7;
-  letter-spacing: 0.02em;
-}
-footer p strong { color: var(--text-muted); font-weight: 600; }
-footer p a {
-  color: var(--purple-light);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s;
-}
-footer p a:hover { border-bottom-color: var(--purple-light); }
-footer .stale {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  color: var(--text-fade);
-  margin-top: 0.5rem;
-}
-footer .stale i { color: var(--gold-light); }
-
-/* ── RESPONSIVE (mobile-first, Impeccable) ── */
+/* ── Ecosystem responsive overrides ── */
 @media (max-width: 768px) {
-  .site-header { padding: 1rem; flex-direction: column; gap: 0.75rem; }
-  .site-header nav { gap: 1rem; font-size: 0.75rem; }
-  .hero { padding: 2rem 1.25rem 1.5rem; }
-  .hero h1 { font-size: clamp(2.25rem, 12vw, 3.5rem); }
-  .hero-meta { gap: 1rem; }
-  .stats { padding: 0 1rem 1.5rem; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 1.25rem 0; }
-  .stat::after { display: none; }
-  .stat .value { font-size: 1.75rem; }
   .tabs-wrap { padding: 0 1rem; }
   .tab { padding: 1rem 1rem; font-size: 0.875rem; gap: 0.4rem; }
   .pane-inner { padding: 1.75rem 1.25rem 3rem; }
-  .grid { grid-template-columns: 1fr; }
   .modal { padding: 1.5rem; }
   .modal h2 { font-size: 1.375rem; }
   .top3-panel { padding: 1.5rem; }
   .top3-list { grid-template-columns: 1fr; }
-  footer .foot-inner { grid-template-columns: 1fr; }
   .overview-section { margin-bottom: 2rem; }
 }
 
 @media (max-width: 480px) {
-  .stat { text-align: center; }
   .tab .count { display: none; }
 }
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}
+/* SHARED:END */
 </style>
 </head>
 <body>
@@ -997,6 +1448,11 @@ footer .stale i { color: var(--gold-light); }
     <a href="https://www.dbot.dog/dogeos-dashboard/">Dashboard</a>
     <a href="https://t.me/DBOTCommunity" target="_blank" rel="noopener">Telegram</a>
   </nav>
+  <div class="header-tools">
+    <a class="btn-ghost" href="https://www.dbot.dog/dogeos-dashboard/">
+      <i class="ph ph-pulse" aria-hidden="true"></i> Live chain data
+    </a>
+  </div>
 </header>
 
 <main id="main">
@@ -1163,6 +1619,10 @@ footer .stale i { color: var(--gold-light); }
 <!-- PROJECTS -->
 <section class="tab-pane" id="pane-projects" role="tabpanel" aria-labelledby="tab-projects" aria-hidden="true">
   <div class="pane-inner">
+    <p class="section-heading">
+      <i class="ph ph-rocket-launch" aria-hidden="true"></i> Projects
+      <span class="count-pill" id="projects-count"></span>
+    </p>
     <div class="filters">
       <div class="search" id="projects-search-wrap">
         <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
@@ -1179,6 +1639,10 @@ footer .stale i { color: var(--gold-light); }
 <!-- PAIN POINTS -->
 <section class="tab-pane" id="pane-pain" role="tabpanel" aria-labelledby="tab-pain" aria-hidden="true">
   <div class="pane-inner">
+    <p class="section-heading">
+      <i class="ph ph-warning-circle" aria-hidden="true"></i> Pain points
+      <span class="count-pill" id="pain-count"></span>
+    </p>
     <div class="filters">
       <div class="search" id="pain-search-wrap">
         <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
@@ -1195,6 +1659,10 @@ footer .stale i { color: var(--gold-light); }
 <!-- OPPORTUNITIES -->
 <section class="tab-pane" id="pane-opp" role="tabpanel" aria-labelledby="tab-opp" aria-hidden="true">
   <div class="pane-inner">
+    <p class="section-heading">
+      <i class="ph ph-lightbulb" aria-hidden="true"></i> Opportunities
+      <span class="count-pill" id="opp-count"></span>
+    </p>
     <div class="filters">
       <div class="search" id="opp-search-wrap">
         <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
@@ -1211,6 +1679,10 @@ footer .stale i { color: var(--gold-light); }
 <!-- PEOPLE -->
 <section class="tab-pane" id="pane-people" role="tabpanel" aria-labelledby="tab-people" aria-hidden="true">
   <div class="pane-inner">
+    <p class="section-heading">
+      <i class="ph ph-users-three" aria-hidden="true"></i> Builders &amp; community
+      <span class="count-pill" id="people-count"></span>
+    </p>
     <div class="filters">
       <div class="search" id="people-search-wrap">
         <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
@@ -1234,15 +1706,15 @@ footer .stale i { color: var(--gold-light); }
   </div>
 </div>
 
-<footer role="contentinfo">
+<footer class="site-footer" role="contentinfo">
   <div class="foot-inner">
     <div>
       <p>Built by <a href="https://www.dbot.dog/">DBOT</a> · Data from <a href="https://t.me/buildondogeos" target="_blank" rel="noopener">@buildondogeos</a></p>
       <p><strong>3,000 messages</strong> analyzed · 2025-11-08 → 2026-08-26 · 4-agent parallel fan-out</p>
       <span class="stale"><i class="ph ph-clock-clockwise" aria-hidden="true"></i> Data compiled 2026-08-26 · Re-scan chat for fresh data</span>
     </div>
-    <div>
-      <p style="text-align: right;">DBOT · Decentralized Intelligence</p>
+    <div class="foot-right">
+      <p>DBOT &middot; Decentralized Intelligence</p>
     </div>
   </div>
 </footer>
@@ -1255,6 +1727,14 @@ const DATA = {"meta": {"title": "DogeOS Ecosystem Explorer", "subtitle": "Live i
 const $ = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
 const escHtml = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+// Update a section-heading count pill. Called before any early return so the
+// pill is always accurate, including the zero-results case.
+const setCount = (id, n, total) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = (n === total) ? `${total}` : `${n} of ${total}`;
+};
 
 const catMeta = Object.fromEntries(DATA.categories.map(c => [c.id, c]));
 
@@ -1340,12 +1820,13 @@ function renderProjects(filter = 'all', search = '') {
     const searchMatch = !s || [p.name, p.builder, p.what, p.category, p.stage].some(x => (x || '').toLowerCase().includes(s));
     return catMatch && searchMatch;
   });
+  setCount('projects-count', filtered.length, DATA.projects.length);
   if (filtered.length === 0) {
     grid.innerHTML = '<div class="empty"><i class="ph ph-magnifying-glass-minus" aria-hidden="true"></i>No projects match your filters.</div>';
     return;
   }
   grid.innerHTML = filtered.map(p => `
-    <button class="card" data-name="${escHtml(p.name)}" style="--card-accent: ${cardAccent(p.category)}" aria-label="Open ${escHtml(p.name)} detail">
+    <button class="card is-interactive" data-name="${escHtml(p.name)}" style="--card-accent: ${cardAccent(p.category)}" aria-label="Open ${escHtml(p.name)} detail">
       <div class="card-header">
         <div class="title">${escHtml(p.name)}</div>
         <span class="badge">${escHtml(catMeta[p.category]?.label || p.category)}</span>
@@ -1438,6 +1919,7 @@ function renderPain(filter = 'all', search = '') {
     const searchMatch = !s || [p.title, p.description, p.frequency, ...(p.users || [])].some(x => (x || '').toLowerCase().includes(s));
     return match && searchMatch;
   });
+  setCount('pain-count', filtered.length, DATA.pain_points.length);
   if (filtered.length === 0) {
     grid.innerHTML = '<div class="empty"><i class="ph ph-magnifying-glass-minus" aria-hidden="true"></i>No pain points match your filters.</div>';
     return;
@@ -1445,7 +1927,7 @@ function renderPain(filter = 'all', search = '') {
   grid.innerHTML = filtered.map((p, i) => {
     const accent = p.severity === 'high' ? 'var(--red)' : p.severity === 'medium' ? 'var(--yellow)' : 'var(--text-muted)';
     return `
-      <button class="card" data-idx="${i}" style="--card-accent: ${accent}" aria-label="Open pain point: ${escHtml(p.title)}">
+      <button class="card is-interactive" data-idx="${i}" style="--card-accent: ${accent}" aria-label="Open pain point: ${escHtml(p.title)}">
         <div class="card-header">
           <div class="title">${escHtml(p.title)}</div>
           <span class="badge">${escHtml(p.severity)}</span>
@@ -1513,6 +1995,7 @@ function renderOpp(filter = 'all', search = '') {
     const searchMatch = !s || [o.title, o.what, o.novel_wedge, o.demand, o.effort].some(x => (x || '').toLowerCase().includes(s));
     return match && searchMatch;
   });
+  setCount('opp-count', filtered.length, DATA.opportunities.length);
   filtered.sort((a, b) => a.rank - b.rank);
   if (filtered.length === 0) {
     grid.innerHTML = '<div class="empty"><i class="ph ph-magnifying-glass-minus" aria-hidden="true"></i>No opportunities match your filters.</div>';
@@ -1521,7 +2004,7 @@ function renderOpp(filter = 'all', search = '') {
   grid.innerHTML = filtered.map(o => {
     const accent = o.dbot_priority === 'high' ? 'var(--gold-light)' : o.dbot_priority === 'medium' ? 'var(--cyan-light)' : 'var(--text-muted)';
     return `
-      <button class="card" data-rank="${o.rank}" style="--card-accent: ${accent}" aria-label="Open opportunity: ${escHtml(o.title)}">
+      <button class="card is-interactive" data-rank="${o.rank}" style="--card-accent: ${accent}" aria-label="Open opportunity: ${escHtml(o.title)}">
         <div class="card-header">
           <div class="title">#${o.rank} · ${escHtml(o.title)}</div>
           <span class="badge">${escHtml(catMeta[o.category]?.label || o.category)}</span>
@@ -1596,6 +2079,7 @@ function renderPeople(filter = 'all', search = '') {
     const searchMatch = !s || [p.name, p.profile, p.what].some(x => (x || '').toLowerCase().includes(s));
     return match && searchMatch;
   });
+  setCount('people-count', filtered.length, DATA.people.length);
   if (filtered.length === 0) {
     grid.innerHTML = '<div class="empty"><i class="ph ph-magnifying-glass-minus" aria-hidden="true"></i>No people match your filters.</div>';
     return;
@@ -1610,7 +2094,7 @@ function renderPeople(filter = 'all', search = '') {
   grid.innerHTML = filtered.map(p => {
     const accent = roleAccent[p.role] || 'var(--text-muted)';
     return `
-      <button class="card" data-name="${escHtml(p.name)}" style="--card-accent: ${accent}" aria-label="Open profile: ${escHtml(p.name)}">
+      <button class="card is-interactive" data-name="${escHtml(p.name)}" style="--card-accent: ${accent}" aria-label="Open profile: ${escHtml(p.name)}">
         <div class="card-header">
           <div class="title">${escHtml(p.name)}</div>
           <span class="badge">${escHtml(p.role.replace('builder-influencer', 'builder+inf').replace('builder-helper', 'builder'))}</span>

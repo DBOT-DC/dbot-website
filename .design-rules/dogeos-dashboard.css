@@ -1,0 +1,122 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Dashboard page — page-specific layer.
+   Loads AFTER dogeos-shared.css. Only things unique to /dogeos-dashboard.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Sections share the shell gutters/max-width so they line up with hero+stats */
+.dash-section {
+  max-width: var(--shell-outer);
+  margin: 0 auto;
+  padding: 0 var(--shell-pad);
+}
+.dash-section + .dash-section { margin-top: 3rem; }
+.dash-section:last-of-type { padding-bottom: 4rem; }
+
+/* ── BLOCK TICKER (dashboard only) ── */
+.ticker {
+  background: linear-gradient(180deg, rgba(26, 26, 38, 0.4), rgba(18, 18, 28, 0.4));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 0;
+  overflow: hidden;
+  position: relative;
+}
+.ticker-track {
+  display: flex;
+  gap: 1rem;
+  padding: 0 1rem;
+  width: max-content;
+  animation: ticker-scroll 30s linear infinite;
+}
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track { animation-play-state: paused; }
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.block-chip {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 210px;
+  padding: 0.7rem 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  transition: border-color 0.2s var(--ease-out);
+}
+.block-chip:hover { border-color: var(--border-hover); }
+.block-chip .b-height { color: var(--purple-light); font-weight: 700; }
+.block-chip .b-age { color: var(--text-dim); font-size: 0.6875rem; }
+.block-chip .b-miner { color: var(--cyan-light); font-size: 0.6875rem; }
+
+/* ── TRANSACTION FEED (dashboard only) ── */
+.txn-list { display: flex; flex-direction: column; }
+.txn-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr) auto auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  transition: background 0.2s var(--ease-out);
+}
+.txn-row:last-child { border-bottom: none; }
+.txn-row:hover { background: rgba(139, 92, 246, 0.05); }
+.txn-row .t-hash {
+  color: var(--purple-light);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.txn-row .t-hash:hover { text-decoration: underline; }
+.txn-row .t-flow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  min-width: 0;
+}
+.txn-row .t-flow i { color: var(--text-fade); font-size: 0.8125rem; flex-shrink: 0; }
+.txn-row .t-flow span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.txn-row .t-value { color: var(--cyan-light); text-align: right; white-space: nowrap; }
+.txn-row .t-age { color: var(--text-dim); font-size: 0.6875rem; text-align: right; white-space: nowrap; }
+
+/* ── CHAIN HEALTH (dashboard only) ── */
+.health-headline {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 1.5rem 1.25rem;
+}
+.health-headline .m-label { margin-bottom: 0.5rem; }
+.health-headline .m-value {
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  color: var(--purple-light);
+  line-height: 1;
+}
+
+/* ── Dashboard responsive overrides ── */
+@media (max-width: 768px) {
+  .dash-section { padding: 0 1rem; }
+  .dash-section + .dash-section { margin-top: 2.25rem; }
+
+  .txn-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "hash age"
+      "flow value";
+    row-gap: 0.35rem;
+  }
+  .txn-row .t-hash  { grid-area: hash; }
+  .txn-row .t-age   { grid-area: age; }
+  .txn-row .t-flow  { grid-area: flow; }
+  .txn-row .t-value { grid-area: value; }
+}
